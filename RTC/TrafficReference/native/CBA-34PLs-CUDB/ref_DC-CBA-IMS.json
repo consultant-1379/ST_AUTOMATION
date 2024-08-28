@@ -1,0 +1,97 @@
+{
+    "instances": {
+        "BAT_IMS_ASYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 740
+                    }, 
+                    {
+                        "time": 120, 
+                        "value": 1480
+                    }, 
+                    {
+                        "time": -1, 
+                        "value": 2468
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 500
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 500
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MGZ -C IMS -t 28800 -z 199:1000 -p \" ::5\" -E \":OFFSET:2 \" "
+        }, 
+        "BAT_IMS_SYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 214
+                    }, 
+                    {
+                        "time": 120, 
+                        "value": 429
+                    }, 
+                    {
+                        "time": -1, 
+                        "value": 716
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MG -C IMS -t 28800 -z 500:200 -l :::5 -p \"::2\" -E \":SYNC:5\" -B EXCLUDE_FOR_SYNC"
+        }
+    }, 
+    "load": "40", 
+    "slots": [
+        {
+            "target_load": 12.0, 
+            "time": 120, 
+            "transition": 10, 
+            "variance": 5
+        }, 
+        {
+            "target_load": 24.0, 
+            "time": 120, 
+            "transition": 10, 
+            "variance": 5
+        }, 
+        {
+            "target_load": 40.0, 
+            "time": -1, 
+            "transition": 10, 
+            "variance": 5
+        }
+    ]
+}

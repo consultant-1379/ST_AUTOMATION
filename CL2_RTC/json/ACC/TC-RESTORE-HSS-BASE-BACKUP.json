@@ -1,0 +1,26 @@
+{
+    "name" : "TC-RESTORE-HSS-BASE-BACKUP-#HSS_BASE_BACKUP#",
+    "nof_retries":1,
+    "monitor_consoles":{
+        "enable":"#CONSOLE_ENABLED#",
+        "consoles":[
+            {"id":"SC1","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_SC1#"},
+            {"id":"SC2","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_SC2#"},
+            {"id":"PL3","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_PL3#"},
+            {"id":"PL4","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_PL4#"},
+            {"id":"PL5","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_PL5#"},
+            {"id":"PL6","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_PL6#"}
+        ]
+    },
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"check_backup","enable":true,"cmd":"CBA_check_backup #HSS_BASE_BACKUP# --node #NODE_CONTROLLER# --user com-emergency -v","framework":true,"report_not_valid":true,"stop_on_fail":true},
+                            {"id":"restore_hss_backup","enable":true,"stop_on_fail":true,"report_not_valid":true,"exit_rtc_on_fail":true,"extra_parameters":"-b #HSS_BASE_BACKUP#","repeat":true},
+                            {"id":"WAIT","enable":true,"cmd":"sleep 60","framework":false},
+                            {"id":"check_status","enable":true,"cmd":"CBA_check_status --node #NODE_CONTROLLER# --user com-emergency -v","framework":true,"stop_on_fail":true,"repeat":true}
+                        ]
+                    }
+        }
+}

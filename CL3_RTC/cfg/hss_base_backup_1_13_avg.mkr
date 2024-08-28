@@ -1,0 +1,12 @@
+#################################
+#
+#  Set macro variables in the format
+#
+#          name:value
+#
+#  Do not add # in the name of macro variable
+#
+
+HSS_BASE_BACKUP:HSSFE1_13_AVG
+HSS_VERSION_BASE:CXP9035082/6_R14A14
+PROC_LIST:HSS_EsmHttpDispatcherProc

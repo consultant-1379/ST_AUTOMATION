@@ -1,0 +1,108 @@
+{
+    "name" : "HC-CERT-LIFE-CBA-EPC-IMS",
+    "nof_retries":2,
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"kill_tools","enable":true,"cmd":"run_clean_test_environment --exclude HSS_rtc UserKnownHostsFile=/dev/null --log-file #TESTCASE_PATH#/CLEAN/run_clean_test_environment.log --debug","framework":false},
+                            {"id":"restore_hss_backup","enable":true,"stop_on_fail":true,"extra_parameters":"-b #HSS_BASE_BACKUP#","repeat":true},
+                            {"id":"restore_extdb_backup","enable":true,"stop_on_fail":true,"extra_parameters":"-b #EXTDB_BACKUP#"},
+                            {"id":"clean_alarms","enable":true},
+                            {"id":"clean_alerts","enable":true},
+                            {"id":"clean_app_logs","enable":true},
+                            {"id":"clean_console_logs","enable":true},
+                            {"id":"clean_pmf_logs","enable":true}
+                        ]
+                    },
+                "CHECK": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"check_traffic","enable":true,"extra_parameters":"max_error_rate=0.2"},
+                            {"id":"check_load_stability","enable":true,"add_to_verdict":true},
+                            {"id":"check_scenario_error_rate","enable":true,"add_to_verdict":true}
+                        ]
+                    },
+                "EXECUTION":{
+                        "enable":true,
+                        "instances": {
+                                "BAT_IMS_ASYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ -C IMS -t 50000 -z 30 -l :::5 -E \":SYNC:5\" -p \"::2\" -D \"::50 WPSI::5 WIMPU::5\" --internal-debug",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":20,"time":-1}],
+                                        "loadgen":{"initial":20,"delta_up":10,"delta_down":2},
+                                        "postexec":[{"value":10,"time":-1}]
+                                    }
+                                },
+                                "BAT_IMS_SYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MG -C IMS -t 50000 -z 10 -E \":SYNC:5 :OFFSET:4\" -p \"::2\" -D \"::50 WPSI::5 WIMPU::5\" -B EXCLUDE_FOR_SYNC --internal-debug",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":20,"time":-1}],
+                                        "loadgen":{"initial":10,"delta_up":5,"delta_down":1},
+                                        "postexec":[{"value":10,"time":-1}]
+                                    }
+                                },
+                                "BAT_EPC_ASYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ -C EPC -t 50000 -z 30 -E \":NIR_RTIME:5000 :SYNC:5\" -p \"::2\" -D \"::50\" --internal-debug",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":10,"time":-1}],
+                                        "loadgen":{"initial":10,"delta_up":10,"delta_down":2},
+                                        "postexec":[{"value":10,"time":-1}]
+                                    }
+                                },
+                                "BAT_EPC_SYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MG -C EPC -t 50000 -z 10 -E \":SYNC:5 :OFFSET:2\" -p \"::2\" -D \"::50\" -B EXCLUDE_FOR_SYNC --internal-debug",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":10,"time":-1}],
+                                        "loadgen":{"initial":5,"delta_up":5,"delta_down":1},
+                                        "postexec":[{"value":10,"time":-1}]
+                                    }
+                                }
+                        },
+                        "configuration": {
+                            "manual_control" : false,
+                            "wait_pmf_counters_update" : false,
+                            "skip_postexec":true,
+                            "display_cps":{"enable":true,"samples":5,"sampling_time":5,"refresh_time":10,"real_time_enabled":true},
+                            "monitor_error":{
+                                "enable":{"preexec":true,"loadgen":true,"postexec":true},
+                                "default_error_rate":1,
+                                "sampling_time":10,
+                                "display":false
+                            },
+                            "monitor_memory":{
+                                "enable": false,
+                                "sampling_time":10,"refresh_time":10,"real_time_enabled":false,"processors":""
+                            },
+                            "monitor_load":{
+                                "enable":true,
+                                "slots":[
+                                    {"target_load":18,"time":-1,"variance":15,"transition":10}
+                                ]
+                            },
+                            "Capacity_handler":{
+                                "enable":true,
+                                "configuration":{"type":"HC","period":90,"error_rate":1,"max_load":40,"load_variance":15},
+                                "create_traffic_ref":[
+                                    {"id":"HC-CERT-LIFE-CBA-EPC-IMS","slots":[{"time":120,"factor":0.3},{"time":8000,"factor":0.8}]}
+                                ],
+                                "run_traffic":{"update_load_monitor":false,"traffic_slots":[]}
+                            },
+                            "diaproxy_reports":{
+                                "latency":{"enable":false,"samples":3,"time":30,"target_load":18,"wait":10,
+                                           "only_when_load_stable":true,"stop_loadgen_when_finish":true
+                                },
+                                "result_codes":{"enable":true}
+                            }
+                        }
+                    }
+        }
+}

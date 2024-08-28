@@ -1,0 +1,147 @@
+{
+    "name" : "TC-CACC-0150-EPM-EPC-BASE",
+    "nof_retries":1,
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"kill_tools","enable":true,"cmd":"run_clean_test_environment --hosts #TGs_USED# --exclude HSS_rtc UserKnownHostsFile=/dev/null --debug","framework":false},
+                            {"id":"restore_extdb_backup","enable":true,"stop_on_fail":true,"extra_parameters":"-b #EXTDB_BACKUP#"},
+                            {"id":"WAIT","enable":true,"cmd":"sleep 60","framework":false},
+                            {"id":"clean_alarms","enable":true},
+                            {"id":"clean_alerts","enable":true},
+                            {"id":"clean_app_logs","enable":true},
+                            {"id":"clean_console_logs","enable":true},
+                            {"id":"clean_pmf_logs","enable":true}
+                        ]
+                    },
+                "PRE": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"health_check","enable":true},
+                            {"id":"check_status","enable":true,"cmd":"CBA_check_status --node #NODE_CONTROLLER# --user com-emergency -v","framework":true,"stop_on_fail":true},
+                            {"id":"get_last_pl_reboot","enable":true},
+                            {"id":"get_alarms","enable":true,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":"#NBI_ALARMS_ENABLE#"},
+                            {"id":"get_node_status","enable":true},
+                            {"id":"get_capsule_dumps","enable":true},
+                            {"id":"get_free_memory","enable":true},
+                            {"id":"get_ExtDb_connections","enable":true},
+                            {"id":"get_ExtDb_Time_Waits","enable":true,"cmd":"CBA_check_time_wait_connections --port-con 389 --min-value #min_wait_cons_PRE# --max-value #max_wait_cons_PRE# --user com-emergency -v","framework":true,"stop_on_fail":false,"add_to_summary":true},
+                            {"id":"get_Http_connections","enable":true},
+                            {"id":"get_Http_Time_Waits","enable":true,"cmd":"CBA_check_time_wait_connections --port-con 10001 --min-value #min_wait_cons_PRE# --max-value #max_wait_cons_PRE# --user com-emergency -v","framework":true,"stop_on_fail":false,"add_to_summary":true},
+                            {"id":"get_all_processes","enable":true},
+                            {"id":"get_processes_list","enable":true},
+                            {"id":"get_dynamic_process","enable":true},
+                            {"id":"get_vdicos_vars","enable":true}
+                      ]
+                    },
+                "POST": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"health_check","enable":true},
+                            {"id":"get_last_pl_reboot","enable":true},
+                            {"id":"get_alarms","enable":true,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":"#NBI_ALARMS_ENABLE#"},
+                            {"id":"get_node_status","enable":true},
+                            {"id":"get_capsule_dumps","enable":true},
+                            {"id":"get_free_memory","enable":true},
+                            {"id":"get_ExtDb_connections","enable":true},
+                            {"id":"get_ExtDb_Time_Waits","enable":true,"cmd":"CBA_check_time_wait_connections --port-con 389 --min-value #min_wait_cons_PRE# --max-value #max_wait_cons_PRE# --user com-emergency -v","framework":true,"stop_on_fail":false,"add_to_summary":true},
+                            {"id":"get_Http_connections","enable":true},
+                            {"id":"get_Http_Time_Waits","enable":true,"cmd":"CBA_check_time_wait_connections --port-con 10001 --min-value #min_wait_cons_PRE# --max-value #max_wait_cons_PRE# --user com-emergency -v","framework":true,"stop_on_fail":false,"add_to_summary":true},
+                            {"id":"get_all_processes","enable":true},
+                            {"id":"get_processes_list","enable":true},
+                            {"id":"get_dynamic_process","enable":true},
+                            {"id":"get_vdicos_vars","enable":true}
+                        ]
+                    },
+                "COLLECT": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"cmw_collect_info","enable":false},
+                            {"id":"collect_logs","enable":true},
+                            {"id":"diacc_collect_info","enable":true},
+                            {"id":"pmf_counter_sum","enable":true},
+                            {"id":"pmf_counter_to_csv","enable":true}
+                        ]
+                    },
+                "CHECK": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"check_pl_reboot","enable":true,"add_to_verdict":true},
+                            {"id":"check_free_memory","enable":true},
+                            {"id":"check_capsule_dumps","enable":true,"add_to_verdict":true},
+                            {"id":"check_list_processes","enable":true,"add_to_verdict":true},
+                            {"id":"check_all_processes","enable":true},
+                            {"id":"check_alarms","enable":true,"add_to_verdict":false},
+                            {"id":"check_nbi_alarms","enable":"#NBI_ALARMS_ENABLE#","add_to_verdict":true},
+                            {"id":"check_node_status","enable":true,"add_to_verdict":true},
+                            {"id":"check_ExtDb_connections","enable":true,"add_to_verdict":true},
+                            {"id":"check_Http_connections","enable":true,"add_to_verdict":true},
+                            {"id":"check_vdicos_vars","enable":true,"add_to_verdict":true},
+                            {"id":"Check_alarms","enable":true,"cmd":"CBA_check_alarm_logs --from #TIME_TRAFFIC_LOAD_START# --to #TIME_TRAFFIC_LOAD_FINISHED#  -i #TESTCASE_PATH#/COLLECT/FmAlarmLog_#TESTCASE_NAME#.tgz --summary specificProblem --add-severity --user com-emergency","framework":false,"add_to_summary":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"Check_applog","enable":true,"cmd":"HSS_CheckApplogs --init_date #TIME_TRAFFIC_LOAD_START# --end_date #TIME_TRAFFIC_LOAD_FINISHED# -a #TESTCASE_PATH#/COLLECT/applog_#TESTCASE_NAME#.tgz","framework":false,"add_to_summary":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"check_traffic","enable":true,"add_to_verdict":true},
+                            {"id":"check_epm","enable":true,"add_to_verdict":true,"extra_parameters":"id='EPM_EPC',tolerance=5"},
+                            {"id":"check_load_stability","enable":true},
+                            {"id":"check_scenario_error_rate","enable":true,"add_to_verdict":true}
+                        ]
+                    },
+                "EXECUTION":{
+                        "enable":true,
+                        "instances": {
+                                "BAT_EPC_ASYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ -C EPC -t 3600 -z 99:: -l 40:10:10:5 -p \"::2 ::2\" -E \":SYNC:5 :EXTRA_TIME:#EPC_EXTRA_TIME# :EXTRA_PRE_POST_TIME:#EPC_EXTRA_PRE_POST_TIME#\" -x \"ESM-10_:12.0:: ESM-20_:1.0:: ESM-50_:8.0:: ESM-70_:79.0::\" -D DEFAULT::10000",
+                                    "cps_scheduler":{
+                                        "enable":false,
+                                        "preexec":[{"value":200,"time":-1}],
+                                        "loadgen":[{"value":200,"time":-1}],
+                                        "postexec":[{"value":200,"time":-1}]
+                                    }
+                                }
+                        },
+                        "configuration": {
+                            "manual_control" : false,
+                            "wait_pmf_counters_update" : false,
+                            "skip_postexec":true,
+                            "display_cps":{"enable":true,"samples":5,"sampling_time":5,"refresh_time":10,"real_time_enabled":true},
+                            "monitor_error":{
+                                "enable":{"preexec":true,"loadgen":true,"postexec":true},
+                                "default_error_rate":0.1,
+                                "sampling_time":10,
+                                "display":false
+                            },
+                            "monitor_memory":{
+                                "enable": false,
+                                "cpu_load_enabled":"#CPU_LOAD#","sampling_time":10,"refresh_time":10,"real_time_enabled":false,"processors":""
+                            },
+                            "monitor_load":{
+                                "enable":true,
+                                "slots":[
+                                   {"target_load":40,"time":-1,"variance":15,"transition":10}
+                                ]
+                            },
+                            "diaproxy_reports":{
+                                "latency":{"enable":true,"samples":10,"time":90,"target_load":40,"wait":120,
+                                           "only_when_load_stable":true,"stop_loadgen_when_finish":true
+                                },
+                                "result_codes":{"enable":true}
+                            },
+                            "action":[
+                                 {
+                                    "id":"CHECK_CDIA_CONNECTIONS_BEFORE","enable":true,"cmd":"CBA_check_diacc_dump_json --connections --node #NODE_CONTROLLER# --user com-emergency --debug",                                
+                                    "trigger":{"load":-1,"time":10},
+                                    "stop_on_fail":false,
+                                    "add_to_verdict":false,
+                                    "display_execution":false,
+                                    "time_running_traffic_after_execution":-1,
+                                    "disable_load_monitor":false,
+                                    "stop_error_scenario_register":false
+                                }
+                            ]
+                        }
+                    }
+        }
+}

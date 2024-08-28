@@ -1,0 +1,13 @@
+{
+    "name" : "TC-COMPILE-BAT",
+    "nof_retries":1,
+    "phases" : {
+                "PRE": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"compile_bat","enable":true,"cmd":"HSS_BAT_Builder --build_path $GIT_PATH/ST_BAT/build/ --prj $GIT_PATH/ST_BAT/prj/HSSTraffic_64.prj -smc","framework":false,"report_not_valid":true,"stop_on_fail":true},
+                            {"id":"check_bat_binary","enable":true,"cmd":"ls $GIT_PATH/ST_BAT/build/BAT_HSSTraffic","framework":false,"report_not_valid":true,"stop_on_fail":true,"repeat":true}
+                        ]
+                    }
+        }
+}

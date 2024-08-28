@@ -1,0 +1,29 @@
+{
+    "name" : "HC-CREATE-MAIDEN-HSS-BACKUP_#VECTOR_SUPPLIER#",
+    "nof_retries":2,
+    "monitor_consoles":{
+        "enable":"#CONSOLE_ENABLED#",
+        "consoles":[
+            {"id":"SC1","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_SC1#"},
+            {"id":"SC2","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_SC2#"},
+            {"id":"PL3","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_PL3#"},
+            {"id":"PL4","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_PL4#"},
+            {"id":"PL5","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_PL5#"},
+            {"id":"PL6","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_PL6#"}
+        ]
+    },
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"kill_tools","enable":true,"cmd":"run_clean_test_environment --exclude HSS_rtc UserKnownHostsFile=/dev/null --hosts seliics00257 --debug","framework":false},
+                            {"id":"restore_hss_backup","enable":true,"stop_on_fail":true,"extra_parameters":"-t 1500 -b #HSS_BASE_BACKUP#","repeat":true},
+                            {"id":"WAIT","enable":true,"cmd":"sleep 100","framework":false},
+                            {"id":"update_license","enable":true,"stop_on_fail":false,"cmd":"CBA_update_licenses -s --node #NODE_CONTROLLER# --user #USER_NODE# -l #HSS_LICENSE# --debug --internal-debug","framework":false,"report_not_valid":true,"stop_on_fail":true},
+                            {"id":"update_node_configuration","stop_on_fail":true,"enable":true,"cmd":"CBA_run_configure #BAT_IPv# -m --vector_supplier #VECTOR_SUPPLIER# --ldap_server #LDAP_SERVER# --tlsmode #TLSMODE# --http-maxoutcons #HTTP-PEER_MAXOUTCONS# --http2-maxoutcons #HTTP2-PEER_MAXOUTCONS# --netconf $GIT_PATH/ST_Population_Netconf -o #TESTCASE_PATH#/CLEAN/ --udm","framework":false,"report_not_valid":true,"stop_on_fail":true},
+                            {"id":"delete_backup_populator","enable":true,"cmd":"CBA_delete_backup #HSS_MAIDEN_BACKUP#_#VECTOR_SUPPLIER# --node #NODE_CONTROLLER# --user #USER_NODE# -v","framework":true},
+                            {"id":"create_backup","enable":true,"stop_on_fail":true,"cmd":"CBA_create_backup #HSS_MAIDEN_BACKUP#_#VECTOR_SUPPLIER# --node #NODE_CONTROLLER# --user #USER_NODE# -v","framework":true,"report_not_valid":true,"stop_on_fail":true}
+                        ]
+                    }
+        }
+}

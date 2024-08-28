@@ -1,0 +1,197 @@
+{
+    "name" : "TC-CACC-0211_HSS-UPGRADE-FROM-#HSS_BASE_BACKUP#",
+    "nof_retries":1,
+    "monitor_consoles":{
+        "enable":"#CONSOLE_ENABLED#",
+        "consoles":[
+            {"id":"SC1","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_SC1#"},
+            {"id":"SC2","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_SC2#"},
+            {"id":"PL3","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_PL3#"},
+            {"id":"PL4","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_PL4#"},
+            {"id":"PL5","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_PL5#"},
+            {"id":"PL6","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_PL6#"}
+        ]
+    },
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"kill_tools","enable":true,"cmd":"run_clean_test_environment --hosts #TGs_USED# --exclude HSS_rtc UserKnownHostsFile=/dev/null --debug","framework":false},
+                            {"id":"restore_hss_backup","enable":false,"stop_on_fail":true,"extra_parameters":"-b #HSS_BASE_BACKUP#","repeat":true},
+                            {"id":"download_ESM_UP","enable":true,"cmd":"download_package #ESM_UP_link# #ESM_UP_PACKAGE# -t 3600","framework":true,"report_not_valid":true,"stop_on_fail":true},
+                            {"id":"prepare_upgrade","enable":true,"cmd":"#CBA_PREPARE_UPGRADE# --up_package #ESM_UP_PACKAGE# -o $RTC_UPGRADE_PATH","framework":false,"report_not_valid":true,"stop_on_fail":true},
+                            {"id":"restore_extdb_backup","enable":"#GTLA_USED#","stop_on_fail":true,"extra_parameters":"-b #EXTDB_BACKUP#"},
+                            {"id":"clean_counter_data","enable":"#CLEAN_COUNTER_DATA#","cmd":"ldapmodify -x -H ldap://#LDAP_IP#:389 -D cn=manager,dc=operator,dc=com -w #LDAP_PWD# -f #LDAP_FILE# ", "framework":false,"stop_on_fail":true,"extra_parameters":""},
+                            {"id":"clean_alarms","enable":true},
+                            {"id":"clean_alerts","enable":true},
+                            {"id":"clean_app_logs","enable":true},
+                            {"id":"clean_console_logs","enable":true},
+                            {"id":"clean_pmf_logs","enable":true},
+                            {"id":"delete_backup_2","enable":true,"cmd":"CBA_delete_backup AFTER_UPGRADE --node #NODE_CONTROLLER# --user com-emergency -v","framework":true}
+
+                        ]
+                    },
+                "PRE": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"health_check","enable":true},
+                            {"id":"check_status","enable":true,"cmd":"CBA_check_status --node #NODE_CONTROLLER# --user com-emergency -v","framework":true,"stop_on_fail":true},
+                            {"id":"get_last_pl_reboot","enable":true},
+                            {"id":"get_alarms","enable":true,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":"#NBI_ALARMS_ENABLE#"},
+                            {"id":"get_node_status","enable":true,"extra_parameters":"-x pm"},
+                            {"id":"get_capsule_dumps","enable":true},
+                            {"id":"get_free_memory","enable":true},
+                            {"id":"get_ExtDb_connections","enable":true},
+                            {"id":"get_Http_connections","enable":true,"extra_parameters":"#SUM-PL-CON#"},
+                            {"id":"get_all_processes","enable":true},
+                            {"id":"get_processes_list","enable":true},
+                            {"id":"get_dynamic_process","enable":true},
+                            {"id":"LMinfo_BU","enable":true,"cmd":"CBA_run_command \"clurun.sh list_loadmodules -n PL-3 -d lpmsv.agent.vm0\" --node #NODE_CONTROLLER# --user com-emergency -v","framework":true},
+                            {"id":"repository_BU","enable":true,"cmd":"CBA_run_command \"cmw-repository-list | sort | grep -v \"NotUsed\" \" --node #NODE_CONTROLLER# --user com-emergency -v","framework":true},
+                            {"id":"immconfig_export_BU","enable":true,"cmd":"CBA_run_command \"cmw-immconfig-export /tmp/immconfig_export_BU.xml;cat /tmp/immconfig_export_BU.xml\" --node #NODE_CONTROLLER# --user com-emergency -v","framework":true}
+                        ]
+                    },
+                "POST": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"check_backup","enable":true,"cmd":"CBA_check_backup AFTER_UPGRADE --node #NODE_CONTROLLER# --user com-emergency -v","framework":true,"report_not_valid":true,"skip_phase_on_fail":true},
+                            {"id":"check_hss_function","enable":true,"cmd":"CBA_get_traffic_info --node #NODE_CONTROLLER# --user com-emergency -v","framework":true,"report_not_valid":true,"stop_on_fail":true},
+                            {"id":"update_license","enable":true,"cmd":"CBA_update_licenses -l #HSS_LICENSE_CRC# --user com-emergency -v","framework":true,"report_not_valid":true,"stop_on_fail":true},
+                            {"id":"clean_DIA_peer_nodes","enable":true,"cmd":"CBA_clean_DIA_peer_nodes --force --log-file #TESTCASE_PATH#/POST/clean_DIA_peer_nodes.log --user com-emergency","framework":false},
+                            {"id":"update_node_configuration","enable":true,"cmd":"CBA_run_configure #BAT_IPv# --ldap_server #LDAP_SERVER# --http-maxoutcons #HTTP-PEER_MAXOUTCONS# --http2-maxoutcons #HTTP2-PEER_MAXOUTCONS# --netconf $GIT_PATH/ST_Population_Netconf -o #TESTCASE_PATH#/POST/ --commit #NETCONF_COMMIT# --udm","framework":false,"report_not_valid":true,"stop_on_fail":true},
+                            {"id":"create_backup","enable":true,"cmd":"CBA_create_backup #HSS_UPGRADE_BACKUP# --node #NODE_CONTROLLER# --user com-emergency -v","framework":true,"report_not_valid":true,"stop_on_fail":true},
+                            {"id":"delete_upgrade_packages","enable":true,"cmd":"rm $RTC_UPGRADE_PATH/*","framework":false},
+                            {"id":"health_check","enable":true},
+                            {"id":"get_last_pl_reboot","enable":true},
+                            {"id":"get_alarms","enable":true,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":"#NBI_ALARMS_ENABLE#"},
+                            {"id":"get_node_status","enable":true,"extra_parameters":"-x pm"},
+                            {"id":"get_capsule_dumps","enable":true},
+                            {"id":"get_free_memory","enable":true},
+                            {"id":"get_ExtDb_connections","enable":true},
+                            {"id":"get_Http_connections","enable":true},
+                            {"id":"get_all_processes","enable":true},
+                            {"id":"get_processes_list","enable":true},
+                            {"id":"get_dynamic_process","enable":true}
+                        ]
+                    },
+                "COLLECT": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"cmw_collect_info","enable":true},
+                            {"id":"collect_logs","enable":true,"stop_on_fail":false,"extra_parameters":"--collect_console"},
+                            {"id":"diacc_collect_info","enable":"#DIACC_COLLECT_INFO_ENABLE#"},
+                            {"id":"pmf_counter_sum","enable":true},
+                            {"id":"pmf_counter_to_csv","enable":true},
+                            {"id":"LMinfo_AU","enable":true,"cmd":"CBA_run_command \"clurun.sh list_loadmodules -n PL-3 -d lpmsv.agent.vm0\" --node #NODE_CONTROLLER# --user com-emergency -v","framework":true},
+                            {"id":"repository_AU","enable":true,"cmd":"CBA_run_command \"cmw-repository-list | sort | grep -v \"NotUsed\"\" --node #NODE_CONTROLLER# --user com-emergency -v","framework":true},
+                            {"id":"hss_version","enable":true,"cmd":"CBA_run_command \"vdicos-envdata-get HSS_VERSION\" --node #NODE_CONTROLLER# --user com-emergency -v","framework":true},
+                            {"id":"release","enable":true,"cmd":"CBA_run_command \"immlist -a release managedElementId=1\" --node #NODE_CONTROLLER# --user com-emergency -v","framework":true},
+                            {"id":"repository_rpms_3pp","enable":true,"cmd":"CBA_run_command \"cmw-repository-list | grep -i 3PP\" --node #NODE_CONTROLLER# --file #TESTCASE_PATH#/COLLECT/repository_rpms.data --user com-emergency -v","framework":true},
+                            {"id":"repository_rpms_eric_hss","enable":true,"cmd":"CBA_run_command \"cmw-repository-list | grep -i ERIC-hss\" --node #NODE_CONTROLLER# --file #TESTCASE_PATH#/COLLECT/repository_rpms.data --user com-emergency -v","framework":true},
+                            {"id":"upgraded_rpms","enable":true,"cmd":"CBA_run_command \"cluster rpm -l --all|grep -i hss\" --node #NODE_CONTROLLER# --user com-emergency -v","framework":true}
+                        ]
+                    },
+                "CHECK": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"check_pl_reboot","enable":true},
+                            {"id":"check_free_memory","enable":true},
+                            {"id":"check_capsule_dumps","enable":true,"add_to_verdict":true},
+                            {"id":"check_list_processes","enable":true,"add_to_verdict":true,"extra_parameters":"\"#PROC_LIST#\""},
+                            {"id":"check_all_processes","enable":true},
+                            {"id":"check_alarms","enable":true,"add_to_verdict":false},
+                            {"id":"check_nbi_alarms","enable":"#NBI_ALARMS_ENABLE#","add_to_verdict":true},
+                            {"id":"check_node_status","enable":true,"add_to_verdict":true},
+                            {"id":"check_ExtDb_connections","enable":true,"add_to_verdict":true},
+                            {"id":"check_Http_connections","enable":"#ENABLE#","add_to_verdict":true},
+                            {"id":"check_traffic","enable":true,"extra_parameters":"max_error_rate=0.1"},
+                            {"id":"check_load_stability","enable":true,"add_to_verdict":true},
+                            {"id":"check_scenario_error_rate","enable":true,"add_to_verdict":true},
+                            {"id":"Check_alarms","enable":true,"cmd":"CBA_check_alarm_logs --to  #TIME_TRAFFIC_LOAD_FINISHED# --from #TIME_TRAFFIC_LOAD_START# -i #TESTCASE_PATH#/COLLECT/FmAlarmLog_#TESTCASE_NAME#.tgz --summary specificProblem --add-severity","framework":false,"add_to_summary":true,"stop_on_fail":false,"extra_parameters":""}
+                      ]
+                 },
+                "EXECUTION":{
+                        "enable":true,
+                        "instances":"UPGRADE-CBA-EPC-IMS",
+                        "configuration": {
+                            "manual_control" : false,
+                            "wait_pmf_counters_update" : true,
+                            "skip_postexec":"#GTLA_USED#",
+                            "display_cps":{"enable":true,"samples":5,"sampling_time":5,"refresh_time":10,"real_time_enabled":true},
+                            "monitor_error":{
+                                "enable":{"preexec":true,"loadgen":true,"postexec":true},
+                                "sampling_time":10,
+                                "display":false
+                            },
+                            "monitor_memory":{
+                                "enable": true,
+                                "sampling_time":10,"refresh_time":10,"real_time_enabled":false,"processors":""
+                            },
+                            "monitor_load":{
+                                "enable":true,
+                                "slots":"UPGRADE-CBA-EPC-IMS"
+                            },
+                            "diaproxy_reports":{
+                                "latency":{"enable":false,"samples":3,"time":60,"target_load":21,"wait":10,
+                                           "only_when_load_stable":true,"stop_loadgen_when_finish":false
+                                },
+                                "result_codes":{"enable":true}
+                            },
+                            "action":[
+                                {
+                                    "id":"CHECK_CDIA_CONNECTIONS_BEFORE","enable":true,"cmd":"CBA_check_diacc_dump_json --connections --node #NODE_CONTROLLER# --user com-emergency --debug",                                
+                                    "trigger":{"load":-1,"time":10},
+                                    "stop_on_fail":false,
+                                    "add_to_verdict":false,
+                                    "display_execution":false,
+                                    "time_running_traffic_after_execution":-1,
+                                    "disable_load_monitor":false,
+                                    "stop_error_scenario_register":false
+                                },
+                                {
+                                    "id":"HSS_UPGRADE_AND_ROLLBACK","enable":true,"cmd":"CBA_testcase_upgrade #HSS_UPGRADE_TOOL# #ESM_UP_PACKAGE# AFTER_UPGRADE --rollback --wait-for-rollback 900 -c #HSS_UPGRADE_CONFIG_PROPERTIES# --type ONE_STEP --user com-emergency --debug --internal-debug",
+                                    "trigger":{"load":-1,"time":600},
+                                    "max_trigger_time":1800,
+                                    "stop_on_fail":true,
+                                    "add_to_verdict":true,
+                                    "display_execution":true,
+                                    "time_running_traffic_after_execution":600,
+                                    "disable_load_monitor":true,
+                                    "stop_error_scenario_register":true
+                                },
+                                {
+                                    "id":"HSS_RESTORE_AFTER_UPGRADE","enable":true,"cmd":"CBA_testcase_restore_backup AFTER_UPGRADE --node #NODE_CONTROLLER# --user com-emergency",
+                                    "trigger":{"load":-1,"time":300},
+                                    "max_trigger_time":1800,
+                                    "add_to_verdict":true,
+                                    "display_execution":true,
+                                    "time_running_traffic_after_execution":600,
+                                    "disable_load_monitor":true,
+                                    "stop_error_scenario_register":true
+                                },                                
+                                {
+                                    "id":"CHECK_CDIA_CONNECTIONS_AFTER","enable":true,"cmd":"CBA_check_diacc_dump_json --connections --node #NODE_CONTROLLER# --user com-emergency --debug",                                
+                                    "trigger":{"load":-1,"time":10},
+                                    "stop_on_fail":false,
+                                    "add_to_verdict":false,
+                                    "display_execution":false,
+                                    "time_running_traffic_after_execution":-1,
+                                    "disable_load_monitor":false,
+                                    "stop_error_scenario_register":false
+                                },
+                                {
+                                    "id":"CHECK_HSS_COUNTER_UPDATED","enable":true,"cmd":"CBA_check_pmf_counter_update --node #NODE_CONTROLLER# --user com-emergency -v",                                
+                                    "trigger":{"load":-1,"time":10},
+                                    "add_to_verdict":true,
+                                    "display_execution":false,
+                                    "time_running_traffic_after_execution":10,
+                                    "disable_load_monitor":false,
+                                    "stop_error_scenario_register":false
+                                }                                
+                            ]
+                         }
+                    }
+        }
+}

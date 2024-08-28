@@ -1,0 +1,16 @@
+[
+    {
+        "version" : "",
+        "changes": [
+            {
+            "user":"com-emergency","password":"com-emergency",
+            "parameters":[
+                {
+                    "clissDn":"ManagedElement=1,SystemFunctions=1,SecM=1,UserManagement=1,LdapAuthenticationMethod=1,Ldap=1",
+                    "data":[{"name":"ldapIpAddress","value":"10.82.211.135"}]
+                }
+              ]
+            }
+        ]
+    }
+]

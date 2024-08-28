@@ -1,0 +1,109 @@
+{
+    "name" : "HC-EPC-IMS-7PL_20vCPU_MAX_LOAD",
+    "nof_retries":1,
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"kill_tools","enable":true,"cmd":"run_clean_test_environment --hosts #TGs_USED# --exclude HSS_rtc UserKnownHostsFile=/dev/null --debug","framework":false},
+                            {"id":"restore_extdb_backup","enable":false,"stop_on_fail":true,"extra_parameters":"-b #EXTDB_BACKUP#"},
+                            {"id":"clean_alarms","enable":true},
+                            {"id":"clean_alerts","enable":true},
+                            {"id":"clean_app_logs","enable":true},
+                            {"id":"clean_console_logs","enable":true},
+                            {"id":"clean_pmf_logs","enable":true},
+                            {"id":"clean_DIA_peer_nodes","enable":true,"cmd":"CBA_clean_DIA_peer_nodes --force --log-file #TESTCASE_PATH#/CLEAN/clean_DIA_peer_nodes.log","framework":false},
+                            {"id":"cleaning_counter_data","enable":true,"cmd":"ldapmodify -x -H ldap://#LDAP_IP#:389 -D cn=manager,dc=operator,dc=com -w #LDAP_PWD# -f #LDAP_FILE# ", "framework":false,"stop_on_fail":true,"extra_parameters":""}                        
+                        ]
+                    },
+                "CHECK": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"check_traffic","enable":true,"extra_parameters":"max_error_rate=0.2"},
+                            {"id":"check_load_stability","enable":true,"add_to_verdict":true},
+                            {"id":"check_scenario_error_rate","enable":true,"add_to_verdict":true}
+                        ]
+                    },
+                "EXECUTION":{
+                        "enable":true,
+                        "instances": {
+                                "BAT_IMS_ASYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ -C IMS -t 100000 -z 99 -l :::5 -E \":SYNC:5\" -p \"::2 ::2\"",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":200,"time":-1}],
+                                        "loadgen":{"initial":220,"delta_up":90,"delta_down":9},
+                                        "postexec":[{"value":200,"time":-1}]
+                                    }
+                                },
+                                "BAT_IMS_SYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MG -C IMS -t 100000 -z 250 -E \":SYNC:5 :OFFSET:4\" -p \"::2 ::2\" -B EXCLUDE_FOR_SYNC",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":200,"time":-1}],
+                                        "loadgen":{"initial":200,"delta_up":10,"delta_down":1},
+                                        "postexec":[{"value":200,"time":-1}]
+                                    }
+                                },
+                                "BAT_EPC_ASYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ #NGHTTPX_ASYNC# -C EPC -t 100000 -z 199 -E \":SYNC:5\" -p \"::2 ::2\"",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":400,"time":-1}],
+                                        "loadgen":{"initial":250,"delta_up":120,"delta_down":12},
+                                        "postexec":[{"value":400,"time":-1}]
+                                    }
+                                },
+                                "BAT_EPC_SYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MG #NGHTTPX_SYNC# -C EPC -t 100000 -z 200 -E \":SYNC:5 :OFFSET:4\" -p \"::2\" -B EXCLUDE_FOR_SYNC",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":200,"time":-1}],
+                                        "loadgen":{"initial":200,"delta_up":20,"delta_down":2},
+                                        "postexec":[{"value":200,"time":-1}]
+                                    }
+                                }
+                        },
+                        "configuration": {
+                            "manual_control" : false,
+                            "wait_pmf_counters_update" : false,
+                            "skip_postexec":false,
+                            "display_cps":{"enable":true,"samples":5,"sampling_time":5,"refresh_time":10,"real_time_enabled":true},
+                            "monitor_error":{
+                                "enable":{"preexec":true,"loadgen":true,"postexec":true},
+                                "default_error_rate":1,
+                                "sampling_time":10,
+                                "display":false
+                            },
+                            "monitor_memory":{
+                                "enable": true,
+                                "cpu_load_enabled":"#CPU_LOAD#","sampling_time":10,"refresh_time":10,"real_time_enabled":false,"processors":""
+                            },
+                            "monitor_load":{
+                                "enable":true,
+                                "slots":[
+                                    {"target_load":18,"time":-1,"variance":15,"transition":10}
+                                ]
+                            },
+                            "Capacity_handler":{
+                                "enable":true,
+                                "configuration":{"type":"HC","period":60,"error_rate":0.1,"max_load":100,"load_variance":5},
+                                "create_traffic_ref":[
+                                    {"id":"CBA-EPC-IMS-MAX-LOAD","slots":[{"time":120,"factor":0.5},{"time":28800,"factor":1}]}
+                                ],
+                                "run_traffic":{"update_load_monitor":true,"traffic_slots":[]}
+                            },
+                            "diaproxy_reports":{
+                                "latency":{"enable":false,"samples":3,"time":30,"target_load":18,"wait":10,
+                                           "only_when_load_stable":true,"stop_loadgen_when_finish":true
+                                },
+                                "result_codes":{"enable":true}
+                            }
+                        }
+                    }
+        }
+}

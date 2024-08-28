@@ -1,0 +1,109 @@
+{
+    "name" : "CBA-EPC-IMS-NO-SOAP",
+    "nof_retries":1,
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"kill_tools","enable":true,"cmd":"run_clean_test_environment --hosts #TGs_USED# --exclude HSS_rtc UserKnownHostsFile=/dev/null --debug","framework":false},
+                            {"id":"restore_hss_backup","enable":false,"stop_on_fail":true,"extra_parameters":"-b #HSS_UPGRADE_BACKUP#"},
+                            {"id":"restore_extdb_backup","enable":"#GTLA_USED#","stop_on_fail":true,"extra_parameters":"-b #EXTDB_BACKUP#"},
+                            {"id":"clean_counter_data","enable":"#CLEAN_COUNTER_DATA#","cmd":"ldapmodify -x -H ldap://#LDAP_IP#:389 -D cn=manager,dc=operator,dc=com -w #LDAP_PWD# -f #LDAP_FILE# ", "framework":false,"stop_on_fail":true,"extra_parameters":""},
+                            {"id":"clean_alarms","enable":true},
+                            {"id":"clean_alerts","enable":true},
+                            {"id":"clean_app_logs","enable":true},
+                            {"id":"clean_console_logs","enable":true},
+                            {"id":"clean_pmf_logs","enable":true}
+                        ]
+                    },
+                "CHECK": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"check_traffic","enable":true,"extra_parameters":"max_error_rate=0.2"},
+                            {"id":"check_load_stability","enable":true,"add_to_verdict":true},
+                            {"id":"check_scenario_error_rate","enable":true,"add_to_verdict":true}
+                        ]
+                    },
+                "EXECUTION":{
+                        "enable":true,
+                        "instances": {
+                                "BAT_IMS_ASYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ -C IMS -t 50000 -z 199 -l :::5 -E \":SYNC:5\" -p \"::2\" -B NEED_SOAP --internal-debug",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":100,"time":-1}],
+                                        "loadgen":{"initial":200,"delta_up":50,"delta_down":5},
+                                        "postexec":[{"value":100,"time":-1}]
+                                    }
+                                },
+                                "BAT_IMS_SYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MG -C IMS -t 50000 -z 499 -E \":SYNC:5 :OFFSET:4\" -p \"::2\" -B \"NEED_SOAP EXCLUDE_FOR_SYNC\" --internal-debug",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":100,"time":-1}],
+                                        "loadgen":{"initial":100,"delta_up":10,"delta_down":1},
+                                        "postexec":[{"value":200,"time":-1}]
+                                    }
+                                },
+                                "BAT_EPC_ASYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ #NGHTTPX_ASYNC# -C EPC -t 50000 -z 199 -E \":SYNC:5\" -p \"::2\" -B NEED_SOAP --internal-debug",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":200,"time":-1}],
+                                        "loadgen":{"initial":300,"delta_up":50,"delta_down":5},
+                                        "postexec":[{"value":200,"time":-1}]
+                                    }
+                                },
+                                "BAT_EPC_SYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MG #NGHTTPX_SYNC# -C EPC -t 50000 -z 499 -E \":SYNC:5 :OFFSET:2\" -p \"::2\" -B \"NEED_SOAP EXCLUDE_FOR_SYNC\" --internal-debug",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":100,"time":-1}],
+                                        "loadgen":{"initial":100,"delta_up":10,"delta_down":1},
+                                        "postexec":[{"value":100,"time":-1}]
+                                    }
+                                }
+                        },
+                        "configuration": {
+                            "manual_control" : false,
+                            "wait_pmf_counters_update" : false,
+                            "skip_postexec":"#GTLA_USED#",
+                            "display_cps":{"enable":true,"samples":5,"sampling_time":5,"refresh_time":10,"real_time_enabled":true},
+                            "monitor_error":{
+                                "enable":{"preexec":true,"loadgen":true,"postexec":true},
+                                "default_error_rate":0.1,
+                                "sampling_time":10,
+                                "display":false
+                            },
+                            "monitor_memory":{
+                                "enable": false,
+                                "sampling_time":10,"refresh_time":10,"real_time_enabled":false,"processors":""
+                            },
+                            "monitor_load":{
+                                "enable":true,
+                                "slots":[
+                                    {"target_load":18,"time":-1,"variance":15,"transition":10}
+                                ]
+                            },
+                            "Capacity_handler":{
+                                "enable":true,
+                                "configuration":{"type":"HC","period":60,"error_rate":0.1,"max_load":100,"load_variance":5},
+                                "create_traffic_ref":[
+                                    {"id":"CBA-EPC-IMS-NO-SOAP","slots":[{"time":120,"factor":0.3},{"time":30000,"factor":0.75}]}
+                                ],
+                                "run_traffic":{"update_load_monitor":false,"traffic_slots":[]}
+                            },
+                            "diaproxy_reports":{
+                                "latency":{"enable":false,"samples":3,"time":30,"target_load":18,"wait":10,
+                                           "only_when_load_stable":true,"stop_loadgen_when_finish":true
+                                },
+                                "result_codes":{"enable":true}
+                            }
+                        }
+                    }
+        }
+}

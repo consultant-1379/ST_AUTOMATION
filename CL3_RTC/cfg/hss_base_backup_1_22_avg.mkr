@@ -1,0 +1,14 @@
+#################################
+#
+#  Set macro variables in the format
+#
+#          name:value
+#
+#  Do not add # in the name of macro variable
+#
+
+HSS_BASE_BACKUP:HSSFE1_22_AVG
+HSS_VERSION_BASE:CXP9035082/6_R23J02
+PROC_LIST:HSS_EsmHttpDispatcherProc HSS_HttpClientDispatcherProc HSS_EsmExtDbSoapDispatcherProc HSS_ExtHttpDispatcherProc HSS_CommonUdmAuthImsiMatchProc
+ENABLE:false
+SUM-PL-CON:--sum-pl-con

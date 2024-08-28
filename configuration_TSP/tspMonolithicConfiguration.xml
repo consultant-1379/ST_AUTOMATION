@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testCases
+	xsi:schemaLocation="http://hr/ericsson/jcat/hss/st/config/testconfig/properties http://hr/ericsson/jcat/hss/st/config/testconfig/properties "
+	xmlns="http://hr/ericsson/jcat/hss/st/config/testconfig/properties"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+
+	<globalIgnoredEvents>
+		<listener name="FM_LOG_LISTENER">
+			<alarms>
+				<alarm>.*Diameter, Link Disabled.*</alarm>
+				<alarm>.*Diameter, Link Failure.*</alarm>
+				<alarm>.*Maximum backup interval exceeded.*</alarm>
+				<alarm>.*IO, Archiving Interval Exceeded.*</alarm>
+				<alarm>.*Zone Reloaded From Backup.*</alarm>
+				<alarm>.*SS7.*</alarm>
+				<alarm>IO,.*</alarm>
+				<alarm>backup*</alarm>
+				<alarm>.*Demo Certificate.*</alarm>
+			</alarms>
+			<notifications>
+				<notification>.*SS7-.*</notification>
+				<notification>.*FILE_CHANGE.*</notification>
+			</notifications>
+			<applogs>
+				<applog>.*CMF.*</applog>
+				<applog>.*JIM.*</applog>
+				<applog>.*SdaFileInput.*</applog>
+				<applog>.*SdaFileOutput.*</applog>
+				<applog>.*TSP_Security.*</applog>
+				<applog>.*qutil.*</applog>
+				<applog>.*telorbshell.*</applog>
+				<applog>.*tutil.*</applog>
+			</applogs>
+		</listener>
+	</globalIgnoredEvents>
+
+	<!--- MO Stability Tests -->
+	<testCase id="TC_STAB_0220_30">
+		<zoneReload>false</zoneReload>
+		<executePostPhase>true</executePostPhase>
+		<excludeSS7Processors>false</excludeSS7Processors>
+		<trafficDriver>
+			<trafficDefinition>
+				<traffic id="OAM">
+					<trafficCases>
+						<case name="OAM" />
+					</trafficCases>
+					<loadRegulation>
+						<zParam>
+							<CPS>
+								<preLoad value="35" />
+								<runLoad value="35" />
+								<postLoad value="35" />
+							</CPS>
+							<PTC>100</PTC>
+						</zParam>
+					</loadRegulation>
+					<BParam>EXCLUDE_FOR_IMS</BParam>
+					<timeout>35000</timeout>
+					<duration>3600</duration>
+					<waitForLoad timeout="600">0</waitForLoad>
+				</traffic>
+				<traffic id="IMS">
+					<trafficCases>
+						<case name="SLF" />
+					</trafficCases>
+					<loadRegulation>
+
+						<zParam>
+							<CPS>
+								<preLoad value="220" />
+								<runLoad value="220" />
+								<postLoad value="220" />
+							</CPS>
+							<PTC>250</PTC>
+						</zParam>
+					</loadRegulation>
+					<duration>3600</duration>
+					<EParam>:RADIUS_PORT:1813 :SYNC:5</EParam>
+					<waitForLoad timeout="300">30</waitForLoad>
+					<uParam>IMS_TrafficMix_HSS16A.cfg</uParam>
+				</traffic>
+			</trafficDefinition>
+		</trafficDriver>
+	</testCase>
+	<testCase id="TC_STAB_0220_50">
+		<zoneReload>false</zoneReload>
+		<executePostPhase>true</executePostPhase>
+		<excludeSS7Processors>false</excludeSS7Processors>
+		<trafficDriver>
+			<trafficDefinition>
+				<traffic id="OAM">
+					<trafficCases>
+						<case name="OAM" />
+					</trafficCases>
+					<loadRegulation>
+						<zParam>
+							<CPS>
+								<preLoad value="35" />
+								<runLoad value="35" />
+								<postLoad value="35" />
+							</CPS>
+							<PTC>100</PTC>
+						</zParam>
+					</loadRegulation>
+					<BParam>EXCLUDE_FOR_IMS</BParam>
+					<timeout>35000</timeout>
+					<duration>3600</duration>
+					<waitForLoad timeout="600">0</waitForLoad>
+				</traffic>
+				<traffic id="IMS">
+					<trafficCases>
+						<case name="SLF" />
+					</trafficCases>
+					<loadRegulation>
+
+						<zParam>
+							<CPS>
+								<preLoad value="300" />
+								<runLoad value="300" />
+								<postLoad value="300" />
+							</CPS>
+							<PTC>320</PTC>
+						</zParam>
+					</loadRegulation>
+					<duration>3600</duration>
+					<EParam>:RADIUS_PORT:1813 :SYNC:5</EParam>
+					<waitForLoad timeout="300">50</waitForLoad>
+					<uParam>IMS_TrafficMix_HSS16A.cfg</uParam>
+				</traffic>
+			</trafficDefinition>
+		</trafficDriver>
+	</testCase>
+	<testCase id="TC_STAB_0220_MAX">
+		<zoneReload>false</zoneReload>
+		<executePostPhase>true</executePostPhase>
+		<excludeSS7Processors>false</excludeSS7Processors>
+		<disabledProc>
+			<processor>Proc_m0_s13</processor>
+		</disabledProc>
+		<trafficDriver>
+			<trafficDefinition>
+				<traffic id="OAM">
+					<trafficCases>
+						<case name="OAM" />
+					</trafficCases>
+					<loadRegulation>
+						<zParam>
+							<CPS>
+								<preLoad value="35" />
+								<runLoad value="35" />
+								<postLoad value="35" />
+							</CPS>
+							<PTC>100</PTC>
+						</zParam>
+					</loadRegulation>
+					<BParam>EXCLUDE_FOR_IMS</BParam>
+					<timeout>35000</timeout>
+					<duration>3600</duration>
+					<waitForLoad timeout="600">0</waitForLoad>
+				</traffic>
+				<traffic id="IMS">
+					<trafficCases>
+						<case name="SLF" />
+					</trafficCases>
+					<loadRegulation>
+
+						<zParam>
+							<CPS>
+								<preLoad value="300" />
+								<runLoad value="300" />
+								<postLoad value="300" />
+							</CPS>
+							<PTC>320</PTC>
+						</zParam>
+					</loadRegulation>
+					<duration>3600</duration>
+					<EParam>:RADIUS_PORT:1813 :SYNC:5</EParam>
+					<waitForLoad timeout="300">70</waitForLoad>
+					<uParam>IMS_TrafficMix_HSS16A.cfg</uParam>
+				</traffic>
+			</trafficDefinition>
+		</trafficDriver>
+	</testCase>
+
+	<testCase id="TC_STAB_0320_30">
+		<zoneReload>false</zoneReload>
+		<executePostPhase>true</executePostPhase>
+		<excludeSS7Processors>false</excludeSS7Processors>
+		<trafficDriver>
+			<trafficDefinition>
+				<traffic id="OAM">
+					<trafficCases>
+						<case name="OAM" />
+					</trafficCases>
+					<loadRegulation>
+						<zParam>
+							<CPS>
+								<preLoad value="90" />
+								<runLoad value="90" />
+								<postLoad value="90" />
+							</CPS>
+							<PTC>100</PTC>
+						</zParam>
+					</loadRegulation>
+					<BParam>EXCLUDE_FOR_EPC</BParam>
+					<timeout>35000</timeout>
+					<duration>3600</duration>
+					<waitForLoad timeout="600">0</waitForLoad>
+				</traffic>
+				<traffic id="EPC">
+					<trafficCases>
+						<case name="SLF" />
+					</trafficCases>
+					<loadRegulation>
+
+						<zParam>
+							<CPS>
+								<preLoad value="1200" />
+								<runLoad value="1200" />
+								<postLoad value="1200" />
+							</CPS>
+							<PTC>500</PTC>
+						</zParam>
+					</loadRegulation>
+					<duration>3600</duration>
+					<EParam>:SYNC:5</EParam>
+					<waitForLoad timeout="300">30</waitForLoad>
+					<uParam>EPC_TrafficMix_HSS16A.cfg</uParam>
+				</traffic>
+			</trafficDefinition>
+		</trafficDriver>
+	</testCase>
+	<testCase id="TC_STAB_0320_50">
+		<zoneReload>false</zoneReload>
+		<executePostPhase>true</executePostPhase>
+		<excludeSS7Processors>false</excludeSS7Processors>
+		<disabledProc>
+			<processor>Proc_m0_s13</processor>
+		</disabledProc>
+		<trafficDriver>
+			<trafficDefinition>
+				<traffic id="OAM">
+					<trafficCases>
+						<case name="OAM" />
+					</trafficCases>
+					<loadRegulation>
+						<zParam>
+							<CPS>
+								<preLoad value="90" />
+								<runLoad value="90" />
+								<postLoad value="90" />
+							</CPS>
+							<PTC>100</PTC>
+						</zParam>
+					</loadRegulation>
+					<BParam>EXCLUDE_FOR_EPC</BParam>
+					<timeout>35000</timeout>
+					<duration>3600</duration>
+					<waitForLoad timeout="600">0</waitForLoad>
+				</traffic>
+				<traffic id="EPC">
+					<trafficCases>
+						<case name="SLF" />
+					</trafficCases>
+					<loadRegulation>
+
+						<zParam>
+							<CPS>
+								<preLoad value="1550" />
+								<runLoad value="1550" />
+								<postLoad value="1550" />
+							</CPS>
+							<PTC>500</PTC>
+						</zParam>
+					</loadRegulation>
+					<duration>3600</duration>
+					<EParam>:SYNC:5</EParam>
+					<waitForLoad timeout="300">50</waitForLoad>
+					<uParam>EPC_TrafficMix_HSS16A.cfg</uParam>
+				</traffic>
+			</trafficDefinition>
+		</trafficDriver>
+	</testCase>
+	<testCase id="TC_STAB_0320_MAX">
+		<zoneReload>false</zoneReload>
+		<executePostPhase>true</executePostPhase>
+		<excludeSS7Processors>false</excludeSS7Processors>
+		<disabledProc>
+			<processor>Proc_m0_s13</processor>
+			<processor>Proc_m0_s17</processor>
+			<processor>Proc_m0_s23</processor>
+		</disabledProc>
+		<trafficDriver>
+			<trafficDefinition>
+				<traffic id="OAM">
+					<trafficCases>
+						<case name="OAM" />
+					</trafficCases>
+					<loadRegulation>
+						<zParam>
+							<CPS>
+								<preLoad value="90" />
+								<runLoad value="90" />
+								<postLoad value="90" />
+							</CPS>
+							<PTC>100</PTC>
+						</zParam>
+					</loadRegulation>
+					<BParam>EXCLUDE_FOR_EPC</BParam>
+					<timeout>35000</timeout>
+					<duration>3600</duration>
+					<waitForLoad timeout="600">0</waitForLoad>
+				</traffic>
+				<traffic id="EPC">
+					<trafficCases>
+						<case name="SLF" />
+					</trafficCases>
+					<loadRegulation>
+
+						<zParam>
+							<CPS>
+								<preLoad value="1250" />
+								<runLoad value="1250" />
+								<postLoad value="1250" />
+							</CPS>
+							<PTC>500</PTC>
+						</zParam>
+					</loadRegulation>
+					<duration>3600</duration>
+					<EParam>:SYNC:5</EParam>
+					<waitForLoad timeout="300">70</waitForLoad>
+					<uParam>EPC_TrafficMix_HSS16A.cfg</uParam>
+				</traffic>
+			</trafficDefinition>
+		</trafficDriver>
+	</testCase>
+	<testCase id="TC_STAB_0330">
+		<zoneReload>false</zoneReload>
+		<executePostPhase>true</executePostPhase>
+		<excludeSS7Processors>false</excludeSS7Processors>
+		<disabledProc>
+			<processor>Proc_m0_s13</processor>
+		</disabledProc>
+		<trafficDriver>
+			<trafficDefinition>
+				<traffic id="OAM">
+					<trafficCases>
+						<case name="OAM" />
+					</trafficCases>
+					<loadRegulation>
+						<zParam>
+							<CPS>
+								<preLoad value="90" />
+								<runLoad value="90" />
+								<postLoad value="90" />
+							</CPS>
+							<PTC>100</PTC>
+						</zParam>
+					</loadRegulation>
+					<BParam>EXCLUDE_FOR_EPC</BParam>
+					<timeout>35000</timeout>
+					<duration>28800</duration>
+					<waitForLoad timeout="600">0</waitForLoad>
+				</traffic>
+				<traffic id="EPC">
+					<trafficCases>
+						<case name="SLF" />
+					</trafficCases>
+					<loadRegulation>
+
+						<zParam>
+							<CPS>
+								<preLoad value="1550" />
+								<runLoad value="1550" />
+								<postLoad value="1550" />
+							</CPS>
+							<PTC>500</PTC>
+						</zParam>
+					</loadRegulation>
+					<duration>28800</duration>
+					<EParam>:SYNC:5</EParam>
+					<waitForLoad timeout="300">50</waitForLoad>
+					<uParam>EPC_TrafficMix_HSS16A.cfg</uParam>
+				</traffic>
+			</trafficDefinition>
+		</trafficDriver>
+	</testCase>
+	<testCase id="TC_STAB_0230">
+		<zoneReload>false</zoneReload>
+		<executePostPhase>true</executePostPhase>
+		<excludeSS7Processors>false</excludeSS7Processors>
+		<trafficDriver>
+			<trafficDefinition>
+				<traffic id="OAM">
+					<trafficCases>
+						<case name="OAM" />
+					</trafficCases>
+					<loadRegulation>
+						<zParam>
+							<CPS>
+								<preLoad value="35" />
+								<runLoad value="35" />
+								<postLoad value="35" />
+							</CPS>
+							<PTC>100</PTC>
+						</zParam>
+					</loadRegulation>
+					<BParam>EXCLUDE_FOR_IMS</BParam>
+					<timeout>35000</timeout>
+					<duration>28800</duration>
+					<waitForLoad timeout="600">0</waitForLoad>
+				</traffic>
+				<traffic id="IMS">
+					<trafficCases>
+						<case name="SLF" />
+					</trafficCases>
+					<loadRegulation>
+
+						<zParam>
+							<CPS>
+								<preLoad value="320" />
+								<runLoad value="320" />
+								<postLoad value="320" />
+							</CPS>
+							<PTC>320</PTC>
+						</zParam>
+					</loadRegulation>
+					<duration>28800</duration>
+					<EParam>:RADIUS_PORT:1813 :SYNC:5</EParam>
+					<waitForLoad timeout="300">50</waitForLoad>
+					<uParam>IMS_TrafficMix_HSS16A.cfg</uParam>
+				</traffic>
+			</trafficDefinition>
+		</trafficDriver>
+	</testCase>
+	<testCase id="TC_STAB_0410">
+		<zoneReload>false</zoneReload>
+		<executePostPhase>true</executePostPhase>
+		<excludeSS7Processors>false</excludeSS7Processors>
+		<trafficDriver>
+			<trafficDefinition>
+				<traffic id="OAM">
+					<trafficCases>
+						<case name="OAM" />
+					</trafficCases>
+					<loadRegulation>
+						<zParam>
+							<CPS>
+								<preLoad value="25" />
+								<runLoad value="25" />
+								<postLoad value="25" />
+							</CPS>
+							<PTC>100</PTC>
+						</zParam>
+					</loadRegulation>
+					<BParam>EXCLUDE_FOR_IMS</BParam>
+					<timeout>35000</timeout>
+					<duration>28800</duration>
+					<waitForLoad timeout="600">0</waitForLoad>
+				</traffic>
+				<traffic id="IMS">
+					<trafficCases>
+						<case name="SLF" />
+					</trafficCases>
+					<loadRegulation>
+						<zParam>
+							<CPS>
+								<preLoad value="130" />
+								<runLoad value="130" />
+								<postLoad value="130" />
+							</CPS>
+							<PTC>110</PTC>
+						</zParam>
+					</loadRegulation>
+					<duration>173000</duration>
+					<EParam>:RADIUS_PORT:1813 :SYNC:5 :REFRESH_PLOT_TIME:30</EParam>
+					<waitForLoad timeout="300">50</waitForLoad>
+					<uParam>IMS_TrafficMix_HSS16A.cfg</uParam>
+				</traffic>
+				<traffic id="EPC">
+					<trafficCases>
+						<case name="SLF" />
+					</trafficCases>
+					<loadRegulation>
+						<trafficLoad>
+							<preLoad value="50" />
+							<runLoad value="50">
+								<load cpuLoad="70" time="7200" />
+								<load cpuLoad="50" time="18000" />
+								<load cpuLoad="70" time="25200" />
+								<load cpuLoad="50" time="32400" />
+								<load cpuLoad="70" time="93600" />
+								<load cpuLoad="50" time="104400" />
+								<load cpuLoad="70" time="111600" />
+								<load cpuLoad="50" time="118800" />
+							</runLoad>
+							<postLoad value="50" />
+						</trafficLoad>
+						<zParam>
+							<PTC>500</PTC>
+						</zParam>
+					</loadRegulation>
+					<duration>173000</duration>
+					<EParam>:SYNC:5</EParam>
+					<waitForLoad timeout="300">50</waitForLoad>
+					<uParam>EPC_TrafficMix_HSS16A.cfg</uParam>
+				</traffic>
+			</trafficDefinition>
+		</trafficDriver>
+	</testCase>
+</testCases>

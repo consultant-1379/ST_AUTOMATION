@@ -1,0 +1,133 @@
+{
+    "name" : "TC-CSTAB-0450-CACC-0250-EPC",
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"kill_tools","enable":true,"cmd":"run_clean_test_environment --exclude HSS_rtc UserKnownHostsFile=/dev/null --debug","framework":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"restore_hss_backup","enable":false,"stop_on_fail":true,"extra_parameters":"-b #HSS_BACKUP#"},
+                            {"id":"restore_extdb_backup","enable":true,"stop_on_fail":true,"extra_parameters":"-b #EXT_BACKUP#"},
+                            {"id":"clean_alarms","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_alerts","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_app_logs","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_console_logs","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_pmf_logs","enable":false,"stop_on_fail":false,"extra_parameters":""}
+                        ]
+                    },
+                "PRE": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"health_check","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_last_pl_reboot","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_alarms","enable":false,"stop_on_fail":false,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_node_status","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_capsule_dumps","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_free_memory","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_ExtDb_connections","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_Http_connections","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_all_processes","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_processes_list","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_dynamic_process","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_traffic_sample","enable":true,"cmd":"get_traffic_sample -r 2 -w #ROOT_PATH#/#NEW_SCRIPT# #LOCAL_BAT_CFG# #ASYNC# -C EPC-CBA -V #NODE# -x \"#NEW_SCRIPT#\" -v","framework":false,"stop_on_fail":true,"extra_parameters":""}
+                        ]
+                    },
+                "POST": {
+                        "enable":false,
+                        "steps": [
+                            {"id":"health_check","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_last_pl_reboot","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_alarms","enable":false,"stop_on_fail":false,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_node_status","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_capsule_dumps","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_free_memory","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_ExtDb_connections","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_Http_connections","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_all_processes","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_processes_list","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_dynamic_process","enable":false,"stop_on_fail":false,"extra_parameters":""}
+                        ]
+                    },
+                "COLLECT": {
+                        "enable":false,
+                        "steps": [
+                            {"id":"cmw_collect_info","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"collect_logs","enable":true,"stop_on_fail":false,"extra_parameters":"--collect_console"},
+                            {"id":"diacc_collect_info","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"WAIT","enable":true,"cmd":"sleep 300","framework":false},
+                            {"id":"pmf_counter_sum","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"pmf_counter_to_csv","enable":true,"stop_on_fail":false,"extra_parameters":""}
+                        ]
+                    },
+                "CHECK": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"check_pl_reboot","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_free_memory","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_capsule_dumps","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_list_processes","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_all_processes","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_alarms","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_nbi_alarms","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_node_status","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_ExtDb_connections","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_Http_connections","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_traffic","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":"max_error_rate=0.1"},
+                            {"id":"check_load_stability","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_scenario_error_rate","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""}
+                        ]
+                    },
+                "EXECUTION":{
+                        "enable":true,
+                        "instances": {
+                                "BAT_STAB_450": {
+                                    "enable":true,
+                                    "parameters" : "#LOCAL_BAT# #ASYNC# -D ::#SUBSCRIBER_COUNT# -MG -C EPC -t 30000 -z 300 -p \"::2 ::2\" -l :::5 -x \"#NEW_SCRIPT#\" -E :SYNC:5 ",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":200,"time":-1}],
+                                        "loadgen":{"initial":700,"delta_up":100,"delta_down":25},
+                                        "postexec":[{"value":100,"time":-1}]
+                                    }
+                                }
+                        },
+                        "configuration": {
+                            "manual_control" : false,
+                            "wait_pmf_counters_update" : false,
+                            "skip_postexec":true,
+                            "display_cps":{"enable":true,"samples":5,"sampling_time":5,"refresh_time":10,"real_time_enabled":true},
+                            "monitor_error":{
+                                "enable":{"preexec":true,"loadgen":true,"postexec":true},
+                                "sampling_time":10,
+                                "default_error_rate":0.1,
+                                "display":false
+                            },
+                            "monitor_memory":{
+                                "enable": true,
+                                "cpu_load_enabled":true,"sampling_time":10,"refresh_time":10,"real_time_enabled":false,"processors":""
+                            },
+                            "monitor_load":{
+                                "enable":true,
+                                "slots":[
+                                    {"target_load":40,"time":-1,"variance":5,"transition":10}
+                                ]
+                            },
+                            "Capacity_handler":{
+                                "enable":true,
+                                "configuration":{"type":"EC","period":60,"error_rate":0.1,"max_load":40,"load_variance":5,"validation_time":120},
+                                "create_traffic_ref":[
+                                    {"id":"TC-CSTAB-0450-EPC","slots":[{"time":300,"factor":1}]}
+                                ],
+                                "run_traffic":{"update_load_monitor":true,"traffic_slots":[{"time":300,"factor":1}]}
+                            },
+                            "diaproxy_reports":{
+                                "latency":{"enable":false,"samples":3,"time":30,"target_load":18,"wait":10,
+                                           "only_when_load_stable":true,"stop_loadgen_when_finish":true
+                                },
+                                "result_codes":{"enable":true}
+                            }
+                        }
+                    }
+        }
+}

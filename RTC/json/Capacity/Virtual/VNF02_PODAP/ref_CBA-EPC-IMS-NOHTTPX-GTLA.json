@@ -1,0 +1,147 @@
+{
+    "instances": {
+        "BAT_EPC_ASYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 388
+                    }, 
+                    {
+                        "time": 1814400, 
+                        "value": 620
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 400
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MGZ #NGHTTPX_ASYNC# -C EPC -t 10000000 -z 199 -E \":SYNC:5\" -p \"::2 ::2\" "
+        }, 
+        "BAT_EPC_SYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 98
+                    }, 
+                    {
+                        "time": 1814400, 
+                        "value": 156
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 100
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MG #NGHTTPX_SYNC# -C EPC -t 10000000 -z 200 -E \":SYNC:5 :OFFSET:4\" -p \"::2\" -B \"EXCLUDE_FOR_SYNC\" -Y \"ESM-92_ ESM-470_\""
+        }, 
+        "BAT_IMS_ASYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 266
+                    }, 
+                    {
+                        "time": 1814400, 
+                        "value": 425
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 100
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MGZ -C IMS -t 10000000 -z 99 -l :::5 -E \":SYNC:5\" -p \"::2 ::2\" "
+        }, 
+        "BAT_IMS_SYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 74
+                    }, 
+                    {
+                        "time": 1814400, 
+                        "value": 118
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 100
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MG -C IMS -t 10000000 -z 250 -E \":SYNC:5 :OFFSET:4\" -p \"::2 ::2\" -B \"EXCLUDE_FOR_SYNC\""
+        }
+    }, 
+    "load": "39", 
+    "slots": [
+        {
+            "target_load": 19.5, 
+            "time": 120, 
+            "transition": 10, 
+            "variance": 15.0
+        }, 
+        {
+            "target_load": 31.200000000000003, 
+            "time": 1814400, 
+            "transition": 10, 
+            "variance": 15.0
+        }
+    ]
+}

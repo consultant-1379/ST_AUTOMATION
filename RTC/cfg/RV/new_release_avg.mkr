@@ -1,0 +1,18 @@
+#################################
+#
+#  Set macro variables in the format
+#
+#          name:value
+#
+#  Do not add # in the name of macro variable
+#
+HSS_BASE_BACKUP:HSSFE_UPGRADE_AVG
+EXTDB_BACKUP:HSS_1_34_DEL_02
+NODE_CONTROLLER:10.198.30.209
+NODE_USER:root
+ENABLE_RESTORE:true
+
+NGHTTPX_SYNC:-E :UDM_SERVER_IP:150.132.9.183 -E :UDM_LOCAL_IP:150.132.188.10
+NGHTTPX_ASYNC: 
+
+

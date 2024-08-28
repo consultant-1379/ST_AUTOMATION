@@ -1,0 +1,83 @@
+{
+    "instances": {
+        "BAT_IMS_ASYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 715
+                    }, 
+                    {
+                        "time": 28800, 
+                        "value": 1186
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 300
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MGZ -C IMS -t 50000 -z 99: -l :::5 -E \":SYNC:5\" -p \"::2 ::2\""
+        }, 
+        "BAT_IMS_SYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 254
+                    }, 
+                    {
+                        "time": 28800, 
+                        "value": 422
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MG -C IMS -t 50000 -z 300: -p \"::2 ::2\" -E \":SYNC:5 :OFFSET:4\" -B EXCLUDE_FOR_SYNC"
+        }
+    }, 
+    "load": "66", 
+    "slots": [
+        {
+            "target_load": 33.0, 
+            "time": 120, 
+            "transition": 10, 
+            "variance": 5.0
+        }, 
+        {
+            "target_load": 54.779999999999994, 
+            "time": 28800, 
+            "transition": 10, 
+            "variance": 5.0
+        }
+    ]
+}

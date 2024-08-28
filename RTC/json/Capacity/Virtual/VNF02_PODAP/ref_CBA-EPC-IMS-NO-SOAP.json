@@ -1,0 +1,147 @@
+{
+    "instances": {
+        "BAT_EPC_ASYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 569
+                    }, 
+                    {
+                        "time": 28800, 
+                        "value": 910
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 400
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 400
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MGZ #NGHTTPX_ASYNC# -C EPC -t 100000 -z 199 -E \":SYNC:5\" -p \"::2 ::2\" -B NEED_SOAP "
+        }, 
+        "BAT_EPC_SYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 174
+                    }, 
+                    {
+                        "time": 28800, 
+                        "value": 278
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MG #NGHTTPX_SYNC# -C EPC -t 100000 -z 200 -E \":SYNC:5 :OFFSET:4\" -p \"::2\" -B \"NEED_SOAP EXCLUDE_FOR_SYNC\""
+        }, 
+        "BAT_IMS_ASYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 443
+                    }, 
+                    {
+                        "time": 28800, 
+                        "value": 708
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MGZ -C IMS -t 100000 -z 99 -l :::5 -E \":SYNC:5\" -p \"::2 ::2\" -B NEED_SOAP "
+        }, 
+        "BAT_IMS_SYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 137
+                    }, 
+                    {
+                        "time": 28800, 
+                        "value": 219
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MG -C IMS -t 100000 -z 250 -E \":SYNC:5 :OFFSET:4\" -p \"::2 ::2\" -B \"NEED_SOAP EXCLUDE_FOR_SYNC\""
+        }
+    }, 
+    "load": "70", 
+    "slots": [
+        {
+            "target_load": 35.0, 
+            "time": 120, 
+            "transition": 10, 
+            "variance": 5.0
+        }, 
+        {
+            "target_load": 56.0, 
+            "time": 28800, 
+            "transition": 10, 
+            "variance": 5.0
+        }
+    ]
+}

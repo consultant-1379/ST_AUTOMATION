@@ -1,0 +1,19 @@
+#################################
+#
+#  Set macro variables in the format
+#
+#          name:value
+#
+#  Do not add # in the name of macro variable
+#
+
+HSS_BASE_BACKUP:HSSFE1_37_AVG
+HSS_BACKUP_RELEASE:1.37
+HSS_VERSION_BASE:CXP9035082_6_R38D13
+PROC_LIST:
+ENABLE:true
+DIACC_COLLECT_INFO_ENABLE:true
+SUM-PL-CON:
+NGHTTPX_UPGRADE_SYNC:-E :UDM_SERVER_IP:150.132.9.101 -E :UDM_LOCAL_IP:150.132.188.16
+NGHTTPX_UPGRADE_ASYNC:
+

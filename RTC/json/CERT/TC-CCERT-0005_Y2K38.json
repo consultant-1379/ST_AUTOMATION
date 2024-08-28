@@ -1,0 +1,190 @@
+{
+    "name" : "TC-CCERT-0005_YK38",
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"kill_tools","enable":true,"cmd":"run_clean_test_environment --hosts #TGs_USED# --exclude HSS_rtc UserKnownHostsFile=/dev/null --log-file #TESTCASE_PATH#/CLEAN/run_clean_test_environment.log --debug","framework":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"restore_hss_backup","enable":"#ENABLE_RESTORE#","stop_on_fail":true,"extra_parameters":"-b #HSS_BASE_BACKUP#"},
+                            {"id":"restore_extdb_backup","enable":true,"stop_on_fail":true,"extra_parameters":"-b #EXTDB_BACKUP#"},
+                            {"id":"clean_alarms","enable":true},
+                            {"id":"clean_alerts","enable":true},
+                            {"id":"clean_app_logs","enable":true},
+                            {"id":"clean_console_logs","enable":true},
+                            {"id":"clean_pmf_logs","enable":true},
+                            {"id":"clean_HealthCheck_files","enable":true,"cmd":"CBA_run_command --node #NODE_CONTROLLER# --user #NODE_USER# \"rm /storage/no-backup/nbi_root/health_check/*man*\" -v ","framework":true},
+                            {"id":"clean_DIA_peer_nodes","enable":true,"cmd":"CBA_clean_DIA_peer_nodes --node #NODE_CONTROLLER# --user #NODE_USER# --force --log-file #TESTCASE_PATH#/CLEAN/clean_DIA_peer_nodes.log","framework":false}
+                        ]
+                    },
+                "PRE": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"create_schedule_backups","enable":true,"cmd":"CBA_schedule_backup --node #NODE_CONTROLLER# --period 3 --stop 8 --name Stability8h -v","framework":true,"stop_on_fail":true},
+                            {"id":"health_check","enable":true},
+                            {"id":"get_last_pl_reboot","enable":true},
+                            {"id":"get_alarms","enable":true,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":"#NBI_ALARMS_ENABLE#"},
+                            {"id":"get_node_status","enable":true},
+                            {"id":"get_capsule_dumps","enable":true},
+                            {"id":"get_free_memory","enable":true},
+                            {"id":"get_ExtDb_connections","enable":true},
+                            {"id":"get_Http_connections","enable":true},
+                            {"id":"get_all_processes","enable":true},
+                            {"id":"get_processes_list","enable":true},
+                            {"id":"get_dynamic_process","enable":true},
+                            {"id":"chage_node_user","enable":true,"cmd":"CBA_run_command --node #NODE_CONTROLLER# --user #NODE_USER# \"chage -E -1 #NODE_USER# \" -v ","framework":true},
+			    {"id":"update_license","enable":true,"cmd":"CBA_update_licenses --node #NODE_CONTROLLER# --user #NODE_USER# -l #HSS_2040_LICENSE# --unlock-mod --debug --internal-debug","framework":false,"report_not_valid":true,"stop_on_fail":true}
+                        ]
+                    },
+                "POST": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"remove_schedule_backups","enable":true,"cmd":"CBA_remove_schedule_backup --node #NODE_CONTROLLER# --name Stability8h -v","framework":true,"stop_on_fail":true},
+                            {"id":"health_check","enable":true},
+                            {"id":"get_last_pl_reboot","enable":true},
+                            {"id":"get_alarms","enable":true,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":false},
+                            {"id":"get_node_status","enable":true},
+                            {"id":"get_capsule_dumps","enable":true},
+                            {"id":"get_free_memory","enable":true},
+                            {"id":"get_ExtDb_connections","enable":true},
+                            {"id":"get_Http_connections","enable":true},
+                            {"id":"get_all_processes","enable":true},
+                            {"id":"get_processes_list","enable":true},
+                            {"id":"get_dynamic_process","enable":true},
+                            {"id":"update_node_ntp_server","enable":true,"cmd":"CBA_update_ntp_servers_node -s --node #NODE_CONTROLLER# --user #NODE_USER# --ntp-servers #HSS_NTP_SERVERS# --log-file #TESTCASE_PATH#/POST/CBA_update_ntp_servers_node.log","framework":false,"report_not_valid":true,"stop_on_fail":true,"extra_parameters":""},
+                            {"id":"sync_node_ntp_server","enable":true,"cmd":"CBA_sync_ntp_server --node #NODE_CONTROLLER# --user #NODE_USER# --ntp-server #HSS_NTP_SERVER# -v","framework":true,"report_not_valid":true,"stop_on_fail":true,"extra_parameters":""},
+                            {"id":"delay_time","enable":true,"cmd":"sleep 10","framework":false,"stop_on_fail":false},
+			    {"id":"update_license","enable":true,"cmd":"CBA_update_licenses --node #NODE_CONTROLLER# --user #NODE_USER# -l #HSS_CURRENT_LICENSE# --debug --internal-debug","framework":false,"report_not_valid":true,"stop_on_fail":false}      
+                        ]
+                    },
+                "COLLECT": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"cmw_collect_info","enable":true},
+                            {"id":"collect_logs","enable":true},
+                            {"id":"diacc_collect_info","enable":true},
+                            {"id":"pmf_counter_sum","enable":true},
+                            {"id":"pmf_counter_to_csv","enable":true}
+                        ]
+                    },
+                "CHECK": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"check_pl_reboot","enable":true,"add_to_verdict":true},
+                            {"id":"check_free_memory","enable":true},
+                            {"id":"check_capsule_dumps","enable":true,"add_to_verdict":true},
+                            {"id":"check_list_processes","enable":true,"add_to_verdict":true},
+                            {"id":"check_all_processes","enable":true},
+                            {"id":"check_alarms","enable":true,"add_to_verdict":false},
+                            {"id":"check_nbi_alarms","enable":false,"add_to_verdict":true},
+                            {"id":"check_node_status","enable":true,"add_to_verdict":true},
+                            {"id":"check_ExtDb_connections","enable":true,"add_to_verdict":true},
+                            {"id":"check_Http_connections","enable":true,"add_to_verdict":true},
+                            {"id":"check_traffic","enable":true,"extra_parameters":"max_error_rate=0.2"},
+                            {"id":"check_load_stability","enable":true,"add_to_verdict":true},
+                            {"id":"check_scenario_error_rate","enable":true,"add_to_verdict":true},
+                            {"id":"CHECK_ALARMS","enable":true,"cmd":"CBA_check_alarm_logs --from #TIME_TRAFFIC_LOAD_START# --to #TC-CCERT-0005_ALARM_DATE# -i #TESTCASE_PATH#/COLLECT/FmAlarmLog_#TESTCASE_NAME#.tgz --summary specificProblem --add-severity --log-file #TESTCASE_PATH#/CHECK/CBA_check_alarm_logs.log","framework":false,"add_to_summary":true,"stop_on_fail":false,"extra_parameters":""}
+                        ]
+                    },
+                "EXECUTION":{
+                        "enable":true,
+                        "instances": "HC-CERT-CBA-EPC-IMS-8H",
+                        "configuration": {
+                            "manual_control" : false,
+                            "wait_pmf_counters_update" : true,
+                            "skip_postexec":true,
+                            "display_cps":{"enable":true,"samples":5,"sampling_time":5,"refresh_time":10,"real_time_enabled":true},
+                            "monitor_error":{
+                                "enable":{"preexec":true,"loadgen":true,"postexec":true},
+                                "sampling_time":10,
+                                "display":false
+                            },
+                            "monitor_memory":{
+                                "enable": true,
+                                "cpu_load_enabled":"#CPU_LOAD#","sampling_time":10,"refresh_time":10,"real_time_enabled":false,"processors":""
+                            },
+                            "monitor_alarm":{"enable": false,"sampling_time":1,"display":false},
+                            "monitor_load":{
+                                "enable":true,
+                                "slots":"HC-CERT-CBA-EPC-IMS-8H"
+                            },
+                            "diaproxy_reports":{
+                                "latency":{"enable":false,"samples":3,"time":30,"target_load":30,"wait":10,
+                                           "only_when_load_stable":true,"stop_loadgen_when_finish":true
+                                },
+                                "result_codes":{"enable":true}
+                            },
+                            "action":[
+                                 {
+                                    "id":"CHECK_CDIA_CONNECTIONS_BEFORE","enable":true,"cmd":"CBA_check_diacc_dump_json --connections --node #NODE_CONTROLLER# --user #NODE_USER# --debug",
+                                    "trigger":{"load":-1,"time":10},
+                                    "stop_on_fail":false,
+                                    "add_to_verdict":false,
+                                    "display_execution":false,
+                                    "time_running_traffic_after_execution":-1,
+                                    "disable_load_monitor":false,
+                                    "stop_error_scenario_register":false
+                                },
+                                {
+                                    "id":"update_node_ntp_server","enable":true,"cmd":"CBA_update_ntp_servers_node --node #NODE_CONTROLLER# --user #NODE_USER# --ntp-servers #NTP_SERVER#",
+                                    "trigger":{"load":-1,"time":60},
+                                    "add_to_verdict":true,
+                                    "display_execution":true,
+                                    "time_running_traffic_after_execution":-1,
+                                    "disable_load_monitor":true,
+                                    "stop_error_scenario_register":true
+                                },
+                                {
+                                    "id":"set_time_ntp_server","enable":true,"cmd":"ntp_server_set_time --ntp #NTP_SERVER# --new-date #Y2K38_DATE# --new-time #Y2K38_TIME#",
+                                    "trigger":{"load":-1,"time":20},
+                                    "add_to_verdict":true,
+                                    "display_execution":true,
+                                    "time_running_traffic_after_execution":-1,
+                                    "disable_load_monitor":false,
+                                    "stop_error_scenario_register":true
+                                },
+                                {
+                                    "id":"sync_node_ntp_server","enable":true,"cmd":"CBA_sync_ntp_server --node #NODE_CONTROLLER# --user #NODE_USER# --ntp-server #NTP_SERVER#",
+                                    "trigger":{"load":-1,"time":20},
+                                    "add_to_verdict":true,
+                                    "display_execution":true,
+                                    "time_running_traffic_after_execution":-1,
+                                    "disable_load_monitor":true,
+                                    "stop_error_scenario_register":true
+                                },
+                                {
+                                    "id":"CCERT_005_BEFORE_Y2K38","enable":true,"cmd":"CBA_testcase_cert_expiration --node #NODE_CONTROLLER# --user #NODE_USER# --ntp #NTP_SERVER# -w 60 ",
+                                    "trigger":{"load":-1,"time":60},
+                                    "stop_on_fail":true,
+                                    "add_to_verdict":true,
+                                    "display_execution":true,
+                                    "time_running_traffic_after_execution":-1,
+                                    "disable_load_monitor":false,
+                                    "stop_error_scenario_register":false
+                                },
+                                {
+                                    "id":"CCERT_005_AFTER_Y2K38","enable":true,"cmd":"CBA_testcase_cert_expiration --node #NODE_CONTROLLER# --user #NODE_USER# --ntp #NTP_SERVER# -w 60 ",
+                                    "trigger":{"load":-1,"time":1800},
+                                    "stop_on_fail":true,
+                                    "add_to_verdict":true,
+                                    "display_execution":true,
+                                    "time_running_traffic_after_execution":-1,
+                                    "disable_load_monitor":false,
+                                    "stop_error_scenario_register":true
+                                },
+                                {
+                                    "id":"CHECK_CDIA_CONNECTIONS_AFTER","enable":true,"cmd":"CBA_check_diacc_dump_json --connections --node #NODE_CONTROLLER# --user #NODE_USER# --debug",
+                                    "trigger":{"load":-1,"time":600},
+                                    "stop_on_fail":false,
+                                    "add_to_verdict":false,
+                                    "display_execution":false,
+                                    "time_running_traffic_after_execution":60,
+                                    "disable_load_monitor":false,
+                                    "stop_error_scenario_register":false
+                                }
+                            ]
+                        }
+                    }
+        }
+}

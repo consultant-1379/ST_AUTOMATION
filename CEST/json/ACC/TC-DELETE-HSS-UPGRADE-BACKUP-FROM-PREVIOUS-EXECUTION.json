@@ -1,0 +1,11 @@
+{
+    "name" : "TC-DELETE-HSS-UPGRADE-BACKUP-FROM-PREVIOUS-EXECUTION",
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"delete_backup_1","enable":true,"cmd":"CBA_delete_backup #HSS_UPGRADE_BACKUP# --node #NODE_CONTROLLER# -v","framework":true}
+                        ]
+                    }
+        }
+}

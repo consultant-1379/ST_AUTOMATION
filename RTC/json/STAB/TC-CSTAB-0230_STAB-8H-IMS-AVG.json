@@ -1,0 +1,114 @@
+{
+    "name" : "TC-CSTAB-0230_STAB-8H-IMS-AVG",
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"kill_tools","enable":true,"cmd":"run_clean_test_environment --exclude HSS_rtc UserKnownHostsFile=/dev/null --debug","framework":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"restore_hss_backup","enable":false,"stop_on_fail":true,"extra_parameters":"-b #HSS_BACKUP#"},
+                            {"id":"restore_extdb_backup","enable":false,"stop_on_fail":true,"extra_parameters":"-b #EXT_BACKUP# -t 4800"},
+                            {"id":"clean_alarms","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_alerts","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_app_logs","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_console_logs","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_pmf_logs","enable":true,"stop_on_fail":false,"extra_parameters":""}
+                        ]
+                    },
+                "PRE": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"create_schedule_backups","enable":true,"cmd":"CBA_schedule_backup --node #NODE_CONTROLLER# --period 3 --stop 8 --name Stability8h","framework":true,"stop_on_fail":true,"extra_parameters":""},
+                            {"id":"health_check","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_last_pl_reboot","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_alarms","enable":true,"stop_on_fail":false,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_node_status","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_capsule_dumps","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_free_memory","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_ExtDb_connections","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_Http_connections","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_all_processes","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_processes_list","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_dynamic_process","enable":true,"stop_on_fail":false,"extra_parameters":""}
+                        ]
+                    },
+                "POST": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"remove_schedule_backups","enable":true,"cmd":"CBA_remove_schedule_backup --node #NODE_CONTROLLER# --name Stability8h","framework":true,"stop_on_fail":true,"extra_parameters":""},
+                            {"id":"health_check","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_last_pl_reboot","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_alarms","enable":true,"stop_on_fail":false,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_node_status","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_capsule_dumps","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_free_memory","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_ExtDb_connections","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_Http_connections","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_all_processes","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_processes_list","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_dynamic_process","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"check_applogs","enable":true,"cmd":"HSS_CheckApplogs -a #TESTCASE_PATH#/COLLECT/applog_*.tgz --log-file #TESTCASE_PATH#/POST/applogs-analysis.txt --init_date #INIT_DATE# --end_date #END_DATE#"}
+                        ]
+                    },
+                "COLLECT": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"cmw_collect_info","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"collect_logs","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"diacc_collect_info","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"WAIT","enable":true,"cmd":"sleep 300","framework":false},
+                            {"id":"pmf_counter_sum","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"pmf_counter_to_csv","enable":true,"stop_on_fail":false,"extra_parameters":""}
+                        ]
+                    },
+                "CHECK": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"check_pl_reboot","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_free_memory","enable":true,"stop_on_fail":false,"add_to_verdict":false,"extra_parameters":""},
+                            {"id":"check_capsule_dumps","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_list_processes","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_all_processes","enable":true,"stop_on_fail":false,"add_to_verdict":false,"extra_parameters":""},
+                            {"id":"check_alarms","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_nbi_alarms","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_node_status","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_ExtDb_connections","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_Http_connections","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_traffic","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":"max_error_rate=0.1"},
+                            {"id":"check_load_stability","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_scenario_error_rate","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""}
+                      ]
+                 },
+                "EXECUTION":{
+                        "enable":true,
+                        "instances": "CBA-IMS",
+                        "configuration": {
+                            "manual_control" : false,
+                            "wait_pmf_counters_update" : true,
+                            "skip_postexec":false,
+                            "display_cps":{"enable":true,"samples":5,"sampling_time":5,"refresh_time":10,"real_time_enabled":true},
+                            "monitor_error":{
+                                "enable":{"preexec":true,"loadgen":true,"postexec":true},
+                                "sampling_time":10,
+                                "display":false
+                            },
+                            "monitor_memory":{
+                                "enable": true,
+                                "cpu_load_enabled":true,"sampling_time":10,"refresh_time":10,"real_time_enabled":false,"processors":""
+                            },
+                            "monitor_alarm":{"enable": true,"sampling_time":1,"display":false},
+                            "monitor_load":{
+                                "enable":true,
+                                "slots":"CBA-IMS"
+                            },
+                            "diaproxy_reports":{
+                                "latency":{"enable":false,"samples":3,"time":60,"target_load":21,"wait":10,
+                                           "only_when_load_stable":true,"stop_loadgen_when_finish":false
+                                },
+                                "result_codes":{"enable":true}
+                            }
+                        }
+                    }
+        }
+}

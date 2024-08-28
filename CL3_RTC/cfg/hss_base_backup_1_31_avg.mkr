@@ -1,0 +1,19 @@
+#################################
+#
+#  Set macro variables in the format
+#
+#          name:value
+#
+#  Do not add # in the name of macro variable
+#
+
+HSS_BASE_BACKUP:HSSFE1_31_AVG
+HSS_BACKUP_RELEASE:1.31
+HSS_VERSION_BASE:CXP9035082_6_R32D08
+PROC_LIST:HSS_HttpClientDispatcherProc HSS_EsmScefEventNumbersProc HSS_ExtHttp2DispatcherProc HSS_HttpsListenerProc HSS_HttpListenerProc
+ENABLE:true
+DIACC_COLLECT_INFO_ENABLE:true
+SUM-PL-CON:
+NGHTTPX_UPGRADE_SYNC:
+NGHTTPX_UPGRADE_ASYNC:
+

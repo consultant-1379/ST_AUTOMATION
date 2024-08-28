@@ -1,0 +1,166 @@
+{
+    "name" : "CBA-EPC-IMS-48H",
+    "nof_retries":1,
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"kill_tools","enable":true,"cmd":"run_clean_test_environment --hosts #TGs_USED# --exclude HSS_rtc UserKnownHostsFile=/dev/null --debug","framework":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"restore_hss_backup","enable":false,"stop_on_fail":true,"extra_parameters":"-b #HSS_BACKUP#"},
+                            {"id":"restore_extdb_backup","enable":"#GTLA_USED#","stop_on_fail":true,"extra_parameters":"-b #EXTDB_BACKUP#"},
+                            {"id":"increase_load_limit_MAX","enable":false,"cmd":"CBA_envdata_set LOAD_REG_CPU_MAX_LIMIT 95 --user com-emergency","framework":true,"stop_on_fail":true,"extra_parameters":""},
+                            {"id":"increase_load_limit_AVG","enable":false,"cmd":"CBA_envdata_set LOAD_REG_CPU_AVG_LIMIT 95 --user com-emergency","framework":true,"stop_on_fail":true,"extra_parameters":""},
+                            {"id":"increase_load_limit_CURRENT","enable":false,"cmd":"CBA_envdata_set LOAD_REG_CPU_CURRENT_LIMIT 95 --user com-emergency","framework":true,"stop_on_fail":true,"extra_parameters":""},
+                            {"id":"clean_alarms","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_alerts","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_app_logs","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_console_logs","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_pmf_logs","enable":true,"stop_on_fail":false,"extra_parameters":""}
+                        ]
+                    },
+                "PRE": {
+                        "enable":false,
+                        "steps": [
+                            {"id":"health_check","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_last_pl_reboot","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_alarms","enable":true,"stop_on_fail":false,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":"#NBI_ALARMS_ENABLE#","stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_node_status","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_capsule_dumps","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_free_memory","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_ExtDb_connections","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_Http_connections","enable":true},
+                            {"id":"get_all_processes","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_processes_list","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_dynamic_process","enable":true,"stop_on_fail":false,"extra_parameters":""}
+                        ]
+                    },
+                "POST": {
+                        "enable":false,
+                        "steps": [
+                            {"id":"health_check","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_last_pl_reboot","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_alarms","enable":true,"stop_on_fail":false,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":"#NBI_ALARMS_ENABLE#","stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_node_status","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_capsule_dumps","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_free_memory","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_ExtDb_connections","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_Http_connections","enable":true},
+                            {"id":"get_all_processes","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_processes_list","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_dynamic_process","enable":true,"stop_on_fail":false,"extra_parameters":""}
+                        ]
+                    },
+                "COLLECT": {
+                        "enable":false,
+                        "steps": [
+                            {"id":"cmw_collect_info","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"collect_logs","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"diacc_collect_info","enable":true},
+                            {"id":"pmf_counter_sum","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"pmf_counter_to_csv","enable":true,"stop_on_fail":false,"extra_parameters":""}
+                        ]
+                    },
+                "CHECK": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"check_pl_reboot","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_free_memory","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_capsule_dumps","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_list_processes","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_all_processes","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_alarms","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_nbi_alarms","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_node_status","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_ExtDb_connections","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"get_Http_connections","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_traffic","enable":true,"stop_on_fail":false,"add_to_verdict":false,"extra_parameters":"max_error_rate=0.2"},
+                            {"id":"check_load_stability","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_scenario_error_rate","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""}
+                        ]
+                    },
+                "EXECUTION":{
+                        "enable":true,
+                        "instances": {
+                                "BAT_IMS_ASYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ -C IMS -t 172800 -z 100 -l :::5 -E \":SYNC:5\" -p \"::2\" --internal-debug",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":100,"time":-1}],
+                                        "loadgen":{"initial":200,"delta_up":100,"delta_down":5},
+                                        "postexec":[{"value":100,"time":-1}]
+                                    }
+                                },
+                                "BAT_IMS_SYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MG -C IMS -t 172800 -z 200 -E \":SYNC:5 :OFFSET:4\" -p \"::2\" -B EXCLUDE_FOR_SYNC --internal-debug",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":100,"time":-1}],
+                                        "loadgen":{"initial":80,"delta_up":20,"delta_down":1},
+                                        "postexec":[{"value":100,"time":-1}]
+                                    }
+                                },
+                                "BAT_EPC_ASYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ #NGHTTPX_ASYNC# -C EPC -t 172800 -z 100 -E \":SYNC:5\" -p \"::2\" --internal-debug",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":200,"time":-1}],
+                                        "loadgen":{"initial":200,"delta_up":100,"delta_down":5},
+                                        "postexec":[{"value":200,"time":-1}]
+                                    }
+                                },
+                                 "BAT_EPC_SYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MG #NGHTTPX_SYNC# -C EPC -t 172800 -z 200 -E \":SYNC:5 :OFFSET:2\" -p \"::2\" -B EXCLUDE_FOR_SYNC --internal-debug",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":100,"time":-1}],
+                                        "loadgen":{"initial":80,"delta_up":20,"delta_down":1},
+                                        "postexec":[{"value":100,"time":-1}]
+                                    }
+                                }                                
+                        },
+                        
+                        "configuration": {
+                            "manual_control" : false,
+                            "wait_pmf_counters_update" : false,
+                            "skip_postexec":"#GTLA_USED#",
+                            "display_cps":{"enable":true,"samples":5,"sampling_time":5,"refresh_time":10,"real_time_enabled":true},
+                            "monitor_error":{
+                                "enable":{"preexec":true,"loadgen":true,"postexec":true},
+                                "default_error_rate":1,
+                                "sampling_time":10,
+                                "display":false
+                            },
+                            "monitor_memory":{
+                                "enable": false,
+                                "sampling_time":10,"refresh_time":10,"real_time_enabled":false,"processors":""
+                            },
+                            "monitor_load":{
+                                "enable":true,
+                                "slots":[
+                                    {"target_load":18,"time":-1,"variance":15,"transition":60}
+                                ]
+                            },
+                            "Capacity_handler":{
+                                "enable":true,
+                                "configuration":{"type":"HC","period":90,"error_rate":1,"max_load":40,"load_variance":15},
+                                "create_traffic_ref":[
+                                    {"id":"CBA-EPC-IMS-48H","slots":[{"time":7200,"factor":0.3},{"time":7200,"factor":0.83},{"time":3600,"factor":1},{"time":7200,"factor":0.83},{"time":3600,"factor":1},{"time":3600,"factor":0.83},{"time":61200,"factor":0.3},{"time":7200,"factor":0.83},{"time":3600,"factor":1},{"time":7200,"factor":0.83},{"time":3600,"factor":1},{"time":3600,"factor":0.83},{"time":54000,"factor":0.3}]}
+                                ],
+                                "run_traffic":{"update_load_monitor":true,"traffic_slots":[]}
+                            },
+                            "diaproxy_reports":{
+                                "latency":{"enable":false,"samples":3,"time":30,"target_load":18,"wait":10,
+                                           "only_when_load_stable":true,"stop_loadgen_when_finish":true
+                                },
+                                "result_codes":{"enable":true}
+                            }
+                        }
+                    }
+        }
+}

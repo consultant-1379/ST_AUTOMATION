@@ -1,0 +1,14 @@
+{
+    "name" : "INSTALL-HSS-BASELINE",
+    "nof_retries":1,
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"install","enable":true,"cmd":"CBA_run_install_HSS --id #BUILD_BASE# --packages #ESM_UP_link_BASE# #TOOLS_link_BASE# -l #HSS_LICENSE_BASE# --debug -o #TESTCASE_PATH#/installation","framework":false,"report_not_valid":true,"exit_rtc_on_fail":true},
+                            {"id":"configure","enable":true,"cmd":"CBA_run_configure -m --vector_supplier #AUTH_VECTOR# --netconf $GIT_PATH/ST_Population_Netconf -o $RTC_POPULATION_LOG_PATH --commit #NETCONF_COMMIT_BASE# --debug","framework":false,"report_not_valid":true,"exit_rtc_on_fail":true},
+                            {"id":"create_backup","enable":true,"cmd":"CBA_create_backup AUTO --node #NODE_CONTROLLER# -v","framework":true,"report_not_valid":true,"stop_on_fail":true}
+                        ]
+                    }
+        }
+}

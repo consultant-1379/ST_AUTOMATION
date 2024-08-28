@@ -1,0 +1,102 @@
+{
+    "name" : "CBA-EPC-IMS-48h",
+    "nof_retries":1,
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"kill_tools","enable":true,"cmd":"run_clean_test_environment --exclude HSS_rtc UserKnownHostsFile=/dev/null --debug","framework":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"restore_hss_backup","enable":false,"stop_on_fail":true,"extra_parameters":"-b #HSS_BACKUP#"},
+                            {"id":"restore_extdb_backup","enable":false,"stop_on_fail":true,"extra_parameters":"-b #EXT_BACKUP# -t 3600"},
+                            {"id":"increase_load_limit_MAX","enable":false,"cmd":"CBA_envdata_set LOAD_REG_CPU_MAX_LIMIT 95","framework":true,"stop_on_fail":true,"extra_parameters":""},
+                            {"id":"increase_load_limit_AVG","enable":false,"cmd":"CBA_envdata_set LOAD_REG_CPU_AVG_LIMIT 95","framework":true,"stop_on_fail":true,"extra_parameters":""},
+                            {"id":"increase_load_limit_CURRENT","enable":false,"cmd":"CBA_envdata_set LOAD_REG_CPU_CURRENT_LIMIT 95","framework":true,"stop_on_fail":true,"extra_parameters":""},
+                            {"id":"clean_alarms","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_alerts","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_app_logs","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_console_logs","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_pmf_logs","enable":true,"stop_on_fail":false,"extra_parameters":""}
+                        ]
+                    },
+                "EXECUTION":{
+                        "enable":true,
+                        "instances": {
+                                "BAT_IMS_SYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MG -C IMS -t 172800 -z 500:200 -l :::5 -p \"::2\" -E \":SYNC:5\" -B EXCLUDE_FOR_SYNC",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":200,"time":-1}],
+                                        "loadgen":{"initial":300,"delta_up":50,"delta_down":5},
+                                        "postexec":[{"value":200,"time":-1}]
+                                    }
+                                },
+                                "BAT_EPC_SYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MG -C EPC -t 172800 -z 500:500 -p \"::2\" -E \":SYNC:5\" -B EXCLUDE_FOR_SYNC ",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":200,"time":-1}],
+                                        "loadgen":{"initial":400,"delta_up":50,"delta_down":5},
+                                        "postexec":[{"value":200,"time":-1}]
+                                    }
+                                },
+                                "BAT_EPC_ASYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ -C EPC -t 172800 -z 199:1000 -p \"::2\" -E \":OFFSET:2 :SYNC:5\"",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":200,"time":-1}],
+                                        "loadgen":{"initial":800,"delta_up":200,"delta_down":20},
+                                        "postexec":[{"value":200,"time":-1}]
+                                    }
+                                },
+                                "BAT_IMS_ASYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ -C IMS -t 172800 -z 199:1000 -p \"::2\" -E \":OFFSET:2 :SYNC:5\" ",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":500,"time":-1}],
+                                        "loadgen":{"initial":600,"delta_up":150,"delta_down":15},
+                                        "postexec":[{"value":500,"time":-1}]
+                                    }
+                                }
+                        },
+                        "configuration": {
+                            "manual_control" : false,
+                            "wait_pmf_counters_update" : false,
+                            "skip_postexec":false,
+                            "display_cps":{"enable":true,"samples":5,"sampling_time":5,"refresh_time":10,"real_time_enabled":true},
+                            "monitor_error":{
+                                "enable":{"preexec":true,"loadgen":true,"postexec":true},
+                                "default_error_rate":0.1,
+                                "sampling_time":10,
+                                "display":false
+                            },
+                            "monitor_memory":{
+                                "enable": false,
+                                "sampling_time":10,"refresh_time":10,"real_time_enabled":false,"processors":""
+                            },
+                            "monitor_load":{
+                                "enable":true,
+                                "slots":[
+                                    {"target_load":18,"time":-1,"variance":5,"transition":10}
+                                ]
+                            },
+                            "Capacity_handler":{
+                                "enable":true,
+                                "configuration":{"type":"HC","period":60,"error_rate":0.1,"max_load":100,"load_variance":5,"validation_time":120},
+                                "create_traffic_ref":[
+                                {"id":"HC-CBA-EPC-IMS-48h","slots":[{"time":7200,"factor":0.3},{"time":7200,"factor":1},{"time":3600,"factor":1.25},{"time":7200,"factor":1},{"time":3600,"factor":1.25},{"time":3600,"factor":1},{"time":61200,"factor":0.3},{"time":7200,"factor":1},{"time":3600,"factor":1.25},{"time":7200,"factor":1},{"time":3600,"factor":1.25},{"time":3600,"factor":1},{"time":61200,"factor":0.3},{"time":54000,"factor":0.3}]}                                ],
+                                "run_traffic":{"update_load_monitor":true,"traffic_slots":[]}
+                            },
+                            "diaproxy_reports":{
+                                "latency":{"enable":false,"samples":3,"time":30,"target_load":18,"wait":10,
+                                           "only_when_load_stable":true,"stop_loadgen_when_finish":true
+                                },
+                                "result_codes":{"enable":true}
+                            }
+                        }
+                    }
+        }
+}

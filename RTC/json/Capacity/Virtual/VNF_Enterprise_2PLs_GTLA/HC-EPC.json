@@ -1,0 +1,77 @@
+{
+    "name" : "HC-CBA-EPC",
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"kill_tools","enable":true,"cmd":"run_clean_test_environment --exclude HSS_rtc UserKnownHostsFile=/dev/null --debug","framework":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"restore_hss_backup","enable":false,"stop_on_fail":true,"extra_parameters":"-b #HSS_BACKUP#"},
+                            {"id":"restore_extdb_backup","enable":true,"stop_on_fail":true,"extra_parameters":"-b #EXT_BACKUP#"},
+                            {"id":"clean_alarms","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_alerts","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_app_logs","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_console_logs","enable":false,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_pmf_logs","enable":false,"stop_on_fail":false,"extra_parameters":""}
+                        ]
+                    },
+                "CHECK": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"check_traffic","enable":true,"stop_on_fail":false,"add_to_verdict":false,"extra_parameters":"max_error_rate=0.2"},
+                            {"id":"check_load_stability","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_scenario_error_rate","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""}
+                        ]
+                    },
+                "EXECUTION":{
+                        "enable":true,
+                        "instances": {
+                                "BAT_EPC_SYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MG -C EPC -t 50000 -z 100:10 -l :::5 -E \":SYNC:5\" -D \"::50\" ",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":10,"time":-1}],
+                                        "loadgen":{"initial":50,"delta_up":5,"delta_down":1},
+                                        "postexec":[{"value":10,"time":-1}]
+                                    }
+                                }
+                        },
+                        "configuration": {
+                            "manual_control" : false,
+                            "wait_pmf_counters_update" : false,
+                            "skip_postexec":true,
+                            "display_cps":{"enable":true,"samples":5,"sampling_time":5,"refresh_time":10,"real_time_enabled":true},
+                            "monitor_error":{
+                                "enable":{"preexec":true,"loadgen":true,"postexec":true},
+                                "default_error_rate":1,
+                                "sampling_time":10,
+                                "display":false
+                            },
+                            "monitor_memory":{
+                                "enable": false,
+                                "sampling_time":10,"refresh_time":10,"real_time_enabled":false,"processors":""
+                            },
+                            "monitor_load":{
+                                "enable":true,
+                                "slots":[
+                                    {"target_load":18,"time":-1,"variance":15,"transition":10}
+                                ]
+                            },
+                            "Capacity_handler":{
+                                "enable":true,
+                                "configuration":{"type":"HC","period":90,"error_rate":1,"max_load":50,"load_variance":15,"validation_time":120},
+                                "create_traffic_ref":[
+                                    {"id":"HC-CBA-EPC","slots":[{"time":120,"factor":0.5},{"time":28800,"factor":1}]}
+                                ],
+                                "run_traffic":{"update_load_monitor":false,"traffic_slots":[]}
+                            },
+                            "diaproxy_reports":{
+                                "latency":{"enable":false,"samples":3,"time":30,"target_load":18,"wait":10,
+                                           "only_when_load_stable":true,"stop_loadgen_when_finish":true
+                                },
+                                "result_codes":{"enable":true}
+                            }
+                        }
+                    }
+        }
+}

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<topology xsi:schemaLocation="http://hr/ericsson/jcat/hss/st/config/topology/properties http://hr/ericsson/jcat/hss/st/config/topology/properties " xmlns="http://hr/ericsson/jcat/hss/st/config/topology/properties"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+>
+
+	<softwareConfiguration>
+		<tspVersion>TSP7100</tspVersion>
+		<tspProductNumber>ANA90106</tspProductNumber>
+		<tspSoftwareConfiguration>R3A13</tspSoftwareConfiguration>
+		<hssSoftwareConfiguration>CXP_901_1865/30_R4A HSS16A_FD1_LSV2</hssSoftwareConfiguration>
+	</softwareConfiguration>
+
+	<hwTopology>
+
+		<!-- Min 1 - Max 1 -->
+		<hssNode architecture="MO" type="vTSP">
+			<cabinetName>SELIITHSS00042</cabinetName>
+			<ctrlBoards>
+				<ctrlBoard>
+					<hostName>io1</hostName>
+					<address>10.82.136.84</address>
+					<username>telorb</username>
+					<password>telorb</password>
+					<sshPort>22</sshPort>
+				</ctrlBoard>
+				<ctrlBoard>
+					<hostName>io2</hostName>
+					<address>10.82.136.85</address>
+					<username>telorb</username>
+					<password>telorb</password>
+					<sshPort>22</sshPort>
+				</ctrlBoard>
+			</ctrlBoards>
+			<oamInterface>
+				<hostName>oam</hostName>
+				<address>10.198.30.11</address>
+				<username>jambala</username>
+				<password>Pokemon1</password>
+				<sshPort>31310</sshPort>
+			</oamInterface>
+			<diameterAddress>10.82.128.11</diameterAddress>
+			<ldapAddress>platform-vip</ldapAddress>
+			<ldapPort>7323</ldapPort>
+			<sigtranAddress>10.82.132.11</sigtranAddress>
+			<nodeName>jambala</nodeName>
+
+		</hssNode>
+
+		<gt>
+			<!-- Min 2 - Max 6 -->
+			<diaProxies>
+				<diaProxy id="1">
+					<hostName>seliics00301</hostName>
+					<address>10.82.244.120</address>
+					<sshPort>22</sshPort>
+				</diaProxy>
+			</diaProxies>
+
+			<!-- Min 1 - Max 2 -->
+			<trafficGenerators>
+				<titanSim id="1">
+					<hostName>seliics00301</hostName>
+					<address>seliics00301</address>
+					<sshPort>22</sshPort>
+				</titanSim>
+				<titanSim id="2">
+					<hostName>seliics00301</hostName>
+					<address>seliics00301</address>
+					<sshPort>22</sshPort>
+				</titanSim>
+				<titanSim id="3">
+					<hostName>seliics00301</hostName>
+					<address>seliics00301</address>
+					<sshPort>22</sshPort>
+				</titanSim>
+			</trafficGenerators>
+		</gt>
+
+	</hwTopology>
+
+	<trafficTopology>
+		<traffic id="OAM">
+			<trafficGenerators>
+				<titanSim id="3" />			
+			</trafficGenerators>
+		</traffic>
+		<traffic id="IMS">
+			<domain>Origin%d.ericsson.se</domain>
+			<diaPort>2001</diaPort>
+			<nodePort>3872</nodePort>
+			<trafficGenerators>
+				<titanSim id="1" />
+			</trafficGenerators>
+		</traffic>
+
+		<traffic id="EPC">
+			<domain>OrginEPC%d.ericsson.se</domain>
+			<diaPort>4001</diaPort>
+			<nodePort>3872</nodePort>
+			<trafficGenerators>
+				<titanSim id="2" />
+			</trafficGenerators>
+		</traffic>
+	</trafficTopology>
+
+</topology>

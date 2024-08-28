@@ -1,0 +1,58 @@
+{
+    "instances": {
+        "BAT_EPC_SYNC": {
+            "cps_scheduler": {
+                "enable": true, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 672
+                    }, 
+                    {
+                        "time": 120, 
+                        "value": 1344
+                    }, 
+                    {
+                        "time": -1, 
+                        "value": 2240
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 500
+                    }
+                ]
+            }, 
+            "enable": true, 
+            "parameters": "-MG -C EPC -t 1800 -z 700:10 -l :::5 -p \"::2 ::2\" -E \":SYNC:5\""
+        }
+    }, 
+    "load": "41", 
+    "slots": [
+        {
+            "target_load": 12.299999999999999, 
+            "time": 120, 
+            "transition": 10, 
+            "variance": 10
+        }, 
+        {
+            "target_load": 24.599999999999998, 
+            "time": 120, 
+            "transition": 10, 
+            "variance": 10
+        }, 
+        {
+            "target_load": 41.0, 
+            "time": -1, 
+            "transition": 10, 
+            "variance": 10
+        }
+    ]
+}

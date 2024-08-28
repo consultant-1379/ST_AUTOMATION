@@ -1,0 +1,389 @@
+{
+    "instances": {
+        "BAT_EPC_ASYNC": {
+            "cps_scheduler": {
+                "current": [],
+                "enable": true,
+                "last_time": 0,
+                "loadgen": [
+                    {
+                        "time": 7200,
+                        "value": 17
+                    },
+                    {
+                        "time": 7200,
+                        "value": 48
+                    },
+                    {
+                        "time": 3600,
+                        "value": 59
+                    },
+                    {
+                        "time": 7200,
+                        "value": 48
+                    },
+                    {
+                        "time": 3600,
+                        "value": 59
+                    },
+                    {
+                        "time": 3600,
+                        "value": 48
+                    },
+                    {
+                        "time": 61200,
+                        "value": 17
+                    },
+                    {
+                        "time": 7200,
+                        "value": 48
+                    },
+                    {
+                        "time": 3600,
+                        "value": 59
+                    },
+                    {
+                        "time": 7200,
+                        "value": 48
+                    },
+                    {
+                        "time": 3600,
+                        "value": 59
+                    },
+                    {
+                        "time": 3600,
+                        "value": 48
+                    },
+                    {
+                        "time": 54000,
+                        "value": 17
+                    }
+                ],
+                "postexec": [
+                    {
+                        "time": -1,
+                        "value": 400
+                    }
+                ],
+                "preexec": [
+                    {
+                        "time": -1,
+                        "value": 100
+                    }
+                ],
+                "target": 0
+            },
+            "enable": true,
+            "parameters": "-ZAG -C EPC -t 73600 -z 50:200 -p \"::\" -E \":SYNC:5 \" "
+        },
+        "BAT_EPC_SYNC": {
+            "cps_scheduler": {
+                "current": [],
+                "enable": true,
+                "last_time": 0,
+                "loadgen": [
+                    {
+                        "time": 7200,
+                        "value": 9
+                    },
+                    {
+                        "time": 7200,
+                        "value": 26
+                    },
+                    {
+                        "time": 3600,
+                        "value": 32
+                    },
+                    {
+                        "time": 7200,
+                        "value": 26
+                    },
+                    {
+                        "time": 3600,
+                        "value": 32
+                    },
+                    {
+                        "time": 3600,
+                        "value": 26
+                    },
+                    {
+                        "time": 61200,
+                        "value": 9
+                    },
+                    {
+                        "time": 7200,
+                        "value": 26
+                    },
+                    {
+                        "time": 3600,
+                        "value": 32
+                    },
+                    {
+                        "time": 7200,
+                        "value": 26
+                    },
+                    {
+                        "time": 3600,
+                        "value": 32
+                    },
+                    {
+                        "time": 3600,
+                        "value": 26
+                    },
+                    {
+                        "time": 54000,
+                        "value": 9
+                    }
+                ],
+                "postexec": [
+                    {
+                        "time": -1,
+                        "value": 200
+                    }
+                ],
+                "preexec": [
+                    {
+                        "time": -1,
+                        "value": 30
+                    }
+                ],
+                "target": 0
+            },
+            "enable": true,
+            "parameters": "-AG -C EPC -t 73600 -z 40:200 -p \"::\" #NGHTTPX_SYNC# -E \":SYNC:5 :OFFSET:4 \" -B \"EXCLUDE_FOR_SYNC\""
+        },
+        "BAT_IMS_ASYNC": {
+            "cps_scheduler": {
+                "current": [],
+                "enable": true,
+                "last_time": 0,
+                "loadgen": [
+                    {
+                        "time": 7200,
+                        "value": 9
+                    },
+                    {
+                        "time": 7200,
+                        "value": 26
+                    },
+                    {
+                        "time": 3600,
+                        "value": 32
+                    },
+                    {
+                        "time": 7200,
+                        "value": 26
+                    },
+                    {
+                        "time": 3600,
+                        "value": 32
+                    },
+                    {
+                        "time": 3600,
+                        "value": 26
+                    },
+                    {
+                        "time": 61200,
+                        "value": 9
+                    },
+                    {
+                        "time": 7200,
+                        "value": 26
+                    },
+                    {
+                        "time": 3600,
+                        "value": 32
+                    },
+                    {
+                        "time": 7200,
+                        "value": 26
+                    },
+                    {
+                        "time": 3600,
+                        "value": 32
+                    },
+                    {
+                        "time": 3600,
+                        "value": 26
+                    },
+                    {
+                        "time": 54000,
+                        "value": 9
+                    }
+                ],
+                "postexec": [
+                    {
+                        "time": -1,
+                        "value": 200
+                    }
+                ],
+                "preexec": [
+                    {
+                        "time": -1,
+                        "value": 50
+                    }
+                ],
+                "target": 0
+            },
+            "enable": true,
+            "parameters": "-ZAG -C IMS -t 73600 -z 10:100 -p \"::\" -E \":SYNC:5 \""
+        },
+        "BAT_IMS_SYNC": {
+            "cps_scheduler": {
+                "current": [],
+                "enable": true,
+                "last_time": 0,
+                "loadgen": [
+                    {
+                        "time": 7200,
+                        "value": 17
+                    },
+                    {
+                        "time": 7200,
+                        "value": 48
+                    },
+                    {
+                        "time": 3600,
+                        "value": 59
+                    },
+                    {
+                        "time": 7200,
+                        "value": 48
+                    },
+                    {
+                        "time": 3600,
+                        "value": 59
+                    },
+                    {
+                        "time": 3600,
+                        "value": 48
+                    },
+                    {
+                        "time": 61200,
+                        "value": 17
+                    },
+                    {
+                        "time": 7200,
+                        "value": 48
+                    },
+                    {
+                        "time": 3600,
+                        "value": 59
+                    },
+                    {
+                        "time": 7200,
+                        "value": 48
+                    },
+                    {
+                        "time": 3600,
+                        "value": 59
+                    },
+                    {
+                        "time": 3600,
+                        "value": 48
+                    },
+                    {
+                        "time": 54000,
+                        "value": 17
+                    }
+                ],
+                "postexec": [
+                    {
+                        "time": -1,
+                        "value": 200
+                    }
+                ],
+                "preexec": [
+                    {
+                        "time": -1,
+                        "value": 50
+                    }
+                ],
+                "target": 0
+            },
+            "enable": true,
+            "parameters": "-AG -C IMS -t 73600 -z 50:100 -l :::5 -p \"::\" -E \":SYNC:5 :OFFSET:1 \" -B \"EXCLUDE_FOR_SYNC\""
+        }
+    },
+    "load": "40",
+    "slots": [
+        {
+            "target_load": 12.0,
+            "time": 7200,
+            "transition": 10,
+            "variance": 15
+        },
+        {
+            "target_load": 33.199999999999996,
+            "time": 7200,
+            "transition": 10,
+            "variance": 15
+        },
+        {
+            "target_load": 40.0,
+            "time": 3600,
+            "transition": 10,
+            "variance": 15
+        },
+        {
+            "target_load": 33.199999999999996,
+            "time": 7200,
+            "transition": 10,
+            "variance": 15
+        },
+        {
+            "target_load": 40.0,
+            "time": 3600,
+            "transition": 10,
+            "variance": 15
+        },
+        {
+            "target_load": 33.199999999999996,
+            "time": 3600,
+            "transition": 10,
+            "variance": 15
+        },
+        {
+            "target_load": 12.0,
+            "time": 61200,
+            "transition": 10,
+            "variance": 15
+        },
+        {
+            "target_load": 33.199999999999996,
+            "time": 7200,
+            "transition": 10,
+            "variance": 15
+        },
+        {
+            "target_load": 40.0,
+            "time": 3600,
+            "transition": 10,
+            "variance": 15
+        },
+        {
+            "target_load": 33.199999999999996,
+            "time": 7200,
+            "transition": 10,
+            "variance": 15
+        },
+        {
+            "target_load": 40.0,
+            "time": 3600,
+            "transition": 10,
+            "variance": 15
+        },
+        {
+            "target_load": 33.199999999999996,
+            "time": 3600,
+            "transition": 10,
+            "variance": 15
+        },
+        {
+            "target_load": 12.0,
+            "time": 54000,
+            "transition": 10,
+            "variance": 15
+        }
+    ]
+}

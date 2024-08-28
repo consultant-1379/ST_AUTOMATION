@@ -1,0 +1,58 @@
+{
+    "instances": {
+        "BAT_IMS_SYNC": {
+            "cps_scheduler": {
+                "enable": true, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 176
+                    }, 
+                    {
+                        "time": 120, 
+                        "value": 352
+                    }, 
+                    {
+                        "time": -1, 
+                        "value": 588
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ]
+            }, 
+            "enable": true, 
+            "parameters": "-MG -C IMS -t 1800 -z 600:50 -p \"::2 ::2\" -l :::5 -E \":SYNC:5\""
+        }
+    }, 
+    "load": "20", 
+    "slots": [
+        {
+            "target_load": 6.0, 
+            "time": 120, 
+            "transition": 10, 
+            "variance": 15
+        }, 
+        {
+            "target_load": 12.0, 
+            "time": 120, 
+            "transition": 10, 
+            "variance": 15
+        }, 
+        {
+            "target_load": 20.0, 
+            "time": -1, 
+            "transition": 10, 
+            "variance": 15
+        }
+    ]
+}

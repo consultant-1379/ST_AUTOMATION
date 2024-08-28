@@ -1,0 +1,27 @@
+<suite name="JcatCoreTspSuite">
+	<listeners>
+		<listener class-name="se.ericsson.jcat.fw.fixture.testng.JcatNGTestListener" />
+		<listener class-name="se.ericsson.jcat.fw.fixture.testng.JcatNGSuiteListener" />
+		<listener
+			class-name="se.ericsson.jcat.hss.st.fixtures.HssStAnnotationTransformer" />
+	</listeners>
+
+
+
+	<test name="Stability">
+		<classes>
+			<class name="hr.ericsson.jcat.hss.st.tests.tsp.Stability">
+				<methods>
+					<include name="TC_STAB_0221_30" />
+					<include name="TC_STAB_0221_50" />
+					<include name="TC_STAB_0221_MAX" />
+					<include name="TC_STAB_0321_30" />
+					<include name="TC_STAB_0321_50" />
+					<include name="TC_STAB_0321_MAX" />
+					<include name="TC_STAB_0231" />
+					<include name="TC_STAB_0411" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+</suite>

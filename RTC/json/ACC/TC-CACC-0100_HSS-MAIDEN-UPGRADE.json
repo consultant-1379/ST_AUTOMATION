@@ -1,0 +1,159 @@
+{
+    "name" : "TC-CACC-0100_HSS-MAIDEN-UPGRADE-#VECTOR_SUPPLIER#",
+    "nof_retries":1,
+    "monitor_consoles":{
+        "enable":"#CONSOLE_ENABLED#",
+        "consoles":[
+            {"id":"SC1","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_SC1#"},
+            {"id":"SC2","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_SC2#"},
+            {"id":"PL3","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_PL3#"},
+            {"id":"PL4","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_PL4#"},
+            {"id":"PL5","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_PL5#"},
+            {"id":"PL6","host":"#CONSOLE_SERVER#","port":"#CONSOLE_PORT_PL6#"}
+        ]
+    },
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"kill_tools","enable":true,"cmd":"run_clean_test_environment --exclude HSS_rtc UserKnownHostsFile=/dev/null --debug","framework":false},
+                            {"id":"download_ESM_UP","enable":true,"cmd":"download_package #ESM_UP_link# #ESM_UP_PACKAGE# -t 3600","framework":true,"report_not_valid":true,"stop_on_fail":true},
+                            {"id":"prepare_upgrade","enable":true,"cmd":"$GIT_PATH/ST_HssUpgradeTool/CBA_prepare_upgrade --node #NODE_CONTROLLER# --node_user #USER_NODE# --up_package #ESM_UP_PACKAGE# -o #HSS_UPGRADE_CONFIG_PATH#","framework":false,"report_not_valid":true,"stop_on_fail":true},
+                            {"id":"restore_extdb_backup","enable":true,"stop_on_fail":true,"extra_parameters":"-b #EXTDB_BACKUP#"},
+                            {"id":"clean_alarms","enable":true},
+                            {"id":"clean_alerts","enable":true},
+                            {"id":"clean_app_logs","enable":true},
+                            {"id":"clean_console_logs","enable":true},
+                            {"id":"clean_pmf_logs","enable":true}
+
+                        ]
+                    },
+                "PRE": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"health_check","enable":true},
+                            {"id":"check_status","enable":true,"cmd":"CBA_check_status --node #NODE_CONTROLLER# --user #USER_NODE# -v","framework":true,"stop_on_fail":true},
+                            {"id":"get_last_pl_reboot","enable":true},
+                            {"id":"get_alarms","enable":true,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":"#NBI_ALARMS_ENABLE#"},
+                            {"id":"get_node_status","enable":true,"extra_parameters":"-x pm"},
+                            {"id":"get_capsule_dumps","enable":true},
+                            {"id":"get_free_memory","enable":true},
+                            {"id":"get_ExtDb_connections","enable":true},
+                            {"id":"get_Http_connections","enable":true},
+                            {"id":"get_all_processes","enable":true},
+                            {"id":"get_processes_list","enable":true},
+                            {"id":"get_dynamic_process","enable":true}
+                        ]
+                    },
+                "POST": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"check_backup","enable":true,"cmd":"CBA_check_backup BACKUP_AFTER_UPGRADE --node #NODE_CONTROLLER# --user #USER_NODE# -v","framework":true},
+                            {"id":"check_hss_function","enable":true,"cmd":"CBA_get_traffic_info --node #NODE_CONTROLLER# --user #USER_NODE# -v","framework":true,"report_not_valid":true,"stop_on_fail":false},
+                            {"id":"health_check","enable":true},
+                            {"id":"get_last_pl_reboot","enable":true},
+                            {"id":"get_alarms","enable":true,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":"#NBI_ALARMS_ENABLE#"},
+                            {"id":"get_node_status","enable":true,"extra_parameters":"-x pm"},
+                            {"id":"get_capsule_dumps","enable":true},
+                            {"id":"get_free_memory","enable":true},
+                            {"id":"get_ExtDb_connections","enable":true},
+                            {"id":"get_Http_connections","enable":true},
+                            {"id":"get_all_processes","enable":true},
+                            {"id":"get_processes_list","enable":true},
+                            {"id":"get_dynamic_process","enable":true},
+                            {"id":"delete_backup_upgrade","enable":true,"cmd":"CBA_delete_backup BACKUP_AFTER_UPGRADE --node #NODE_CONTROLLER# --user #USER_NODE# -v","framework":true}
+                        ]
+                    },
+                "COLLECT": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"cmw_collect_info","enable":true},
+                            {"id":"collect_logs","enable":true,"stop_on_fail":false,"extra_parameters":"--collect_console"},
+                            {"id":"diacc_collect_info","enable":true},
+                            {"id":"pmf_counter_sum","enable":true},
+                            {"id":"pmf_counter_to_csv","enable":true}
+                        ]
+                    },
+                "CHECK": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"check_pl_reboot","enable":true},
+                            {"id":"check_free_memory","enable":true},
+                            {"id":"check_capsule_dumps","enable":true,"add_to_verdict":true},
+                            {"id":"check_list_processes","enable":true,"add_to_verdict":true,"extra_parameters":"\"#PROC_LIST#\""},
+                            {"id":"check_all_processes","enable":true},
+                            {"id":"check_alarms","enable":true,"add_to_verdict":false},
+                            {"id":"check_nbi_alarms","enable":"#NBI_ALARMS_ENABLE#","add_to_verdict":true},
+                            {"id":"check_node_status","enable":true,"add_to_verdict":true},
+                            {"id":"check_ExtDb_connections","enable":true,"add_to_verdict":true},
+                            {"id":"check_Http_connections","enable":true,"add_to_verdict":true},
+                            {"id":"CHECK_ALARM_LOGS","enable":true,"cmd":"CBA_check_alarm_logs --from #TIME_TRAFFIC_LOAD_START# --to  #TIME_TRAFFIC_LOAD_FINISHED# -i #TESTCASE_PATH#/COLLECT/FmAlarmLog_#TESTCASE_NAME#.tgz --summary specificProblem --add-severity","framework":false,"add_to_summary":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"check_traffic","enable":true,"extra_parameters":"max_error_rate=0.1"},
+                            {"id":"check_load_stability","enable":true,"add_to_verdict":true},
+                            {"id":"check_scenario_error_rate","enable":true,"add_to_verdict":true}
+                      ]
+                 },
+                "EXECUTION":{
+                        "enable":true,
+                        "instances": "UPGRADE-CBA-EPC-IMS",
+                        "configuration": {
+                            "manual_control" : false,
+                            "wait_pmf_counters_update" : true,
+                            "skip_postexec":true,
+                            "display_cps":{"enable":true,"samples":5,"sampling_time":5,"refresh_time":10,"real_time_enabled":true},
+                            "monitor_error":{
+                                "enable":{"preexec":true,"loadgen":true,"postexec":true},
+                                "sampling_time":10,
+                                "display":false
+                            },
+                            "external_tools":[
+                                {
+                                    "enable":false,
+                                    "id":"HTTP_SERVER",
+                                    "cmd":"HttpServer #HTTP_SERVER_IP#:#HTTP_SERVER_PORT# #HTTP_SERVER_TIME# > #TESTCASE_PATH#/EXECUTION/HttpServer_log ",
+                                    "start_before":"preexec",
+                                    "stop_after":"postexec"
+                                }
+                            ],
+                            "monitor_memory":{
+                                "enable": true,
+                                "sampling_time":10,"refresh_time":10,"real_time_enabled":false,"processors":""
+                            },
+                            "monitor_load":{
+                                "enable":true,
+                                "slots":"UPGRADE-CBA-EPC-IMS"
+                            },
+                            "diaproxy_reports":{
+                                "latency":{"enable":false,"samples":3,"time":60,"target_load":21,"wait":10,
+                                           "only_when_load_stable":true,"stop_loadgen_when_finish":false
+                                },
+                                "result_codes":{"enable":true}
+                            },
+                            "action":[
+                                {
+                                    "id":"CHECK_CDIA_CONNECTIONS_BEFORE","enable":true,"cmd":"CBA_check_diacc_dump_json --connections --node #NODE_CONTROLLER# --user #USER_NODE# --debug",
+                                    "trigger":{"load":-1,"time":10},
+                                    "stop_on_fail":false,
+                                    "add_to_verdict":false,
+                                    "display_execution":false,
+                                    "time_running_traffic_after_execution":-1,
+                                    "disable_load_monitor":false,
+                                    "stop_error_scenario_register":false
+                                },
+                                {
+                                    "id":"HSS_UPGRADE","enable":true,"cmd":"CBA_testcase_upgrade --node #NODE_CONTROLLER# --user #USER_NODE# #HSS_UPGRADE_TOOL# #ESM_UP_PACKAGE# BACKUP_AFTER_UPGRADE -c #HSS_UPGRADE_CONFIG_PROPERTIES# --type ONE_STEP --wait-scenario-stable 1200 --rollback --debug --internal-debug",
+                                    "trigger":{"load":-1,"time":60},
+                                    "stop_on_fail":true,
+                                    "add_to_verdict":true,
+                                    "display_execution":true,
+                                    "time_running_traffic_after_execution":1200,
+                                    "disable_load_monitor":true,
+                                    "stop_error_scenario_register":true
+                                }
+                            ]
+                         }
+                    }
+        }
+}

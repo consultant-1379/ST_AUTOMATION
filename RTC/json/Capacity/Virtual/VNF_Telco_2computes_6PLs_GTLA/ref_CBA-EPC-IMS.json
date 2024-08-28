@@ -1,0 +1,147 @@
+{
+    "instances": {
+        "BAT_EPC_ASYNC": {
+            "cps_scheduler": {
+                "current": [],
+                "enable": true,
+                "last_time": 0,
+                "loadgen": [
+                    {
+                        "time": 120,
+                        "value": 29
+                    },
+                    {
+                        "time": 28800,
+                        "value": 48
+                    }
+                ],
+                "postexec": [
+                    {
+                        "time": -1,
+                        "value": 400
+                    }
+                ],
+                "preexec": [
+                    {
+                        "time": -1,
+                        "value": 100
+                    }
+                ],
+                "target": 0
+            },
+            "enable": true,
+            "parameters": "-ZAG -C EPC -t 73600 -z 50:200 -p \"::\" -E \":SYNC:5 \" "
+        },
+        "BAT_EPC_SYNC": {
+            "cps_scheduler": {
+                "current": [],
+                "enable": true,
+                "last_time": 0,
+                "loadgen": [
+                    {
+                        "time": 120,
+                        "value": 16
+                    },
+                    {
+                        "time": 28800,
+                        "value": 26
+                    }
+                ],
+                "postexec": [
+                    {
+                        "time": -1,
+                        "value": 200
+                    }
+                ],
+                "preexec": [
+                    {
+                        "time": -1,
+                        "value": 30
+                    }
+                ],
+                "target": 0
+            },
+            "enable": true,
+            "parameters": "-AG -C EPC -t 73600 -z 40:200 -p \"::\" #NGHTTPX_SYNC# -E \":SYNC:5 :OFFSET:4 \" -B \"EXCLUDE_FOR_SYNC\""
+        },
+        "BAT_IMS_ASYNC": {
+            "cps_scheduler": {
+                "current": [],
+                "enable": true,
+                "last_time": 0,
+                "loadgen": [
+                    {
+                        "time": 120,
+                        "value": 16
+                    },
+                    {
+                        "time": 28800,
+                        "value": 26
+                    }
+                ],
+                "postexec": [
+                    {
+                        "time": -1,
+                        "value": 200
+                    }
+                ],
+                "preexec": [
+                    {
+                        "time": -1,
+                        "value": 50
+                    }
+                ],
+                "target": 0
+            },
+            "enable": true,
+            "parameters": "-ZAG -C IMS -t 73600 -z 10:100 -p \"::\" -E \":SYNC:5 \" "
+        },
+        "BAT_IMS_SYNC": {
+            "cps_scheduler": {
+                "current": [],
+                "enable": true,
+                "last_time": 0,
+                "loadgen": [
+                    {
+                        "time": 120,
+                        "value": 29
+                    },
+                    {
+                        "time": 28800,
+                        "value": 48
+                    }
+                ],
+                "postexec": [
+                    {
+                        "time": -1,
+                        "value": 200
+                    }
+                ],
+                "preexec": [
+                    {
+                        "time": -1,
+                        "value": 50
+                    }
+                ],
+                "target": 0
+            },
+            "enable": true,
+            "parameters": "-AG -C IMS -t 73600 -z 50:100 -l :::5 -p \"::\" -E \":SYNC:5 :OFFSET:1 \" -B \"EXCLUDE_FOR_SYNC\""
+        }
+    },
+    "load": "40",
+    "slots": [
+        {
+            "target_load": 20.0,
+            "time": 120,
+            "transition": 10,
+            "variance": 15
+        },
+        {
+            "target_load": 33.199999999999996,
+            "time": 28800,
+            "transition": 10,
+            "variance": 15
+        }
+    ]
+}

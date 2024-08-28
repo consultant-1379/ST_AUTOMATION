@@ -1,0 +1,125 @@
+{
+    "instances": {
+        "BAT_EPC_ASYNC": {
+            "cps_scheduler": {
+                "current": [],
+                "enable": true,
+                "last_time": 0,
+                "loadgen": [
+                    {
+                        "time": 172800,
+                        "value": 14
+                    }
+                ],
+                "postexec": [
+                    {
+                        "time": -1,
+                        "value": 250
+                    }
+                ],
+                "preexec": [
+                    {
+                        "time": -1,
+                        "value": 100
+                    }
+                ],
+                "target": 0
+            },
+            "enable": true,
+            "parameters": "-MGZ -C EPC -t 100000 -z 50 -E \":SYNC:5\" -p \"::\" -B EXCLUDE_FOR_UPGRADES"
+        },
+        "BAT_EPC_SYNC": {
+            "cps_scheduler": {
+                "current": [],
+                "enable": true,
+                "last_time": 0,
+                "loadgen": [
+                    {
+                        "time": 172800,
+                        "value": 14
+                    }
+                ],
+                "postexec": [
+                    {
+                        "time": -1,
+                        "value": 200
+                    }
+                ],
+                "preexec": [
+                    {
+                        "time": -1,
+                        "value": 30
+                    }
+                ],
+                "target": 0
+            },
+            "enable": true,
+            "parameters": "-MG #NGHTTPX_SYNC# -C EPC -t 100000 -z 40 -E \":SYNC:5 :OFFSET:1\" -p \"::\" -B \"EXCLUDE_FOR_UPGRADES EXCLUDE_FOR_SYNC\""
+        },
+        "BAT_IMS_ASYNC": {
+            "cps_scheduler": {
+                "current": [],
+                "enable": true,
+                "last_time": 0,
+                "loadgen": [
+                    {
+                        "time": 172800,
+                        "value": 14
+                    }
+                ],
+                "postexec": [
+                    {
+                        "time": -1,
+                        "value": 150
+                    }
+                ],
+                "preexec": [
+                    {
+                        "time": -1,
+                        "value": 50
+                    }
+                ],
+                "target": 0
+            },
+            "enable": true,
+            "parameters": "-MGZ -C IMS -t 100000 -z 10 -l :::5 -E \":SYNC:5\" -p \":: \" -B EXCLUDE_FOR_UPGRADES"
+        },
+        "BAT_IMS_SYNC": {
+            "cps_scheduler": {
+                "current": [],
+                "enable": true,
+                "last_time": 0,
+                "loadgen": [
+                    {
+                        "time": 172800,
+                        "value": 14
+                    }
+                ],
+                "postexec": [
+                    {
+                        "time": -1,
+                        "value": 200
+                    }
+                ],
+                "preexec": [
+                    {
+                        "time": -1,
+                        "value": 50
+                    }
+                ],
+                "target": 0
+            },
+            "enable": true,
+            "parameters": "-MG -C IMS -t 100000 -z 50 -E \":SYNC:5 :OFFSET:1\" -p \"::\" -B \"EXCLUDE_FOR_UPGRADES EXCLUDE_FOR_SYNC\""
+        }
+    },
+    "load": "15",
+    "slots": [
+        {
+            "target_load": 15.0,
+            "time": 172800,
+            "transition": 10,
+            "variance": 15
+        }
+    ]
+}

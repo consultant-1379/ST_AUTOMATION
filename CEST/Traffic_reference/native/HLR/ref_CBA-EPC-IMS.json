@@ -1,0 +1,91 @@
+{
+    "instances": {
+        "BAT_EPC_SYNC": {
+            "cps_scheduler": {
+                "enable": true, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 302
+                    }, 
+                    {
+                        "time": 120, 
+                        "value": 604
+                    }, 
+                    {
+                        "time": -1, 
+                        "value": 1008
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ]
+            }, 
+            "enable": true, 
+            "parameters": "-MG -C EPC -t 30000 -z 500:10 -l :::5 -p \"::2 ::2\" -E \":SYNC:5\""
+        }, 
+        "BAT_IMS_SYNC": {
+            "cps_scheduler": {
+                "enable": true, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 139
+                    }, 
+                    {
+                        "time": 120, 
+                        "value": 278
+                    }, 
+                    {
+                        "time": -1, 
+                        "value": 464
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ]
+            }, 
+            "enable": true, 
+            "parameters": "-MG -C IMS -t 30000 -z 600:50 -p \"::2 ::2\" -E \":SYNC:5 :OFFSET:4\""
+        }
+    }, 
+    "load": "34", 
+    "slots": [
+        {
+            "target_load": 10.2, 
+            "time": 120, 
+            "transition": 10, 
+            "variance": 10
+        }, 
+        {
+            "target_load": 20.4, 
+            "time": 120, 
+            "transition": 10, 
+            "variance": 10
+        }, 
+        {
+            "target_load": 34.0, 
+            "time": -1, 
+            "transition": 10, 
+            "variance": 10
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+#################################
+#
+#  Set macro variables in the format
+#
+#          name:value
+#
+#  Do not add # in the name of macro variable
+#
+
+NEW_SCRIPT:ISM-200_
+ASYNC:-Z

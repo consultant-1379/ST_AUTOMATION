@@ -1,0 +1,91 @@
+{
+    "instances": {
+        "BAT_EPC_SYNC": {
+            "cps_scheduler": {
+                "enable": true, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 319
+                    }, 
+                    {
+                        "time": 120, 
+                        "value": 638
+                    }, 
+                    {
+                        "time": -1, 
+                        "value": 1064
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ]
+            }, 
+            "enable": true, 
+            "parameters": "-MG -C EPC -t 30000 -z 500:10 -l :::5 -p \"::2 ::2\" -E \":SYNC:5\" -B NEED_SOAP "
+        }, 
+        "BAT_IMS_SYNC": {
+            "cps_scheduler": {
+                "enable": true, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 147
+                    }, 
+                    {
+                        "time": 120, 
+                        "value": 295
+                    }, 
+                    {
+                        "time": -1, 
+                        "value": 492
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ]
+            }, 
+            "enable": true, 
+            "parameters": "-MG -C IMS -t 30000 -z 600:50 -p \"::2 ::2\" -E \":SYNC:5 :OFFSET:4\" -B NEED_SOAP "
+        }
+    }, 
+    "load": "35", 
+    "slots": [
+        {
+            "target_load": 10.5, 
+            "time": 120, 
+            "transition": 10, 
+            "variance": 10
+        }, 
+        {
+            "target_load": 21.0, 
+            "time": 120, 
+            "transition": 10, 
+            "variance": 10
+        }, 
+        {
+            "target_load": 35.0, 
+            "time": -1, 
+            "transition": 10, 
+            "variance": 10
+        }
+    ]
+}

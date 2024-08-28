@@ -1,0 +1,139 @@
+{
+    "name" : "TC-CSTAB-AFTER-INSTALL-HSS-NATIVE",
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"kill_tools","enable":true,"cmd":"run_clean_test_environment --hosts #TGs_USED# --exclude HSS_rtc UserKnownHostsFile=/dev/null --debug","framework":false},
+                            {"id":"check_backup","enable":true,"cmd":"CBA_check_backup #HSS_BACKUP# --node #NODE_CONTROLLER# --user com-emergency -v","framework":true,"report_not_valid":true,"stop_on_fail":true},
+                            {"id":"restore_extdb_backup","enable":true,"stop_on_fail":true,"extra_parameters":"-b #EXTDB_BACKUP#"},
+                            {"id":"WAIT","enable":true,"cmd":"sleep 60","framework":false}
+                       ]
+                    },
+                "PRE": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"health_check","enable":true},
+                            {"id":"get_last_pl_reboot","enable":true},
+                            {"id":"get_alarms","enable":true,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":"#NBI_ALARMS_ENABLE#"},
+                            {"id":"get_node_status","enable":true},
+                            {"id":"get_capsule_dumps","enable":true},
+                            {"id":"get_free_memory","enable":true},
+                            {"id":"get_ExtDb_connections","enable":true},
+                            {"id":"get_Http_connections","enable":true},
+                            {"id":"get_all_processes","enable":true},
+                            {"id":"get_processes_list","enable":true},
+                            {"id":"get_dynamic_process","enable":true},
+                            {"id":"get_vdicos_vars","enable":true}
+                        ]
+                    },
+                "POST": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"health_check","enable":true},
+                            {"id":"get_last_pl_reboot","enable":true},
+                            {"id":"get_alarms","enable":true,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":"#NBI_ALARMS_ENABLE#"},
+                            {"id":"get_node_status","enable":true},
+                            {"id":"get_capsule_dumps","enable":true},
+                            {"id":"get_free_memory","enable":true},
+                            {"id":"get_ExtDb_connections","enable":true},
+                            {"id":"get_Http_connections","enable":true},
+                            {"id":"get_all_processes","enable":true},
+                            {"id":"get_processes_list","enable":true},
+                            {"id":"get_dynamic_process","enable":true},
+                            {"id":"get_vdicos_vars","enable":true}
+                        ]
+                    },
+                "COLLECT": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"cmw_collect_info","enable":true},
+                            {"id":"collect_logs","enable":true},
+                            {"id":"diacc_collect_info","enable":true},
+                            {"id":"pmf_counter_sum","enable":true},
+                            {"id":"pmf_counter_to_csv","enable":true}
+                        ]
+                    },
+                "CHECK": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"check_pl_reboot","enable":true,"add_to_verdict":true},
+                            {"id":"check_free_memory","enable":true},
+                            {"id":"check_capsule_dumps","enable":true,"add_to_verdict":true},
+                            {"id":"check_list_processes","enable":true,"add_to_verdict":true},
+                            {"id":"check_all_processes","enable":true},
+                            {"id":"check_alarms","enable":true,"add_to_verdict":true},
+                            {"id":"check_nbi_alarms","enable":"#NBI_ALARMS_ENABLE#","add_to_verdict":true},
+                            {"id":"check_node_status","enable":true,"add_to_verdict":true},
+                            {"id":"check_ExtDb_connections","enable":true,"add_to_verdict":true},
+                            {"id":"check_vdicos_vars","enable":true,"add_to_verdict":true},
+                            {"id":"check_traffic","enable":true,"add_to_verdict":true,"extra_parameters":"max_error_rate=0.1"},
+                            {"id":"check_scenario_error_rate","enable":true,"add_to_verdict":true}
+                      ]
+                 },
+                "EXECUTION":{
+                        "enable":true,
+                        "instances": {
+                                "BAT_IMS_ASYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ -C IMS -t #TRAFFIC_PERIOD# #USER_PARAM_BAT_IMS_ASYNC# -z 10 -l :::5 -E \":SYNC:5 :EXTRA_TIME:#IMS_EXTRA_TIME# :EXTRA_PRE_POST_TIME:#IMS_EXTRA_PRE_POST_TIME#\" -p \"::2\" --internal-debug",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":100,"time":-1}],
+                                        "loadgen":[{"value":100,"time":-1}],
+                                        "postexec":[{"value":100,"time":-1}]
+                                    }
+                                },
+                                "BAT_IMS_SYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MG -C IMS -t #TRAFFIC_PERIOD# #USER_PARAM_BAT_IMS_SYNC# -z 50 -E \":SYNC:5 :OFFSET:4 :EXTRA_TIME:#IMS_EXTRA_TIME# :EXTRA_PRE_POST_TIME:#IMS_EXTRA_PRE_POST_TIME#\" -p \"::2\" -B \"EXCLUDE_FOR_SYNC\" --internal-debug",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":100,"time":-1}],
+                                        "loadgen":[{"value":100,"time":-1}],
+                                        "postexec":[{"value":100,"time":-1}]
+                                    }
+                                },
+                                "BAT_EPC_ASYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ -C EPC -t #TRAFFIC_PERIOD# #USER_PARAM_BAT_EPC_ASYNC# -z 10 -E \":SYNC:5 :EXTRA_TIME:#EPC_EXTRA_TIME# :EXTRA_PRE_POST_TIME:#EPC_EXTRA_PRE_POST_TIME#\" -p \"::2\" --internal-debug",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":100,"time":-1}],
+                                        "loadgen":[{"value":100,"time":-1}],
+                                        "postexec":[{"value":100,"time":-1}]
+                                    }
+                                },
+                                "BAT_EPC_SYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MG -C EPC -t #TRAFFIC_PERIOD# #USER_PARAM_BAT_EPC_SYNC# -z 50 -E \":SYNC:5 :OFFSET:2 :EXTRA_TIME:#EPC_EXTRA_TIME# :EXTRA_PRE_POST_TIME:#EPC_EXTRA_PRE_POST_TIME#\" -p \"::2\" -B \"EXCLUDE_FOR_SYNC\" --internal-debug",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":100,"time":-1}],
+                                        "loadgen":[{"value":100,"time":-1}],
+                                        "postexec":[{"value":100,"time":-1}]
+                                    }
+                                }
+
+                        },
+                        "configuration": {
+                            "manual_control" : false,
+                            "wait_pmf_counters_update" : true,
+                            "skip_postexec":true,
+                            "display_cps":{"enable":true,"samples":5,"sampling_time":5,"refresh_time":10,"real_time_enabled":true},
+                            "monitor_error":{
+                                "enable":{"preexec":true,"loadgen":true,"postexec":true},
+                                "sampling_time":10,
+                                "display":false
+                            },
+                            "monitor_memory":{
+                                "enable": true,
+                                "cpu_load_enabled":"#CPU_LOAD#","sampling_time":10,"refresh_time":10,"real_time_enabled":false,"processors":""
+                            },
+                            "monitor_alarm":{"enable": true,"sampling_time":1,"display":false}
+                        }
+                    }
+        }
+}

@@ -1,0 +1,83 @@
+{
+    "instances": {
+        "BAT_IMS_ASYNC": {
+            "cps_scheduler": {
+                "current": [],
+                "enable": true,
+                "last_time": 0,
+                "loadgen": [
+                    {
+                        "time": 120,
+                        "value": 54
+                    },
+                    {
+                        "time": 3600,
+                        "value": 90
+                    }
+                ],
+                "postexec": [
+                    {
+                        "time": -1,
+                        "value": 200
+                    }
+                ],
+                "preexec": [
+                    {
+                        "time": -1,
+                        "value": 100
+                    }
+                ],
+                "target": 0
+            },
+            "enable": true,
+            "parameters": "-ZAG -C IMS -t 73600 -z 10:100 -p \"::\" -E \":SYNC:5 \""
+        },
+        "BAT_IMS_SYNC": {
+            "cps_scheduler": {
+                "current": [],
+                "enable": true,
+                "last_time": 0,
+                "loadgen": [
+                    {
+                        "time": 120,
+                        "value": 54
+                    },
+                    {
+                        "time": 3600,
+                        "value": 90
+                    }
+                ],
+                "postexec": [
+                    {
+                        "time": -1,
+                        "value": 200
+                    }
+                ],
+                "preexec": [
+                    {
+                        "time": -1,
+                        "value": 100
+                    }
+                ],
+                "target": 0
+            },
+            "enable": true,
+            "parameters": "-AG -C IMS -t 73600 -z 20:100 -l :::5 -p \"::\" -E \":SYNC:5 :OFFSET:1 \" -B \"EXCLUDE_FOR_SYNC\""
+        }
+    },
+    "load": "40",
+    "slots": [
+        {
+            "target_load": 20.0,
+            "time": 120,
+            "transition": 10,
+            "variance": 15
+        },
+        {
+            "target_load": 33.199999999999996,
+            "time": 3600,
+            "transition": 10,
+            "variance": 15
+        }
+    ]
+}

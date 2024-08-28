@@ -1,0 +1,547 @@
+[
+    {
+        "release_base" : "CXP_902_4763/2_R3B/4",
+        "version" : "HSS-FE 16A FD1 EP4",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP_902_4763/5_R4A",
+        "version" : "HSS-FE 1",
+        "changes": [
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function.applicationName=HSS_FUNCTION,HSS-Common.applicationName=HSS_Common,HSS-CommonConfigurationContainer=HSS-CommonConfigurationContainer,HSS-FeatureAdmActivation=HSS-FeatureAdmActivation",
+                    "data":[{"name":"hss-CIoTAdmState","value":"Enabled"}
+                    ]
+                },
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function.applicationName=HSS_FUNCTION,HSS-IsmSdaApplication.applicationName=HSS_ISMSDA,HSS-ConfigurationContainer=HSS-ConfigurationContainer,HSS-IsmConfigurationData=HSS-IsmConfigurationData",
+                    "data":[{"name":"hss-SpecificResultCode","value":"1:28357:4999"}]
+                },
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function.applicationName=HSS_FUNCTION,HSS-Common.applicationName=HSS_Common,HSS-CommonConfigurationContainer=HSS-CommonConfigurationContainer,HSS-ImplicitVolteTrigger=HSS-ImplicitVolteTrigger,HSS-ImplicitVolteTriggerImsUnknownUser=ImsUnknownUser",
+                    "data":[{"name":"hss-CheckImpiIsDerivedFromImsi","value":"false"},
+                            {"name":"hss-CheckEpcUserIsProvisioned","value":"false"}
+                    ]
+                }
+              ]
+            },
+            {
+            "user":"ericssonhsssupport","password":"hsstest",
+            "parameters":[
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function.applicationName=HSS_FUNCTION,HSS-Common.applicationName=HSS_Common,HSS-CommonConfigurationContainer=HSS-CommonConfigurationContainer,HSS-CommonServicesSupportContainer=HSS-CommonServicesSupportContainer,HSS-ImplicitVolteTriggerInstallation=HSS-ImpVolteTriggerInstall",
+                    "data":[{"name":"hss-ImpVolteTriggersPerSecond","value":"10"}]
+                }
+              ]
+            }
+        ]
+    },
+    {
+        "release_base" : "CXP_902_4763/5_R4A/2",
+        "version" : "HSS-FE 1 EP2",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP_903_3791/1_R2A02",
+        "version" : "HSS-FE 1 NDP 1.0.1",
+        "changes": [
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-Common=HSS_Common,HSS-CommonConfigurationContainer=HSS-CommonConfigurationContainer,HSS-ImplicitVolteTrigger=HSS-ImplicitVolteTrigger,HSS-ImplicitVolteTriggerImsUnknownUser=ImsUnknownUser",
+                    "data":[{"name":"hss-TriggerIsActive","value":"true"}]
+                }
+              ]
+            }
+        ]
+    },
+    {
+        "release_base" : "CXP9033791/1_R2B/2",
+        "version" : "HSS-FE 1.1 EP2 or HSS-FE 16A FD1 CP1 EP2",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9033791/1_R3A17",
+        "version" : "HSS-FE 1.2 SR3 or HSS-FE 16A FD1 CP2",
+        "changes": [
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-Common=HSS_Common,HSS-CommonConfigurationContainer=HSS-CommonConfigurationContainer,HSS-FeatureAdmActivation=HSS-FeatureAdmActivation",
+                    "data":[{"name":"hss-EsmDedicatedCoreNetworkAdmState","value":"Enabled"}]
+                },
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmProfileContainer=HSS-EsmProfileContainer,HSS-EsmProfile=HSS-EsmProfile_Default",
+                    "data":[
+                        {"name":"hss-EsmUeUsageType","value":"25"}
+                    ]
+                },
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-IsmSdaApplication=HSS_ISMSDA,HSS-ConfigurationContainer=HSS-ConfigurationContainer,HSS-ApplicationServerContainer=HSS-ApplicationServers",
+                    "child":{"keyname":"HSS-ApplicationServer","keyvalue":[]},
+                    "data":[{"name":"hss-SubsNotifForImsPublicIdentity","value":"true"}]
+                }
+              ]
+            }
+        ]
+    },
+    {
+        "release_base" : "CXP9033791/1_R3A/3",
+        "version" : "HSS-FE 1.2 EP3 or HSS-FE 16A FD1 CP2 EP3",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9033791/1_R5A07",
+        "version" : "HSS-FE 1.4 SR5",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9033791/1_R5A09",
+        "version" : "HSS-FE 1.4 SR6",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9033791/1_R6A20",
+        "version" : "HSS-FE 1.5 SR7",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9033791/1_R7A09",
+        "version" : "HSS-FE 1.6 SR8",
+        "changes": []
+    },    {
+        "release_base" : "CXP9033791/1_R7A16",
+        "version" : "HSS-FE 1.6 SR9",
+        "changes": [
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-Common=HSS_Common,HSS-CommonConfigurationContainer=HSS-CommonConfigurationContainer,HSS-FeatureAdmActivation=HSS-FeatureAdmActivation",
+                    "data":[{"name":"hss-NonIpApnAdmState","value":"Enabled"}]
+                }
+              ]
+            },
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function.applicationName=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmApnContainer=HSS-EsmApnContainer",
+                    "data":[{"name":"HSS-EsmApn","value":"15"},
+                            {"name":"hss-EsmApnName","value":"apn15.com"}]
+                }
+              ]
+            },
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function.applicationName=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmApnConfigContainer=HSS-EsmApnConfigContainer",
+                    "data":[{"name":"HSS-EsmApnConfig","value":"15"},
+                            {"name":"hss-EsmAmbrMaxDl","value":"41943030"},
+                            {"name":"hss-EsmAmbrMaxUl","value":"20971510"},
+                            {"name":"hss-EsmApnId","value":"15"},
+                            {"name":"hss-EsmQosProfileArp","value":"2"},
+                            {"name":"hss-EsmQosProfileQci","value":"6"},
+                            {"name":"hss-EsmEpsBearerChargingChars","value":"1"},
+                            {"name":"hss-EsmNonIpPdnTypeIndicator","value":"true"},
+                            {"name":"hss-EsmVplmnAllowed","value":"false"}]
+                }
+              ]
+            },
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function.applicationName=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmProfileContainer=HSS-EsmProfileContainer,HSS-EsmProfile=HSS-EsmProfile_Default",
+                    "data":[{"name":"hss-EsmContextIdList","value":"15"}]
+                }
+              ]
+            }
+        ]
+    },
+    {
+        "release_base" : "CXP9033791/1_R8A05",
+        "version" : "HSS-FE 1.7 SR10",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9033791/1_R8A11",
+        "version" : "HSS-FE 1.7 SR11",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9033791/1_R9A05",
+        "version" : "HSS-FE 1.8 SR12",
+        "changes": [
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-Common=HSS_Common,HSS-CommonConfigurationContainer=HSS-CommonConfigurationContainer,HSS-CommonConfigurationData=HSS-CommonConfigurationData",
+                    "data":[{"name":"hss-GlobalParameters","value":"ESM:ImplicitVolteTriggerSrvccCapableTerminal:Active"}]
+                }
+              ]
+            }
+        ]
+    },
+    {
+        "release_base" : "CXP9035062/6_R9B/1",
+        "version" : "HSS-FE 1.8 EP1",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9033791/1_R11A11",
+        "version" : "HSS-FE 1.10",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9033791/1_R12A11",
+        "version" : "HSS-FE 1.11",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9035082/6_R13A07",
+        "version" : "HSS-FE 1.12",
+        "changes": [
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function.applicationName=HSS_FUNCTION,HSS-EsmApplication.applicationName=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmConfigurationData=HSS-EsmConfigurationData",
+                    "data":[{"name":"hss-EsmTadsMechanism","value":"DATABASE"},
+                            {"name":"hss-EsmMultipleSubscriptionOption","value":"Active"}]
+                },
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function.applicationName=HSS_FUNCTION,HSS-IsmSdaApplication.applicationName=HSS_ISMSDA,HSS-ConfigurationContainer=HSS-ConfigurationContainer,HSS-SdaConfigurationData=HSS-SdaConfigurationData",
+                    "data":[{"name":"hss-SdaIdentityDerivation","value":"ENABLED"}]
+                }
+              ]
+            }
+        ]
+    },
+    {
+        "release_base" : "CXP9035082/6_R14A14",
+        "version" : "HSS-FE 1.13",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9035082/6_R15A11",
+        "version" : "HSS-FE 1.14",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9035082/6_R16A11",
+        "version" : "HSS-FE 1.15",
+        "changes": [
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function.applicationName=HSS_FUNCTION,HSS-IsmSdaApplication.applicationName=HSS_ISMSDA,HSS-ConfigurationContainer=HSS-ConfigurationContainer,HSS-ApplicationServerContainer=HSS-ApplicationServers,HSS-ApplicationServer=ap1.ericsson.se",
+                    "data":[{"name":"hss-PullForRefLocInfo","value":"true"}]
+                }
+              ]
+            }
+        ]
+    },
+    {
+        "release_base" : "CXP9035082/6_R17A22",
+        "version" : "HSS-FE 1.16",
+        "changes": [
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-Common=HSS_Common,HSS-CommonConfigurationContainer=HSS-CommonConfigurationContainer,HSS-CommonConfigurationData=HSS-CommonConfigurationData",
+                    "data":[{"name":"hss-GlobalParameters","value":"SDA:UeReachabilityForIP:true"}]
+                },
+                {
+                   "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmConfigurationData=HSS-EsmConfigurationData",
+                    "data":[{"name":"hss-EsmRoamingServiceRestriction","value":"ENABLED"}]
+                },
+                {
+                   "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmNetworkDomainContainer=HSS-EsmNetworkDomainContainer",
+                   "data":[{"name":"HSS-EsmNetworkDomain","value":"mme0.ericsson.se"},
+                           {"name":"hss-EsmRaid","value":"12"}]
+                },
+                {
+                   "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmNetworkDomainContainer=HSS-EsmNetworkDomainContainer",
+                   "data":[{"name":"HSS-EsmNetworkDomain","value":"mme1.ericsson.se"},
+                           {"name":"hss-EsmRaid","value":"12"}]
+                },
+                {
+                   "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmNetworkDomainContainer=HSS-EsmNetworkDomainContainer",
+                   "data":[{"name":"HSS-EsmNetworkDomain","value":"mme2.ericsson.se"},
+                           {"name":"hss-EsmRaid","value":"12"}]
+                },
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmNetworkDomainContainer=HSS-EsmNetworkDomainContainer",
+                   "data":[{"name":"HSS-EsmNetworkDomain","value":"mme3.ericsson.se"},
+                           {"name":"hss-EsmRaid","value":"12"}]
+                },
+                {
+                  "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmRoamingServiceRestrictionProfileContainer=HSS-EsmRoamingServiceRestrictionProfileContainer",
+                  "data":[{"name":"HSS-EsmRoamingServiceRestrictionProfile","value":"1"},
+                          {"name":"hss-EsmRestrictedSrvcc","value":"false"}]
+                },
+                {
+                  "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmRoamingServiceRestrictionProfileContainer=HSS-EsmRoamingServiceRestrictionProfileContainer",
+                  "data":[{"name":"HSS-EsmRoamingServiceRestrictionProfile","value":"2"},
+                          {"name":"hss-EsmRestrictedSrvcc","value":"true"}]
+                }
+
+                         ]
+            },
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                  "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmRoamingServiceAreaContainer=HSS-EsmRoamingServiceAreaContainer",
+                  "data":[{"name":"HSS-EsmRoamingServiceArea","value":"10"}]
+                },
+                {
+                  "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmRoamingServiceAreaContainer=HSS-EsmRoamingServiceAreaContainer",
+                   "data":[{"name":"HSS-EsmRoamingServiceArea","value":"20"},
+                           {"name":"hss-EsmNonDefAreaRsp","value":"1"},
+                           {"name":"hss-EsmNonDefinedArea","value":"0"},
+                           {"name":"hss-EsmDefinedAreaList","value":"\"12$0$RSP=2\""}]
+                }
+
+                         ]
+            }
+                 ]
+    },
+    {
+        "release_base" : "CXP9035082/6_R19A06",
+        "version" : "HSS-FE 1.18 PRE",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9035082/6_R19A19",
+        "version" : "HSS-FE 1.18",
+        "changes": [
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function.applicationName=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmApnContainer=HSS-EsmApnContainer",
+                    "data":[{"name":"HSS-EsmApn","value":"16"},
+                            {"name":"hss-EsmApnName","value":"apn16.com"}]
+                }
+              ]
+            },
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function.applicationName=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmApnConfigContainer=HSS-EsmApnConfigContainer",
+                    "data":[{"name":"HSS-EsmApnConfig","value":"16"},
+                            {"name":"hss-EsmAmbrMaxDl","value":"41943030"},
+                            {"name":"hss-EsmAmbrMaxUl","value":"20971510"},
+                            {"name":"hss-EsmApnId","value":"16"},
+                            {"name":"hss-EsmQosProfileArp","value":"2"},
+                            {"name":"hss-EsmQosProfileQci","value":"6"},
+                            {"name":"hss-EsmEpsBearerChargingChars","value":"1"},
+                            {"name":"hss-EsmNonIpPdnTypeIndicator","value":"true"},
+                            {"name":"hss-EsmVplmnAllowed","value":"false"}]
+                }
+              ]
+            },
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                    "clissDn":"ManagedElement=1,HSS-Function.applicationName=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmProfileContainer=HSS-EsmProfileContainer,HSS-EsmProfile=HSS-EsmProfile_Default",
+                    "data":[{"name":"hss-EsmContextIdList","value":"16"},
+                            {"name":"hss-EsmAddDefaultContextId","value":"15"}]
+                }
+              ]
+            }
+        ]
+    },
+    {
+        "release_base" : "CXP9035082/6_R20A18",
+        "version" : "HSS-FE 1.19",
+        "changes": [
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                  "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmProfileContainer=HSS-EsmProfileContainer",
+                  "data":[{"name":"HSS-EsmProfile","value":"PRSR1"},
+                          {"name":"hss-EsmAmbrMaxDl","value":"41943030"},
+                          {"name":"hss-EsmAmbrMaxUl","value":"20971510"},
+                          {"name":"hss-EsmContextIdList","value":"1"},
+                          {"name":"hss-EsmContextIdList","value":"2"},
+                          {"name":"hss-EsmContextIdList","value":"3"},
+                          {"name":"hss-EsmMappingContextIdList","value":"11$1"},
+                          {"name":"hss-EsmMappingContextIdList","value":"22$2"},
+                          {"name":"hss-EsmMappingContextIdList","value":"33$3"},
+                          {"name":"hss-EsmDefaultContextId","value":"1"},
+                          {"name":"hss-EsmApnOiReplacement","value":"mnc012.mcc345.gprs"},
+                          {"name":"hss-EsmSubscribedChargingChars","value":"1"},
+                          {"name":"hss-EsmRatFreqSelPriorId","value":"1"}]
+                },
+                {
+                  "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmProfileContainer=HSS-EsmProfileContainer",
+                  "data":[{"name":"HSS-EsmProfile","value":"PRSR2"},
+                          {"name":"hss-EsmAmbrMaxDl","value":"41943030"},
+                          {"name":"hss-EsmAmbrMaxUl","value":"20971510"},
+                          {"name":"hss-EsmContextIdList","value":"1"},
+                          {"name":"hss-EsmContextIdList","value":"2"},
+                          {"name":"hss-EsmContextIdList","value":"3"},
+                          {"name":"hss-EsmMappingContextIdList","value":"11$1"},
+                          {"name":"hss-EsmMappingContextIdList","value":"22$2"},
+                          {"name":"hss-EsmMappingContextIdList","value":"33$3"},
+                          {"name":"hss-EsmDefaultContextId","value":"2"},
+                          {"name":"hss-EsmApnOiReplacement","value":"mnc012.mcc345.gprs"},
+                          {"name":"hss-EsmSubscribedChargingChars","value":"1"},
+                          {"name":"hss-EsmRatFreqSelPriorId","value":"1"}]
+                }
+                         ]
+            },            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                  "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmRoamingServiceRestrictionProfileContainer=HSS-EsmRoamingServiceRestrictionProfileContainer",
+                  "data":[{"name":"HSS-EsmRoamingServiceRestrictionProfile","value":"30"},
+                          {"name":"hss-EsmRestrictedSrvcc","value":"false"},
+                          {"name":"hss-EsmRestrictedApnIdList","value":"2"},
+                          {"name":"hss-EsmRestrictedApnIdList","value":"3"}]
+                },
+                {
+                  "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmRoamingServiceRestrictionProfileContainer=HSS-EsmRoamingServiceRestrictionProfileContainer",
+                  "data":[{"name":"HSS-EsmRoamingServiceRestrictionProfile","value":"40"},
+                          {"name":"hss-EsmRestrictedSrvcc","value":"false"},
+                          {"name":"hss-EsmRestrictedApnIdList","value":"1"}]
+                },
+                {
+                  "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmRoamingServiceRestrictionProfileContainer=HSS-EsmRoamingServiceRestrictionProfileContainer",
+                  "data":[{"name":"HSS-EsmRoamingServiceRestrictionProfile","value":"50"},
+                          {"name":"hss-EsmRestrictedSrvcc","value":"false"},
+                          {"name":"hss-EsmRestrictedApnIdList","value":"2"}]
+                }
+                         ]
+            },
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                  "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmRoamingServiceAreaContainer=HSS-EsmRoamingServiceAreaContainer",
+                   "data":[{"name":"HSS-EsmRoamingServiceArea","value":"30"},
+                           {"name":"hss-EsmNonDefAreaRsp","value":"1"},
+                           {"name":"hss-EsmNonDefinedArea","value":"0"},
+                           {"name":"hss-EsmDefinedAreaList","value":"\"12$0$RSP=30\""}]
+                },
+                {
+                  "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmRoamingServiceAreaContainer=HSS-EsmRoamingServiceAreaContainer",
+                   "data":[{"name":"HSS-EsmRoamingServiceArea","value":"40"},
+                           {"name":"hss-EsmNonDefAreaRsp","value":"1"},
+                           {"name":"hss-EsmNonDefinedArea","value":"0"},
+                           {"name":"hss-EsmDefinedAreaList","value":"\"12$0$RSP=40\""}]
+                },
+                {
+                  "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmRoamingServiceAreaContainer=HSS-EsmRoamingServiceAreaContainer",
+                   "data":[{"name":"HSS-EsmRoamingServiceArea","value":"50"},
+                           {"name":"hss-EsmNonDefAreaRsp","value":"1"},
+                           {"name":"hss-EsmNonDefinedArea","value":"0"},
+                           {"name":"hss-EsmDefinedAreaList","value":"\"12$0$RSP=50\""}]
+                }
+
+                         ]
+            }
+                 ]
+    },
+    {
+        "release_base" : "CXP9035082/6_R20A/1",
+        "version" : "HSS-FE 1.19.EP1",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9035082/6_R21B14",
+        "version" : "HSS-FE 1.20.1",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9035082/6_R21C13",
+        "version" : "HSS-FE 1.20.2",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9035082/6_R21D20",
+        "version" : "HSS-FE 1.20.3",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9035082/6_R21E10",
+        "version" : "HSS-FE 1.20.4",
+        "changes": [
+            {
+            "user":"hssadministrator","password":"hsstest",
+            "parameters":[
+                {
+                   "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmNetworkDomainContainer=HSS-EsmNetworkDomainContainer",
+                   "data":[{"name":"HSS-EsmNetworkDomain","value":"sgsn0.ericsson.se"},
+                           {"name":"hss-EsmRaid","value":"12"}]
+                },
+                {
+                   "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmNetworkDomainContainer=HSS-EsmNetworkDomainContainer",
+                   "data":[{"name":"HSS-EsmNetworkDomain","value":"sgsn1.ericsson.se"},
+                           {"name":"hss-EsmRaid","value":"12"}]
+                },
+                {
+                   "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmNetworkDomainContainer=HSS-EsmNetworkDomainContainer",
+                   "data":[{"name":"HSS-EsmNetworkDomain","value":"sgsn2.ericsson.se"},
+                           {"name":"hss-EsmRaid","value":"12"}]
+                },
+                {
+                   "clissDn":"ManagedElement=1,HSS-Function=HSS_FUNCTION,HSS-EsmApplication=HSS_ESM,HSS-EsmConfigurationContainer=HSS-EsmConfigurationContainer,HSS-EsmNetworkDomainContainer=HSS-EsmNetworkDomainContainer",
+                   "data":[{"name":"HSS-EsmNetworkDomain","value":"sgsn3.ericsson.se"},
+                           {"name":"hss-EsmRaid","value":"12"}]
+                }
+                         ]
+            }
+                 ]
+    },
+    {
+        "release_base" : "CXP9035082/6_R21F13",
+        "version" : "HSS-FE 1.20.5",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9035082/6_R21G21",
+        "version" : "HSS-FE 1.20",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9035082/6_R22B15",
+        "version" : "HSS-FE 1.21.1",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9035082/6_R22C09",
+        "version" : "HSS-FE 1.21.2",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9035082/6_R22D17",
+        "version" : "HSS-FE 1.21.3",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9035082/6_R22E15",
+        "version" : "HSS-FE 1.21.4",
+        "changes": []
+    },
+    {
+        "release_base" : "CXP9035082/6_R22F10",
+        "version" : "HSS-FE 1.21.5",
+        "changes": []
+    }
+]   

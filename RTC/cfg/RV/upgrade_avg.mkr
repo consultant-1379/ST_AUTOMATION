@@ -1,0 +1,27 @@
+#################################
+#
+#  Set macro variables in the format
+#
+#          name:value
+#
+#  Do not add # in the name of macro variable
+#
+
+HSS_BASE_BACKUP:HSS-FE-1-22-pop-HLR-A-A-after-scale-12
+HSS_VERSION_BASE:CXP9035082/6_R23J02
+ESM_UP_PACKAGE:/proj/hss-Q219/system_test_cba/SW_1.24.4/HSSFE-1_24_4_Dump_Installation_Package.tar.gz
+UPGRADE_TOOL:/proj/hss-Q219/system_test_cba/SW_1.24.4/HSS_FE_Automation_Tool_HSSFE1_24_4.tar.gz
+DUMMY_UP_PACKAGE:/proj/hss-Q219/system_test_cba/SW_1.24.4/DUMMY_UP_PACKAGE.tar.gz
+HSS_LICENSE:/HSS_TCM_DOCS/Licenses/CBA/Release/HSS1.24/1.24.4.xml
+HSS_BACKUP:HSSFE1_24_4_HLR_UPGRADE_from_1_22
+MAIDEN_IP:10.82.148.156
+ST_MODE: 0
+USER_SYSADMIN:SystemAdministrator
+USER_HSSADMIN:hssadministrator
+ROLLBACK_BACKUP:HSS-FE-1-22-pop-HLR-A-A-after-scale-12
+INIT_DATE:2019-04-26T15:38:00
+END_DATE:2019-04-27T18:18:00
+EXTDB_BACKUP:HSS_1_22_DEL_07
+HTTP_SERVER_IP:10.82.244.15
+HTTP_SERVER_PORT:10001
+HTTP_SERVER_TIME:60

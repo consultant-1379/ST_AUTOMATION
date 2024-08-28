@@ -1,0 +1,14 @@
+{
+    "name" : "TC-IMPORT-AND-RESTORE-HSS-BASE-BACKUP",
+    "nof_retries":1,
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"delete_backup","enable":true,"cmd":"CBA_delete_backup #HSS_BASE_BACKUP# --node #NODE_CONTROLLER# --user com-emergency -v","framework":true},
+                            {"id":"import_backup","enable":true,"cmd":"CBA_import_backup $RTC_BACKUP_DIR/#HSS_BASE_BACKUP# --node #NODE_CONTROLLER# --user com-emergency -v","framework":true,"report_not_valid":true,"exit_rtc_on_fail":true,"repeat":true},
+                            {"id":"restore_hss_backup","enable":true,"stop_on_fail":true,"report_not_valid":true,"exit_rtc_on_fail":true,"extra_parameters":"-b #HSS_BASE_BACKUP#","repeat":true}
+                        ]
+                    }
+        }
+}

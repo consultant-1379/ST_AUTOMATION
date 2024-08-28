@@ -1,0 +1,411 @@
+{
+    "instances": {
+        "BAT_EPC_ASYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 7200, 
+                        "value": 738
+                    }, 
+                    {
+                        "time": 7200, 
+                        "value": 2460
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 3075
+                    }, 
+                    {
+                        "time": 7200, 
+                        "value": 2460
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 3075
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 2460
+                    }, 
+                    {
+                        "time": 61200, 
+                        "value": 738
+                    }, 
+                    {
+                        "time": 7200, 
+                        "value": 2460
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 3075
+                    }, 
+                    {
+                        "time": 7200, 
+                        "value": 2460
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 3075
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 2460
+                    }, 
+                    {
+                        "time": 61200, 
+                        "value": 738
+                    }, 
+                    {
+                        "time": 54000, 
+                        "value": 738
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MGZ -C EPC -t 172800 -z 199:1000 -p \"::2\" -E \":OFFSET:2 :SYNC:5\""
+        }, 
+        "BAT_EPC_SYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 7200, 
+                        "value": 244
+                    }, 
+                    {
+                        "time": 7200, 
+                        "value": 815
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 1018
+                    }, 
+                    {
+                        "time": 7200, 
+                        "value": 815
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 1018
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 815
+                    }, 
+                    {
+                        "time": 61200, 
+                        "value": 244
+                    }, 
+                    {
+                        "time": 7200, 
+                        "value": 815
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 1018
+                    }, 
+                    {
+                        "time": 7200, 
+                        "value": 815
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 1018
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 815
+                    }, 
+                    {
+                        "time": 61200, 
+                        "value": 244
+                    }, 
+                    {
+                        "time": 54000, 
+                        "value": 244
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MG -C EPC -t 172800 -z 500:500 -p \"::2\" -E \":SYNC:5\" -B EXCLUDE_FOR_SYNC "
+        }, 
+        "BAT_IMS_ASYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 7200, 
+                        "value": 553
+                    }, 
+                    {
+                        "time": 7200, 
+                        "value": 1845
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 2306
+                    }, 
+                    {
+                        "time": 7200, 
+                        "value": 1845
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 2306
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 1845
+                    }, 
+                    {
+                        "time": 61200, 
+                        "value": 553
+                    }, 
+                    {
+                        "time": 7200, 
+                        "value": 1845
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 2306
+                    }, 
+                    {
+                        "time": 7200, 
+                        "value": 1845
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 2306
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 1845
+                    }, 
+                    {
+                        "time": 61200, 
+                        "value": 553
+                    }, 
+                    {
+                        "time": 54000, 
+                        "value": 553
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 500
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 500
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MGZ -C IMS -t 172800 -z 199:1000 -p \"::2\" -E \":OFFSET:2 :SYNC:5\" "
+        }, 
+        "BAT_IMS_SYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 7200, 
+                        "value": 214
+                    }, 
+                    {
+                        "time": 7200, 
+                        "value": 715
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 893
+                    }, 
+                    {
+                        "time": 7200, 
+                        "value": 715
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 893
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 715
+                    }, 
+                    {
+                        "time": 61200, 
+                        "value": 214
+                    }, 
+                    {
+                        "time": 7200, 
+                        "value": 715
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 893
+                    }, 
+                    {
+                        "time": 7200, 
+                        "value": 715
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 893
+                    }, 
+                    {
+                        "time": 3600, 
+                        "value": 715
+                    }, 
+                    {
+                        "time": 61200, 
+                        "value": 214
+                    }, 
+                    {
+                        "time": 54000, 
+                        "value": 214
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 200
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MG -C IMS -t 172800 -z 500:200 -l :::5 -p \"::2\" -E \":SYNC:5\" -B EXCLUDE_FOR_SYNC"
+        }
+    }, 
+    "load": "51", 
+    "slots": [
+        {
+            "target_load": 15.299999999999999, 
+            "time": 7200, 
+            "transition": 10, 
+            "variance": 5
+        }, 
+        {
+            "target_load": 51.0, 
+            "time": 7200, 
+            "transition": 10, 
+            "variance": 5
+        }, 
+        {
+            "target_load": 63.75, 
+            "time": 3600, 
+            "transition": 10, 
+            "variance": 5
+        }, 
+        {
+            "target_load": 51.0, 
+            "time": 7200, 
+            "transition": 10, 
+            "variance": 5
+        }, 
+        {
+            "target_load": 63.75, 
+            "time": 3600, 
+            "transition": 10, 
+            "variance": 5
+        }, 
+        {
+            "target_load": 51.0, 
+            "time": 3600, 
+            "transition": 10, 
+            "variance": 5
+        }, 
+        {
+            "target_load": 15.299999999999999, 
+            "time": 61200, 
+            "transition": 10, 
+            "variance": 5
+        }, 
+        {
+            "target_load": 51.0, 
+            "time": 7200, 
+            "transition": 10, 
+            "variance": 5
+        }, 
+        {
+            "target_load": 63.75, 
+            "time": 3600, 
+            "transition": 10, 
+            "variance": 5
+        }, 
+        {
+            "target_load": 51.0, 
+            "time": 7200, 
+            "transition": 10, 
+            "variance": 5
+        }, 
+        {
+            "target_load": 63.75, 
+            "time": 3600, 
+            "transition": 10, 
+            "variance": 5
+        }, 
+        {
+            "target_load": 51.0, 
+            "time": 3600, 
+            "transition": 10, 
+            "variance": 5
+        }, 
+        {
+            "target_load": 15.299999999999999, 
+            "time": 61200, 
+            "transition": 10, 
+            "variance": 5
+        }, 
+        {
+            "target_load": 15.299999999999999, 
+            "time": 54000, 
+            "transition": 10, 
+            "variance": 5
+        }
+    ]
+}

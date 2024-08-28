@@ -1,0 +1,97 @@
+{
+    "instances": {
+        "BAT_EPC_ASYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 768
+                    }, 
+                    {
+                        "time": 120, 
+                        "value": 1536
+                    }, 
+                    {
+                        "time": 28800, 
+                        "value": 2124
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 600
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 600
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MGZ #NGHTTPX_ASYNC# -C EPC -t 28800 -z 199: -p \"::4 ::4\" -E \":OFFSET:4 :SYNC:5 \" "
+        }, 
+        "BAT_EPC_SYNC": {
+            "cps_scheduler": {
+                "current": [], 
+                "enable": true, 
+                "last_time": 0, 
+                "loadgen": [
+                    {
+                        "time": 120, 
+                        "value": 248
+                    }, 
+                    {
+                        "time": 120, 
+                        "value": 496
+                    }, 
+                    {
+                        "time": 28800, 
+                        "value": 687
+                    }
+                ], 
+                "postexec": [
+                    {
+                        "time": -1, 
+                        "value": 400
+                    }
+                ], 
+                "preexec": [
+                    {
+                        "time": -1, 
+                        "value": 400
+                    }
+                ], 
+                "target": 0
+            }, 
+            "enable": true, 
+            "parameters": "-MG #NGHTTPX_SYNC# -C EPC -t 28800 -z 400: -p \"::4 ::4\" -E \":SYNC:5 \" -l :::5 -B EXCLUDE_FOR_SYNC"
+        }
+    }, 
+    "load": "65", 
+    "slots": [
+        {
+            "target_load": 19.5, 
+            "time": 120, 
+            "transition": 10, 
+            "variance": 5.0
+        }, 
+        {
+            "target_load": 39.0, 
+            "time": 120, 
+            "transition": 10, 
+            "variance": 5.0
+        }, 
+        {
+            "target_load": 53.949999999999996, 
+            "time": 28800, 
+            "transition": 10, 
+            "variance": 5.0
+        }
+    ]
+}

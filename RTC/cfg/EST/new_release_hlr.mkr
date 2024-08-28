@@ -1,0 +1,10 @@
+#################################
+#
+#  Set macro variables in the format
+#
+#          name:value
+#
+#  Do not add # in the name of macro variable
+#
+
+HSS_BACKUP:HSSFE1_6_SR7_HLR_UPGRADE_from_NDP1_1_with_licenses

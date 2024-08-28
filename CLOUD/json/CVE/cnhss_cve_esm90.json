@@ -1,0 +1,197 @@
+{
+    "name" : "CNHSS_CVE-ESM90",
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"restore_extdb_backup","enable":false,"stop_on_fail":true,"extra_parameters":""},
+                            {"id":"refresh_credentials","enable":true},
+                            {"id":"clean_evicted","enable":true,"cmd":"CLOUD_delete_evicted_pods -v","framework":true}
+                        ]
+                    },
+                "PRE": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"get_ccd_version","enable":true,"cmd":"CLOUD_ccd_version","framework":true},
+                            {"id":"get_nodes_info","enable":true},
+                            {"id":"get_deployments_info","enable":true},
+                            {"id":"get_pods_info","enable":true},
+                            {"id":"get_services_info","enable":true},
+                            {"id":"get_events_info","enable":true},
+                            {"id":"get_nof_pods_per_node","enable":true},
+                            {"id":"get_total_nof_pods","enable":true},
+                            {"id":"get_node_resources","enable":true},
+                            {"id":"get_replica","enable":true},
+                            {"id":"get_alarms","enable":true},
+                            {"id":"get_kubectl_version","enable":true},
+                            {"id":"get_helm_version","enable":true},
+                            {"id":"get_software_installed","enable":true},
+                            {"id":"check_all_pods_running","enable":true},
+                            {"id":"check_all_containers_started","enable":true},
+                            {"id":"check_all_nodes_ready","enable":true},
+			    {"id":"start_httpserver","enable":true,"cmd":"check_http_servers --restart"},
+                            {"id":"start_nghttpx","enable":true,"cmd":"check_nghttpx_process --restart"}
+                        ]
+                    },
+                "POST": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"get_nodes_info","enable":true},
+                            {"id":"get_deployments_info","enable":true},
+                            {"id":"get_pods_info","enable":true},
+                            {"id":"get_services_info","enable":true},
+                            {"id":"get_events_info","enable":true},
+                            {"id":"get_nof_pods_per_node","enable":true},
+                            {"id":"get_total_nof_pods","enable":true},
+                            {"id":"get_node_resources","enable":true},
+                            {"id":"get_replica","enable":true},
+                            {"id":"get_alarms","enable":true},
+                            {"id":"check_all_pods_running","enable":true},
+                            {"id":"check_all_containers_started","enable":true},
+                            {"id":"check_all_nodes_ready","enable":true},
+			    {"id":"stop_httpserver","enable":true,"cmd":"check_http_servers --stop"},
+                            {"id":"stop_nghttpx","enable":true,"cmd":"check_nghttpx_process --stop"}
+                        ]
+                    },
+                "COLLECT": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"collect_all_containers_logs","enable":true,"extra_parameters":"--since-time #TIMESTART# --path #TESTCASE_PATH#/COLLECT/logs/all_containers"},
+                            {"id":"check_all_containers_logs_empty","enable":true,"cmd":"check_empty_files_in_dir #TESTCASE_PATH#/COLLECT/logs/all_containers -v","add_to_verdict":true,"framework":true},
+                            {"id":"collect_pods_logs","enable":true,"extra_parameters":" --since-time #TIMESTART# --path #TESTCASE_PATH#/COLLECT/logs/pods"},
+                            {"id":"check_pods_logs_empty","enable":true,"cmd":"check_empty_files_in_dir #TESTCASE_PATH#/COLLECT/logs/pods -v","add_to_verdict":true,"framework":true},
+                            {"id":"wait_counters_2","enable":true,"cmd":"CLOUD_wait_next_pm_counters_update -v","framework":true},
+                            {"id":"pmf_counter_sum","enable":true,"cmd":"CLOUD_pmf_counter_sum #TIMESTART# --folder #TESTCASE_PATH#/COLLECT/counters --verify-no-counters-with unsuccess -v","framework":true,"add_to_verdict":true}
+                        ]
+                    },
+                "CHECK": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"check_pods_restarts","enable":true,"add_to_verdict":true},
+                            {"id":"check_nof_pods_per_node","enable":true,"add_to_verdict":true},
+                            {"id":"check_events_info","enable":true,"add_to_verdict":true},
+                            {"id":"check_alarms","enable":true,"add_to_verdict":true},
+                            {"id":"check_traffic","enable":true,"add_to_verdict":true},
+                            {"id":"check_scenario_error_rate","enable":true,"add_to_verdict":true}
+                      ]
+                 },
+                 "EXECUTION": {
+                        "enable":true,
+                        "instances": {
+                                "BAT_EPC_ASYNC": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ -C EPC #DTLS_EPC# -t 300 -z 299:20: --appid S6a -E \":SYNC:20\" -x \"ESM-90_:::\"  -E \":LDAP_ENABLED:false\"",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":60,"time":-1}],
+                                        "loadgen":[{"value":140,"time":-1}],
+                                        "postexec":[{"value":50,"time":-1}]
+                                    }
+                                }
+                        },
+                        "configuration": {
+                            "manual_control" : false,
+                            "wait_pmf_counters_update" : false,
+                            "skip_postexec":true,
+                            "display_cps":{"enable":true,"samples":5,"sampling_time":5,"refresh_time":10,"real_time_enabled":true},
+                            "monitor_error":{
+                                "enable":{"preexec":true,"loadgen":true,"postexec":true},
+                                "default_error_rate":0.1,
+                                "sampling_time":10,
+                                "display":false
+                            },
+                              "external_tools":[
+                                {
+                                "enable":"true",
+                                 "id":"capture",
+                                 "cmd":"metric_capture -o capture.jsonz",
+                                 "start_before":"preexec",
+                                 "stop_after":"postexec"
+                                } 
+                            ],
+                            "diaproxy_reports":{
+                                "latency":{"enable":true,"samples":1,"time":120,"target_load":-1,"wait":10,"wait_before_start":60,
+                                           "only_when_load_stable":false,"stop_loadgen_when_finish":false
+                                },
+                                "result_codes":{"enable":true}
+                            },
+                                 "action":[
+                              {
+                                    "id":"TOP_MEASURE","enable":true,"cmd":"CLOUD_run_command \"date;kubectl top po --all-namespaces --containers=true | grep -iE 'hss|stm|dsl|NAME' \" ",                                
+                                    "trigger":{"load":-1,"time":80},
+                                    "stop_on_fail":false,
+                                    "add_to_verdict":false,
+                                    "display_execution":false,
+                                    "time_running_traffic_after_execution":-1,
+                                    "disable_load_monitor":false,
+                                    "stop_error_scenario_register":false
+                                },
+                                {
+                                    "id":"HPA_MEASURE","enable":true,"cmd":"CLOUD_run_command \"date;kubectl get hpa --all-namespaces | grep -e hssepc -e NAME \" ",                     
+                                    "trigger":{"load":-1,"time":1},
+                                    "stop_on_fail":false,
+                                    "add_to_verdict":false,
+                                    "display_execution":false,
+                                    "time_running_traffic_after_execution":-1,
+                                    "disable_load_monitor":false,
+                                    "stop_error_scenario_register":false
+                                },
+
+                                {
+                                    "id":"TOP_MEASURE2","enable":true,"cmd":"CLOUD_run_command \"date;kubectl top po --all-namespaces --containers=true | grep -iE 'hss|stm|dsl|NAME' \" ",
+                                    "trigger":{"load":-1,"time":60},
+                                    "stop_on_fail":false,
+                                    "add_to_verdict":false,
+                                    "display_execution":false,
+                                    "time_running_traffic_after_execution":-1,
+                                    "disable_load_monitor":false,
+                                    "stop_error_scenario_register":false
+                                },
+
+                                {
+                                    "id":"HPA_MEASURE2","enable":true,"cmd":"CLOUD_run_command \"date;kubectl get hpa --all-namespaces | grep -e hssepc -e NAME \"",                     
+                                    "trigger":{"load":-1,"time":1},
+                                    "stop_on_fail":false,
+                                    "add_to_verdict":false,
+                                    "display_execution":false,
+                                    "time_running_traffic_after_execution":-1,
+                                    "disable_load_monitor":false,
+                                    "stop_error_scenario_register":false
+                                },
+                                {
+                                    "id":"TOP_MEASURE3","enable":true,"cmd":"CLOUD_run_command \"date;kubectl top po --all-namespaces --containers=true | grep -iE 'hss|stm|dsl|NAME' \"",
+                                    "trigger":{"load":-1,"time":60},
+                                    "stop_on_fail":false,
+                                    "add_to_verdict":false,
+                                    "display_execution":false,
+                                    "time_running_traffic_after_execution":-1,
+                                    "disable_load_monitor":false,
+                                    "stop_error_scenario_register":false
+                                },
+
+                                {
+                                    "id":"HPA_MEASURE3","enable":true,"cmd":"CLOUD_run_command \"date;kubectl get hpa --all-namespaces | grep -e hssepc -e NAME \"",                     
+                                    "trigger":{"load":-1,"time":1},
+                                    "stop_on_fail":false,
+                                    "add_to_verdict":false,
+                                    "display_execution":false,
+                                    "time_running_traffic_after_execution":-1,
+                                    "disable_load_monitor":false,
+                                    "stop_error_scenario_register":false
+                                },
+                                {
+                                    "id":"REQ_LIMIT_POD","enable":true,"cmd":"CLOUD_run_command \"kubectl get pods  -n eric-ccsm -o=custom-columns='NAMEPOD:metadata.name,NAMECONTAINER:spec.containers[*].name,MEMREQ:spec.containers[*].resources.requests.memory,MEMLIM:spec.containers[*].resources.limits.memory,CPUREQ:spec.containers[*].resources.requests.cpu,CPULIM:spec.containers[*].resources.limits.cpu' |grep -iE 'hss|stm|NAME|dsl' \" ",
+                                    "trigger":{"load":-1,"time":10},
+                                    "stop_on_fail":false,
+                                    "add_to_verdict":false,
+                                    "display_execution":false,
+                                    "time_running_traffic_after_execution":-1,
+                                    "disable_load_monitor":false,
+                                    "stop_error_scenario_register":false
+                                }
+                               ]
+                 }
+      }
+
+   }
+}

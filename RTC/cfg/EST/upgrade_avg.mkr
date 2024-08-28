@@ -1,0 +1,15 @@
+#################################
+#
+#  Set macro variables in the format
+#
+#          name:value
+#
+#  Do not add # in the name of macro variable
+#
+
+HSS_BASE_BACKUP:NDP1_1_LSV4_AVG_UPGRADE_from_101_comemergency
+HSS_UPGRADE_PACKAGE:/proj/ndp1.1/system_test_cba/SR5_SW/19089-CXR1012371-1_X_A_TAR_GZIPV1.tar.gz
+HSS_UPGRADE_TOOL:/proj/ndp1.1/system_test_cba/SR3_REPACK_SW/AutomaticUpgradeTool/HSS_FE_Automation_Tool_HSSFE1_2.tar.gz
+HSS_LICENSE:-l /proj/ndp1.1/system_test_cba/SR3_REPACK_SW/01-23-45-67-89-ab-20150101_170410_163708.xml
+HSS_UPGRADE_CONFIG_PROPERTIES:-c /opt/hss/eceaip/RTC_test_HSS24/1_4_SR5/config.properties
+HSS_PARAMETERS_TO_UPDATE:-p $RTC_PATH/json/UPDATE-HSS-ATRIBUTTES-AFTER-UPGRADE.json

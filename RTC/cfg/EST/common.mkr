@@ -1,0 +1,15 @@
+#################################
+#
+#  Set macro variables in the format
+#
+#          name:value
+#
+#  Do not add # in the name of macro variable
+#
+
+EXT_BACKUP:HSS_1_2_SR3_DEL_04
+BUILD_PATH:$GIT_PATH/ST_BAT/build
+BAT_PRJ:$GIT_PATH/ST_BAT/prj/HSSTraffic_64.prj
+
+LOCAL_BAT:
+REMOVE_PL:PL-7 PL-8 PL-9 PL-10 PL-11 PL-12

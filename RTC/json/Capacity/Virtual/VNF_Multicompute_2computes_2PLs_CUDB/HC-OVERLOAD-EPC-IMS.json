@@ -1,0 +1,181 @@
+{
+    "name" : "HC-CBA-OVERLOAD_EPC-IMS_2PL_CUDB",
+    "phases" : {
+                "CLEAN": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"restore_hss_backup","enable":false,"stop_on_fail":true,"extra_parameters":"-b #HSS_BACKUP#"},
+                            {"id":"restore_extdb_backup","enable":false,"stop_on_fail":true,"extra_parameters":"-b #EXT_BACKUP#"},
+                            {"id":"increase_load_limit_MAX","enable":false,"cmd":"CBA_envdata_set LOAD_REG_CPU_MAX_LIMIT 95","framework":true,"stop_on_fail":true,"extra_parameters":""},
+                            {"id":"increase_load_limit_AVG","enable":false,"cmd":"CBA_envdata_set LOAD_REG_CPU_AVG_LIMIT 95","framework":true,"stop_on_fail":true,"extra_parameters":""},
+                            {"id":"increase_load_limit_CURRENT","enable":false,"cmd":"CBA_envdata_set LOAD_REG_CPU_CURRENT_LIMIT 95","framework":true,"stop_on_fail":true,"extra_parameters":""},
+                            {"id":"clean_alarms","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_alerts","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_app_logs","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_console_logs","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"clean_pmf_logs","enable":true,"stop_on_fail":false,"extra_parameters":""}
+                        ]
+                    },
+                "PRE": {
+                        "enable":false,
+                        "steps": [
+                            {"id":"health_check","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_last_pl_reboot","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_alarms","enable":true,"stop_on_fail":false,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_node_status","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_capsule_dumps","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_free_memory","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_ExtDb_connections","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_all_processes","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_processes_list","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_dynamic_process","enable":true,"stop_on_fail":false,"extra_parameters":""}
+                        ]
+                    },
+                "POST": {
+                        "enable":false,
+                        "steps": [
+                            {"id":"health_check","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_last_pl_reboot","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_alarms","enable":true,"stop_on_fail":false,"extra_parameters":"\"Diameter Link Failure\""},
+                            {"id":"get_nbi_alarms","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_node_status","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_capsule_dumps","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_free_memory","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_ExtDb_connections","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_all_processes","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_processes_list","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"get_dynamic_process","enable":true,"stop_on_fail":false,"extra_parameters":""}
+                        ]
+                    },
+                "COLLECT": {
+                        "enable":false,
+                        "steps": [
+                            {"id":"cmw_collect_info","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"collect_logs","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"pmf_counter_sum","enable":true,"stop_on_fail":false,"extra_parameters":""},
+                            {"id":"pmf_counter_to_csv","enable":true,"stop_on_fail":false,"extra_parameters":""}
+                        ]
+                    },
+                "CHECK": {
+                        "enable":true,
+                        "steps": [
+                            {"id":"check_pl_reboot","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_free_memory","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_capsule_dumps","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_list_processes","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_all_processes","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_alarms","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_nbi_alarms","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_node_status","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_ExtDb_connections","enable":false,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_traffic","enable":true,"stop_on_fail":false,"add_to_verdict":false,"extra_parameters":"max_error_rate=0.2"},
+                            {"id":"check_load_stability","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""},
+                            {"id":"check_scenario_error_rate","enable":true,"stop_on_fail":false,"add_to_verdict":true,"extra_parameters":""}
+                        ]
+                    },
+                "EXECUTION":{
+                        "enable":true,
+                        "instances": {
+                                "BAT_IMS_1": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ -C IMS -t 500000 -z 150:10 -p \"::2\" -x \"HSS-ISM-511_:2:8200005:2000 HSS-ISM-210_:46:8236000:19000 HSS-ISM-240_:50:8536000:19000\" -E :SYNC:10  -L \"\"",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":50,"time":-1}],
+                                        "loadgen":{"initial":100,"delta_up":10,"delta_down":1},
+                                        "postexec":[{"value":100,"time":-1}]
+                                    }
+                                },
+                                "BAT_IMS_2": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ -C IMS -t 500000 -z 150:10 -p \"::2\" -l :::5 -x \"HSS-ISM-511_:2:8100002:2000 HSS-ISM-210_:46:8036000:19000 HSS-ISM-240_:50:8136000:19000\" -E \":ORIGINHOSTOFFSET:2 :SYNC:10\" -L \"\" ",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":50,"time":-1}],
+                                        "loadgen":{"initial":100,"delta_up":10,"delta_down":1},
+                                        "postexec":[{"value":100,"time":-1}]
+                                    }
+                                },  
+                                "BAT_IMS_3": {
+                                    "enable":false,
+                                    "parameters" : "-MGZ -C IMS -t 500000 -z 150:10 -p \"::2\" -x \"HSS-ISM-511_:2:8000000:2000 HSS-ISM-210_:46:8002000:18000 HSS-ISM-240_:50:8636000:19000\" -E \":ORIGINHOSTOFFSET:4 :SYNC:10\" -L \"\"",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":50,"time":-1}],
+                                        "loadgen":{"initial":100,"delta_up":10,"delta_down":1},
+                                        "postexec":[{"value":100,"time":-1}]
+                                    }
+                                },
+                                "BAT_EPC_1": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ -C EPC -t 500000 -z 100:50 -p \"::2\" -x \"HSS-ESM-10_:4:6000000:3000 HSS-ESM-50_:8:6030000:6000 HSS-ESM-20_:1:6080000:1000 HSS-ESM-70_:87:6100000:40000\" -E :SYNC:10 -L \"\"",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":50,"time":-1}],
+                                        "loadgen":{"initial":200,"delta_up":20,"delta_down":1},
+                                        "postexec":[{"value":100,"time":-1}]
+                                    }
+                                }, 
+                                "BAT_EPC_2": {
+                                    "enable":true,
+                                    "parameters" : "-MGZ -C EPC -t 500000 -z 100:50 -p \"::2\" -x \"HSS-ESM-10_:4:6400000:3000 HSS-ESM-50_:8:6430000:6000 HSS-ESM-20_:1:6480000:1000 HSS-ESM-70_:87:6500000:40000\"  -E \":ORIGINHOSTOFFSET:2 :SYNC:10\" -L \"\"",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":50,"time":-1}],
+                                        "loadgen":{"initial":200,"delta_up":20,"delta_down":1},
+                                        "postexec":[{"value":100,"time":-1}]
+                                    }
+                                },  
+                                "BAT_EPC_3": {
+                                    "enable":false,
+                                    "parameters" : "-MGZ -C EPC -t 500000 -z 150:50 -p \"::2\" -x \"HSS-ESM-10_:4:6200000:3000 HSS-ESM-50_:8:6230000:6000 HSS-ESM-20_:1:6280000:1000 HSS-ESM-70_:87:6300000:40000\" -E \":ORIGINHOSTOFFSET:4 :SYNC:10\" -L \"\"",
+                                    "cps_scheduler":{
+                                        "enable":true,
+                                        "preexec":[{"value":50,"time":-1}],
+                                        "loadgen":{"initial":200,"delta_up":20,"delta_down":1},
+                                        "postexec":[{"value":100,"time":-1}]
+                                    }
+                                }
+                         },
+                        "configuration": {
+                            "manual_control" : false,
+                            "wait_pmf_counters_update" : false,
+                            "skip_postexec":false,
+                            "display_cps":{"enable":true,"samples":5,"sampling_time":5,"refresh_time":10,"real_time_enabled":true},
+                            "monitor_error":{
+                                "enable":{"preexec":true,"loadgen":true,"postexec":true},
+                                "default_error_rate":0.1,
+                                "sampling_time":10,
+                                "display":false
+                            },
+                            "monitor_memory":{
+                                "enable": false,
+                                "sampling_time":10,"refresh_time":10,"real_time_enabled":false,"processors":""
+                            },
+                            "monitor_load":{
+                                "enable":true,
+                                "slots":[
+                                    {"target_load":18,"time":-1,"variance":5,"transition":10}
+                                ]
+                            },
+                            "Capacity_handler":{
+                                "enable":true,
+                                "configuration":{"type":"HC","period":60,"error_rate":0.1,"max_load":100,"load_variance":5,"validation_time":120},
+                                "create_traffic_ref":[
+                                    {"id":"HC-OVERL-1_IMS-EPC","slots":[{"time":3600,"factor":1}]},
+                                    {"id":"HC-OVERL-1.5_IMS-EPC","slots":[{"time":300,"factor":0.7},{"time":300,"factor":1},{"time":46800,"factor":1.5},{"time":3600,"factor":1}]},
+                                    {"id":"HC-OVERL-3_IMS-EPC","slots":[{"time":300,"factor":0.7},{"time":300,"factor":1},{"time":46800,"factor":3},{"time":3600,"factor":1}]}
+                                ],
+                                "run_traffic":{"update_load_monitor":false,"traffic_slots":[]}
+                            },
+                            "diaproxy_reports":{
+                                "latency":{"enable":false,"samples":3,"time":30,"target_load":18,"wait":10,
+                                           "only_when_load_stable":true,"stop_loadgen_when_finish":true
+                                },
+                                "result_codes":{"enable":true}
+                            }
+                        }
+                    }
+        }
+}

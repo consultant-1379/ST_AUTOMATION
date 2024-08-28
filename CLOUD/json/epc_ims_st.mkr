@@ -1,0 +1,29 @@
+#################################
+#
+#  Set macro variables in the format
+#
+#          name:value
+#
+#  Do not add # in the name of macro variable
+#
+
+# This macro is used for mTLS deployments in all interfaces supported 
+# parameter USE_SSL_HTTP:true is used for  mTLS in SOAP interface, supported from Drop82 build1
+# Before Drop82 build 1 USE_SSL_HTTP was not used in this macro to HZ52947
+
+OPTION_E_EPC_ASYNC::USE_SSL_HTTP:true
+
+OPTION_E_EPC_SYNC::ESM210_DATA_REF:SR_VCC_CAPABILITY :USE_SSL_HTTP:true :ESM240_DATA_REF:location
+
+# It will be empty or with the vaue "--dtls" if we want to run EPC traffic with protocol DTLS
+DTLS_EPC:
+
+# OPTIONS for IMS Traffic
+OPTION_E_IMS_ASYNC::SDA20_DATA_REF:cnhss :SDA70_DATA_REF:IMSPublicIdentity :IMPU_TYPE:else :ISM511_AUTH_TYPE:DigestAKA :ISM200_AUTH_TYPE:DigestAKA :ISM202_AUTH_TYPE:DigestAKA  :ISM210_AUTH_TYPE:DigestAKA :ISM220_AUTH_TYPE:DigestAKA :ISM240_AUTH_TYPE:DigestAKA :USE_SSL_HTTP:true 
+
+OPTION_E_IMS_SYNC::IMPU_TYPE:else :ENABLE_IFC:false :SNRFORIMSPUBLICID:false :ISM310_AUTH_TYPE:DigestAKA :ISM320_AUTH_TYPE:DigestAKA :ISM330_AUTH_TYPE:DigestAKA :ISM900_AUTH_TYPE:DigestAKA :ISM903_AUTH_TYPE:DigestAKA :USE_SSL_HTTP:true 
+
+# It will be empty or with the vaue "--dtls" if we want to run IMS traffic with protocol DTLS
+DTLS_IMS:
+
+BAT_BINARY_AND_CFG:
